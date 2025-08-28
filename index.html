@@ -12,6 +12,30 @@
         body { font-family: 'Inter', sans-serif; }
         .sort-icon { opacity: 0.4; transition: opacity 0.2s; }
         .sort-icon.active { opacity: 1; }
+        
+        /* Custom styles for multi-select dropdown */
+        .multi-select-dropdown { position: relative; }
+        .multi-select-options {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        /* Dark mode styles */
+        .dark body { background-color: #111827; color: #d1d5db; }
+        .dark .bg-white { background-color: #1f2937; }
+        .dark .text-gray-900 { color: #f9fafb; }
+        .dark .text-gray-600 { color: #9ca3af; }
+        .dark .border-gray-300 { border-color: #4b5563; }
+        .dark .filter-input, .dark .multi-select-button { background-color: #374151; color: #d1d5db; }
+        .dark .table-container, .dark .cards-container .bg-white { border-color: #4b5563; }
+        .dark .divide-y > :not([hidden]) ~ :not([hidden]) { border-color: #4b5563; }
+        .dark .bg-gray-800 { background-color: #374151; }
+        .dark .even\:bg-gray-50:nth-child(even) { background-color: #374151; }
+        .dark .hover\:bg-blue-50:hover { background-color: #3b82f630; }
+        .dark #wishlistModal .bg-white { background-color: #1f2937; }
+        .dark #wishlistModal .border-b, .dark #wishlistModal .border-t { border-color: #4b5563; }
+        .dark #wishlistModal .text-gray-800 { color: #f9fafb; }
+
         /* Mobile Card Layout */
         @media (max-width: 768px) {
             .table-container { display: none; }
@@ -23,21 +47,28 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-50 text-gray-800 transition-colors duration-300">
 
     <div class="container mx-auto p-4 sm:p-6 lg:p-8">
         <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Interactive Perfume Finder</h1>
-                <p class="text-gray-600 mt-2">Filter, sort, and create a wishlist of your favorite scents.</p>
+            <!-- Header with Theme Toggle -->
+            <div class="flex justify-between items-center mb-8">
+                <div class="text-center flex-grow">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Interactive Perfume Finder</h1>
+                    <p class="text-gray-600 mt-2">Filter, sort, and create a wishlist of your favorite scents.</p>
+                </div>
+                <button id="theme-toggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-2xl">
+                    <span id="theme-icon">🌙</span>
+                </button>
             </div>
             
             <!-- Filter Controls -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <input type="text" id="brandFilter" placeholder="Filter by Brand..." class="filter-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <input type="text" id="inspiredByFilter" placeholder="Filter by Name..." class="filter-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <input type="text" id="categoryFilter" placeholder="Filter by Category (MP/WP)..." class="filter-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <input type="text" id="scentTypeFilter" placeholder="Filter by Scent Type..." class="filter-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="text" id="inspiredByFilter" placeholder="Filter by Name..." class="filter-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                <div id="brand-filter-container"></div>
+                <div id="type-filter-container"></div>
+                <div id="scent-type-filter-container"></div>
+                <div id="notes-filter-container" class="sm:col-span-2 lg:col-span-4"></div>
             </div>
 
             <!-- Desktop Table View -->
@@ -46,7 +77,7 @@
                     <thead class="bg-gray-800 text-gray-100 text-xs uppercase">
                         <tr>
                             <th class="px-6 py-3 cursor-pointer" data-sort="brand">Brand <span class="sort-icon">↕️</span></th>
-                            <th class="px-6 py-3 cursor-pointer" data-sort="category">Category <span class="sort-icon">↕️</span></th>
+                            <th class="px-6 py-3 cursor-pointer" data-sort="category">Type <span class="sort-icon">↕️</span></th>
                             <th class="px-6 py-3 cursor-pointer" data-sort="inspiredBy">Inspired By <span class="sort-icon">↕️</span></th>
                             <th class="px-6 py-3">Description</th>
                             <th class="px-6 py-3">Scent Type</th>
@@ -81,9 +112,7 @@
                 <h3 class="text-xl font-bold text-gray-800">Your Wishlist</h3>
                 <button id="closeModal" class="text-2xl text-gray-500 hover:text-gray-800">&times;</button>
             </div>
-            <div id="wishlistBody" class="p-6 overflow-y-auto">
-                <!-- Wishlist items will be injected here -->
-            </div>
+            <div id="wishlistBody" class="p-6 overflow-y-auto"></div>
             <div class="p-4 border-t flex justify-end">
                 <button id="copyWishlistBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Copy to Clipboard</button>
             </div>
@@ -96,19 +125,27 @@
             const tableBody = document.getElementById('perfumeTableBody');
             const cardsContainer = document.getElementById('perfumeCardsContainer');
             const noResultsDiv = document.getElementById('no-results');
-            const filterInputs = document.querySelectorAll('.filter-input');
             const sortHeaders = document.querySelectorAll('th[data-sort]');
             const wishlistBtn = document.getElementById('wishlistBtn');
             const wishlistCounter = document.getElementById('wishlistCounter');
             const wishlistModal = document.getElementById('wishlistModal');
             const closeModalBtn = document.getElementById('closeModal');
             const copyWishlistBtn = document.getElementById('copyWishlistBtn');
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
 
             // --- STATE MANAGEMENT ---
             let allPerfumeData = [];
             let displayedData = [];
             let wishlist = [];
             let sortState = { column: 'brand', direction: 'asc' };
+            let activeFilters = {
+                brand: [],
+                inspiredBy: '',
+                type: [],
+                scentType: [],
+                notes: []
+            };
 
             // --- DATA FETCHING ---
             async function loadPerfumeData() {
@@ -116,9 +153,7 @@
                     const response = await fetch('perfumes.json');
                     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                     allPerfumeData = await response.json();
-                    displayedData = [...allPerfumeData];
-                    loadWishlistFromStorage();
-                    applySorting();
+                    initialize();
                 } catch (error) {
                     console.error("Could not load perfume data:", error);
                     const errorMessage = `<tr><td colspan="7" class="text-center text-red-500 p-6">Error: Could not load data from perfumes.json. Please ensure the file exists in the same directory.</td></tr>`;
@@ -127,13 +162,109 @@
                 }
             }
 
+            // --- INITIALIZATION ---
+            function initialize() {
+                setupTheme();
+                setupMultiSelectDropdowns();
+                loadWishlistFromStorage();
+                applyFiltersAndSort();
+            }
+
+            // --- THEME LOGIC ---
+            function setupTheme() {
+                const isDarkMode = localStorage.getItem('theme') === 'dark';
+                if (isDarkMode) {
+                    document.documentElement.classList.add('dark');
+                    themeIcon.textContent = '☀️';
+                }
+                themeToggle.addEventListener('click', () => {
+                    document.documentElement.classList.toggle('dark');
+                    const isDark = document.documentElement.classList.contains('dark');
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                    themeIcon.textContent = isDark ? '☀️' : '🌙';
+                });
+            }
+            
+            // --- MULTI-SELECT DROPDOWN LOGIC ---
+            function createMultiSelectDropdown(containerId, items, placeholder, filterKey) {
+                const container = document.getElementById(containerId);
+                const dropdownId = `${containerId}-dropdown`;
+
+                container.innerHTML = `
+                    <div class="multi-select-dropdown w-full">
+                        <button id="${containerId}-button" class="multi-select-button w-full flex justify-between items-center px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                            <span class="truncate">${placeholder}</span>
+                            <span>▼</span>
+                        </button>
+                        <div id="${dropdownId}" class="multi-select-options absolute w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-lg z-10 hidden p-2">
+                            ${items.map(item => `
+                                <label class="flex items-center space-x-2 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-600 text-sm">
+                                    <input type="checkbox" value="${item}" data-filter-key="${filterKey}" class="form-checkbox h-4 w-4 text-blue-600 rounded">
+                                    <span>${item}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
+                const button = document.getElementById(`${containerId}-button`);
+                const dropdown = document.getElementById(dropdownId);
+                
+                button.addEventListener('click', () => dropdown.classList.toggle('hidden'));
+                
+                document.addEventListener('click', (e) => {
+                    if (!container.contains(e.target)) {
+                        dropdown.classList.add('hidden');
+                    }
+                });
+
+                dropdown.addEventListener('change', (e) => {
+                    if (e.target.type === 'checkbox') {
+                        const key = e.target.dataset.filterKey;
+                        const checkedValues = Array.from(dropdown.querySelectorAll('input:checked')).map(cb => cb.value);
+                        activeFilters[key] = checkedValues;
+                        
+                        const buttonText = button.querySelector('span:first-child');
+                        if (checkedValues.length > 0) {
+                            buttonText.textContent = checkedValues.length > 2 ? `${checkedValues.length} selected` : checkedValues.join(', ');
+                        } else {
+                            buttonText.textContent = placeholder;
+                        }
+                        
+                        applyFiltersAndSort();
+                    }
+                });
+            }
+
+            function setupMultiSelectDropdowns() {
+                // Type Filter
+                createMultiSelectDropdown('type-filter-container', ['Male', 'Female', 'Unisex', 'Niche'], 'Filter by Type', 'type');
+                
+                // Brand Filter
+                const brands = [...new Set(allPerfumeData.map(p => p.brand))].sort();
+                createMultiSelectDropdown('brand-filter-container', brands, 'Filter by Brand', 'brand');
+
+                // Scent Type Filter
+                const scentTypes = [...new Set(allPerfumeData.map(p => p.scentType))].sort();
+                createMultiSelectDropdown('scent-type-filter-container', scentTypes, 'Filter by Scent Type', 'scentType');
+
+                // Notes Filter
+                const allNotes = new Set();
+                allPerfumeData.forEach(p => {
+                    const cleanedNotes = p.notes.replace(/<b>.*?<\/b>/g, '').replace(/<br>/g, ',').split(',');
+                    cleanedNotes.forEach(note => {
+                        const trimmedNote = note.trim();
+                        if (trimmedNote) allNotes.add(trimmedNote);
+                    });
+                });
+                createMultiSelectDropdown('notes-filter-container', [...allNotes].sort(), 'Filter by Notes', 'notes');
+            }
+
             // --- WISHLIST LOGIC ---
             function loadWishlistFromStorage() {
                 const savedWishlist = localStorage.getItem('perfumeWishlist');
-                if (savedWishlist) {
-                    wishlist = JSON.parse(savedWishlist);
-                    updateWishlistCounter();
-                }
+                if (savedWishlist) wishlist = JSON.parse(savedWishlist);
+                updateWishlistCounter();
             }
 
             function saveWishlistToStorage() {
@@ -142,14 +273,11 @@
             
             window.toggleWishlist = (code) => {
                 const index = wishlist.indexOf(code);
-                if (index > -1) {
-                    wishlist.splice(index, 1); // Remove if exists
-                } else {
-                    wishlist.push(code); // Add if not exists
-                }
+                if (index > -1) wishlist.splice(index, 1);
+                else wishlist.push(code);
                 saveWishlistToStorage();
                 updateWishlistCounter();
-                renderAll(); // Re-render to update button states
+                renderAll();
             };
 
             function updateWishlistCounter() {
@@ -159,36 +287,36 @@
             function renderWishlistModal() {
                 const wishlistBody = document.getElementById('wishlistBody');
                 if (wishlist.length === 0) {
-                    wishlistBody.innerHTML = `<p class="text-gray-500">Your wishlist is empty. Add perfumes to see them here.</p>`;
+                    wishlistBody.innerHTML = `<p class="text-gray-500">Your wishlist is empty.</p>`;
                     return;
                 }
-                
                 const wishlistItems = allPerfumeData.filter(p => wishlist.includes(p.code));
                 wishlistBody.innerHTML = wishlistItems.map(p => `
                     <div class="flex justify-between items-center py-2 border-b last:border-b-0">
-                        <div>
-                            <p class="font-semibold">${p.inspiredBy}</p>
-                            <p class="text-xs text-gray-500">${p.brand}</p>
-                        </div>
+                        <div><p class="font-semibold">${p.inspiredBy}</p><p class="text-xs text-gray-500">${p.brand}</p></div>
                         <span class="text-sm font-mono">${p.code}</span>
                     </div>
                 `).join('');
             }
 
             // --- FILTERING & SORTING LOGIC ---
-            function applyFilters() {
-                const filters = {
-                    brand: document.getElementById('brandFilter').value.toLowerCase(),
-                    inspiredBy: document.getElementById('inspiredByFilter').value.toLowerCase(),
-                    category: document.getElementById('categoryFilter').value.toLowerCase(),
-                    scentType: document.getElementById('scentTypeFilter').value.toLowerCase()
-                };
+            function applyFiltersAndSort() {
+                const typeMap = { 'Male': 'MP', 'Female': 'WP', 'Unisex': 'EL', 'Niche': 'AR' };
+                
+                activeFilters.inspiredBy = document.getElementById('inspiredByFilter').value.toLowerCase();
 
                 displayedData = allPerfumeData.filter(p => {
-                    return Object.keys(filters).every(key => {
-                        return !filters[key] || p[key].toLowerCase().includes(filters[key]);
-                    });
+                    const selectedTypeCodes = activeFilters.type.map(t => typeMap[t]);
+
+                    const brandMatch = activeFilters.brand.length === 0 || activeFilters.brand.includes(p.brand);
+                    const inspiredByMatch = !activeFilters.inspiredBy || p.inspiredBy.toLowerCase().includes(activeFilters.inspiredBy);
+                    const typeMatch = activeFilters.type.length === 0 || selectedTypeCodes.includes(p.category);
+                    const scentTypeMatch = activeFilters.scentType.length === 0 || activeFilters.scentType.includes(p.scentType);
+                    const notesMatch = activeFilters.notes.length === 0 || activeFilters.notes.every(note => p.notes.includes(note));
+
+                    return brandMatch && inspiredByMatch && typeMatch && scentTypeMatch && notesMatch;
                 });
+                
                 applySorting();
             }
 
@@ -208,8 +336,7 @@
             function updateSortIcons() {
                 sortHeaders.forEach(header => {
                     const icon = header.querySelector('.sort-icon');
-                    const sortKey = header.dataset.sort;
-                    if (sortKey === sortState.column) {
+                    if (header.dataset.sort === sortState.column) {
                         icon.classList.add('active');
                         icon.textContent = sortState.direction === 'asc' ? '🔼' : '🔽';
                     } else {
@@ -227,10 +354,11 @@
             }
 
             function populateTable(data) {
+                const typeMap = { 'MP': 'Male', 'WP': 'Female', 'EL': 'Unisex', 'AR': 'Niche' };
                 tableBody.innerHTML = data.map(p => `
                     <tr class="bg-white even:bg-gray-50 hover:bg-blue-50 transition-colors duration-200">
                         <td class="px-6 py-4 font-medium text-gray-900">${p.brand}</td>
-                        <td class="px-6 py-4">${p.category}</td>
+                        <td class="px-6 py-4">${typeMap[p.category] || p.category}</td>
                         <td class="px-6 py-4 font-semibold">${p.inspiredBy}</td>
                         <td class="px-6 py-4 text-gray-600 text-xs">${p.description}</td>
                         <td class="px-6 py-4 text-xs">${p.scentType}</td>
@@ -247,13 +375,14 @@
             }
 
             function populateCards(data) {
+                const typeMap = { 'MP': 'Male', 'WP': 'Female', 'EL': 'Unisex', 'AR': 'Niche' };
                 cardsContainer.innerHTML = data.map(p => `
                     <div class="bg-white p-4 rounded-lg shadow border border-gray-200">
                         <div class="flex justify-between items-start">
                             <div>
                                 <h3 class="font-bold text-lg">${p.inspiredBy}</h3>
                                 <p class="text-sm text-gray-500">${p.brand}</p>
-                                <span class="text-xs font-mono bg-gray-200 px-2 py-0.5 rounded">${p.category}</span>
+                                <span class="text-xs font-mono bg-gray-200 px-2 py-0.5 rounded">${typeMap[p.category] || p.category}</span>
                             </div>
                             <button onclick="toggleWishlist('${p.code}')" class="${wishlist.includes(p.code) ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-white text-xs font-semibold py-1 px-3 rounded-md transition">${wishlist.includes(p.code) ? 'Remove' : 'Add'}</button>
                         </div>
@@ -271,7 +400,7 @@
             }
 
             // --- EVENT LISTENERS ---
-            filterInputs.forEach(input => input.addEventListener('input', applyFilters));
+            document.getElementById('inspiredByFilter').addEventListener('input', applyFiltersAndSort);
             
             sortHeaders.forEach(header => {
                 header.addEventListener('click', () => {
@@ -282,7 +411,7 @@
                         sortState.column = column;
                         sortState.direction = 'asc';
                     }
-                    applySorting();
+                    applyFiltersAndSort();
                 });
             });
 
@@ -296,13 +425,24 @@
             copyWishlistBtn.addEventListener('click', () => {
                 const wishlistItems = allPerfumeData.filter(p => wishlist.includes(p.code));
                 const textToCopy = wishlistItems.map(p => `- ${p.inspiredBy} (${p.brand}) - Code: ${p.code}`).join('\n');
-                navigator.clipboard.writeText(textToCopy).then(() => {
+                
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
                     copyWishlistBtn.textContent = 'Copied!';
-                    setTimeout(() => { copyWishlistBtn.textContent = 'Copy to Clipboard'; }, 2000);
-                });
+                } catch (err) {
+                    console.error('Fallback: Oops, unable to copy', err);
+                    copyWishlistBtn.textContent = 'Error';
+                }
+                document.body.removeChild(textArea);
+
+                setTimeout(() => { copyWishlistBtn.textContent = 'Copy to Clipboard'; }, 2000);
             });
 
-            // --- INITIALIZATION ---
+            // --- KICKSTART THE APP ---
             loadPerfumeData();
         });
     </script>
