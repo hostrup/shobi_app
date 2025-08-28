@@ -4,199 +4,979 @@
         "category": "MP",
         "inspiredBy": "A&F BEACON",
         "code": "1492-ABE",
-        "description": "En frisk og energisk duft, der fanger essensen af eventyr og en dag ved kysten med sine rene og akvatiske noter.",
-        "scentType": "Aromatisk Akvatisk",
-        "notes": "<b>Top:</b> Bergamot, Appelsin, Kardemomme<br><b>Hjerte:</b> Hvide blomster, Viol, Rosmarin<br><b>Bund:</b> Moskus, Vetiver, Cedertræ",
-        "fragrantica": "https://www.fragrantica.com/perfume/Abercrombie-Fitch/Beacon-11100.html"
+        "description": "A fresh and energetic fragrance that captures the essence of adventure and a day at the coast with its clean and aquatic notes.",
+        "scentType": "Aromatic Aquatic",
+        "notes": "<b>Top:</b> Bergamot, Orange, Cardamom<br><b>Heart:</b> White Flowers, Violet, Rosemary<br><b>Base:</b> Musk, Vetiver, Cedarwood",
+        "link": "https://www.parfumo.com/Perfumes/Abercrombie_Fitch/Beacon"
     },
     {
         "brand": "ABERCROMBIE & FITCH",
         "category": "MP",
         "inspiredBy": "FIERCE",
         "code": "997-ABE",
-        "description": "Kendt som signaturduften i A&F's butikker, er Fierce en ren, krydret og maskulin duft med en ikonisk træagtig og aromatisk profil.",
-        "scentType": "Aromatisk Træagtig",
-        "notes": "<b>Top:</b> Petitgrain, Kardemomme, Citron, Appelsin, Gran<br><b>Hjerte:</b> Jasmin, Rosmarin, Rose, Liljekonval<br><b>Bund:</b> Vetiver, Moskus, Egetræsmos, Brasiliansk rosentræ",
-        "fragrantica": "https://www.fragrantica.com/perfume/Abercrombie-Fitch/Fierce-127.html"
+        "description": "Known as the signature scent of A&F stores, Fierce is a clean, spicy, and masculine fragrance with an iconic woody and aromatic profile.",
+        "scentType": "Aromatic Woody",
+        "notes": "<b>Top:</b> Petitgrain, Cardamom, Lemon, Orange, Fir<br><b>Heart:</b> Jasmine, Rosemary, Rose, Lily-of-the-Valley<br><b>Base:</b> Vetiver, Musk, Oakmoss, Brazilian Rosewood",
+        "link": "https://www.parfumo.com/Perfumes/Abercrombie_Fitch/Fierce_Cologne"
     },
     {
         "brand": "ABERCROMBIE & FITCH",
         "category": "MP",
         "inspiredBy": "FIERCE ICON",
         "code": "998-ABE",
-        "description": "En moderne og intens fortolkning af den klassiske Fierce, der fremhæver dristige og krydrede elementer for en mere vovet duftoplevelse.",
-        "scentType": "Krydret Aromatisk",
-        "notes": "<b>Top:</b> Sichuan Peber, Bergamot, Bladnoter<br><b>Hjerte:</b> Ingefær, Lavendel, Neroli<br><b>Bund:</b> Ambroxan, Moskus, Lyst træ",
-        "fragrantica": "https://www.fragrantica.com/perfume/Abercrombie-Fitch/Fierce-Icon-31037.html"
+        "description": "A modern and intense interpretation of the classic Fierce, highlighting bold and spicy elements for a more daring scent experience.",
+        "scentType": "Spicy Aromatic",
+        "notes": "<b>Top:</b> Sichuan Pepper, Bergamot, Leafy Greens<br><b>Heart:</b> Ginger, Lavender, Neroli<br><b>Base:</b> Ambroxan, Musk, Light Woods",
+        "link": "https://www.parfumo.com/Perfumes/Abercrombie_Fitch/Fierce_Icon"
     },
     {
         "brand": "ABERCROMBIE & FITCH",
         "category": "MP",
         "inspiredBy": "FIRST INSTINCT",
         "code": "999-ABE",
-        "description": "En moderne og orientalsk duft, der balancerer friske elementer med varme, krydrede noter for at skabe en uimodståelig og vanedannende aroma.",
-        "scentType": "Aromatisk Fougere",
-        "notes": "<b>Top:</b> Gin & Tonic, Kiwano Melon<br><b>Hjerte:</b> Sichuan Peber, Violblade, Citrus<br><b>Bund:</b> Ruskind, Moskus, Rav",
-        "fragrantica": "https://www.fragrantica.com/perfume/Abercrombie-Fitch/First-Instinct-38299.html"
+        "description": "A modern and oriental fragrance that balances fresh elements with warm, spicy notes to create an irresistible and addictive aroma.",
+        "scentType": "Aromatic Fougere",
+        "notes": "<b>Top:</b> Gin & Tonic, Kiwano Melon<br><b>Heart:</b> Sichuan Pepper, Violet Leaf, Citrus<br><b>Base:</b> Suede, Musk, Amber",
+        "link": "https://www.parfumo.com/Perfumes/Abercrombie_Fitch/First_Instinct_Man"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "WP",
         "inspiredBy": "BLU MEDITERRANEO ARANCIA DI CAPRI",
         "code": "2417-ACQ",
-        "description": "En afslappende og strålende duft, der fremkalder duften af italienske appelsiner, mandarin og citron, inspireret af øen Capri.",
-        "scentType": "Citrus Aromatisk",
-        "notes": "<b>Top:</b> Appelsin, Mandarin, Bergamot, Citron<br><b>Hjerte:</b> Petitgrain, Kardemomme<br><b>Bund:</b> Karamel, Moskus",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Blu-Mediterraneo-Arancia-di-Capri-2278.html"
+        "description": "A relaxing and radiant fragrance that evokes the scent of Italian oranges, mandarin, and lemon, inspired by the island of Capri.",
+        "scentType": "Citrus Aromatic",
+        "notes": "<b>Top:</b> Orange, Mandarin, Bergamot, Lemon<br><b>Heart:</b> Petitgrain, Cardamom<br><b>Base:</b> Caramel, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Blu_Mediterraneo_Arancia_di_Capri"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "WP",
         "inspiredBy": "BLU MEDITERRANEO BERGAMOTTO DI CALABRIA",
         "code": "1861-ACQ",
-        "description": "En livlig og opløftende duft, der hylder den calabriske bergamot med sprudlende og træagtige noter for en forfriskende fornemmelse.",
-        "scentType": "Træagtig Aromatisk",
-        "notes": "<b>Top:</b> Bergamot, Citron<br><b>Hjerte:</b> Ingefær, Cedertræ, Blomster<br><b>Bund:</b> Vetiver, Benzoin, Moskus",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Blu-Mediterraneo-Bergamotto-di-Calabria-8515.html"
+        "description": "A lively and uplifting fragrance that celebrates Calabrian bergamot with sparkling and woody notes for a refreshing sensation.",
+        "scentType": "Woody Aromatic",
+        "notes": "<b>Top:</b> Bergamot, Citron<br><b>Heart:</b> Ginger, Cedarwood, Flowers<br><b>Base:</b> Vetiver, Benzoin, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Blu_Mediterraneo_Bergamotto_di_Calabria"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "WP",
         "inspiredBy": "BLU MEDITERRANEO GINEPRO DI SARDEGNA",
         "code": "2423-ACQ",
-        "description": "En energisk og aromatisk duft, der kombinerer krydrede og træagtige noter med enebær for at indfange Sardiniens vilde kystlandskab.",
-        "scentType": "Træagtig Aromatisk",
-        "notes": "<b>Top:</b> Enebær, Bergamot, Peber, Allehånde, Muskatnød<br><b>Hjerte:</b> Salvie, Cypres<br><b>Bund:</b> Virginsk cedertræ",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Blu-Mediterraneo-Ginepro-di-Sardegna-25164.html"
+        "description": "An energetic and aromatic fragrance combining spicy and woody notes with juniper to capture the wild coastal landscape of Sardinia.",
+        "scentType": "Woody Aromatic",
+        "notes": "<b>Top:</b> Juniper, Bergamot, Pepper, Allspice, Nutmeg<br><b>Heart:</b> Sage, Cypress<br><b>Base:</b> Virginian Cedar",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Blu_Mediterraneo_Ginepro_di_Sardegna"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "MP",
         "inspiredBy": "BLU MEDITERRANEO MANDORLO DI SICILIA",
         "code": "390-ACQ",
-        "description": "En sød og omsluttende duft, der kombinerer friskheden fra stjerneanis med de bløde og cremede noter af siciliansk mandel og vanilje.",
-        "scentType": "Orientalsk Blomster",
-        "notes": "<b>Top:</b> Grøn mandel, Stjerneanis, Bergamot, Appelsin<br><b>Hjerte:</b> Hvid fersken, Ylang-Ylang, Jasmin<br><b>Bund:</b> Bourbon vanilje, Tolu balsam, Hvid moskus, Cedertræ",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Blu-Mediterraneo-Mandorlo-di-Sicilia-2279.html"
+        "description": "A sweet and enveloping fragrance that combines the freshness of star anise with the soft, creamy notes of Sicilian almond and vanilla.",
+        "scentType": "Amber Floral",
+        "notes": "<b>Top:</b> Green Almond, Star Anise, Bergamot, Orange<br><b>Heart:</b> White Peach, Ylang-Ylang, Jasmine<br><b>Base:</b> Bourbon Vanilla, Tolu Balsam, White Musk, Cedar",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Blu_Mediterraneo_Mandorlo_di_Sicilia"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "WP",
         "inspiredBy": "BLU MEDITERRANEO MIRTO DI PANAREA",
         "code": "2097-ACQ",
-        "description": "En opløftende og aromatisk duft, der blander myrte og basilikum med havbrise-noter for at genskabe følelsen af ro på øen Panarea.",
-        "scentType": "Træagtig Aromatisk",
-        "notes": "<b>Top:</b> Myrten, Basilikum, Italiensk citron, Bergamot<br><b>Hjerte:</b> Havbrise, Jasmin, Rose<br><b>Bund:</b> Mastikstræ, Enebær, Cedertræ, Rav",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Blu-Mediterraneo-Mirto-di-Panarea-4444.html"
+        "description": "An uplifting and aromatic fragrance that blends myrtle and basil with sea breeze notes to recreate the sense of tranquility on the island of Panarea.",
+        "scentType": "Woody Aromatic",
+        "notes": "<b>Top:</b> Myrtle, Basil, Italian Lemon, Bergamot<br><b>Heart:</b> Sea notes, Jasmine, Rose<br><b>Base:</b> Mastic, Juniper, Cedar, Amber",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Blu_Mediterraneo_Mirto_di_Panarea"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "MP",
         "inspiredBy": "COLONIA CLUB",
         "code": "1003-ACQ",
-        "description": "En raffineret og elegant duft, der kombinerer klassiske citrusnoter med aromatiske og træagtige undertoner, perfekt til den moderne gentleman.",
-        "scentType": "Træagtig Aromatisk",
-        "notes": "<b>Top:</b> Bergamot, Citron, Petitgrain, Mandarin, Mynte, Neroli<br><b>Hjerte:</b> Geranium, Lavendel, Galbanum<br><b>Bund:</b> Ambra, Moskus, Haitisk vetiver",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Colonia-Club-31804.html"
+        "description": "A refined and elegant fragrance that combines classic citrus notes with aromatic and woody undertones, perfect for the modern gentleman.",
+        "scentType": "Woody Aromatic",
+        "notes": "<b>Top:</b> Bergamot, Lemon, Petitgrain, Mandarin, Mint, Neroli<br><b>Heart:</b> Geranium, Lavender, Galbanum<br><b>Base:</b> Ambergris, Musk, Haitian Vetiver",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Colonia_Club_Eau_de_Cologne"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "MP",
         "inspiredBy": "COLONIA EBANO",
         "code": "1004-ACQ",
-        "description": "En sofistikeret og rig duft, hvor friske citrusnoter møder den varme og cremede duft af ibenholt og honning.",
-        "scentType": "Træagtig",
-        "notes": "<b>Top:</b> Petitgrain, Bergamot, Røgelse, Rød peber<br><b>Hjerte:</b> Ibenholt, Honning<br><b>Bund:</b> Vetiver, Patchouli",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Colonia-Ebano-43612.html"
+        "description": "A sophisticated and rich fragrance where fresh citrus notes meet the warm and creamy scent of ebony and honey.",
+        "scentType": "Woody",
+        "notes": "<b>Top:</b> Petitgrain, Bergamot, Resins, Red Pepper<br><b>Heart:</b> Ebony, Honey<br><b>Base:</b> Vetiver, Patchouli",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Colonia_Ebano"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "MP",
         "inspiredBy": "COLONIA INTENSA",
         "code": "1005-ACQ",
-        "description": "En karismatisk og intens duft, der blander traditionelle citrus- og trænoter med en uventet læderakkord for et selvsikkert udtryk.",
-        "scentType": "Træagtig Chypre",
-        "notes": "<b>Top:</b> Kardemomme, Bergamot, Siciliansk citron, Ingefær<br><b>Hjerte:</b> Myrra, Artemisia, Neroli, Guaiac træ, Cedertræ<br><b>Bund:</b> Læder, Patchouli, Benzoin, Moskus",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Colonia-Intensa-2067.html"
+        "description": "A charismatic and intense fragrance that blends traditional citrus and wood notes with an unexpected leather accord for a confident expression.",
+        "scentType": "Woody Chypre",
+        "notes": "<b>Top:</b> Cardamom, Bergamot, Sicilian Lemon, Ginger<br><b>Heart:</b> Myrrh, Artemisia, Neroli, Guaiac Wood, Cedar<br><b>Base:</b> Leather, Patchouli, Benzoin, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Colonia_Intensa"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "MP",
-        "inspiredBy": "COLONIA INTENSA OUD",
+        "inspiredBy": "COLONIA INTENSA OUD EAU DE COLOGNE CONCENTREE",
         "code": "1006-ACQ",
-        "description": "En overdådig og unik duft, der kombinerer den friske Colonia-signatur med den rige og intense varme fra agartræ (oud).",
-        "scentType": "Træagtig",
-        "notes": "<b>Top:</b> Citrusnoter<br><b>Hjerte:</b> Agartræ (Oud), Koriander, Amyris<br><b>Bund:</b> Læder, Moskus",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Colonia-Intensa-Oud-Eau-de-Cologne-Concentree-16016.html"
+        "description": "An opulent and unique fragrance that combines the fresh Colonia signature with the rich and intense warmth of agarwood (oud).",
+        "scentType": "Amber Woody",
+        "notes": "<b>Top:</b> Citruses<br><b>Heart:</b> Agarwood (Oud), Coriander, Amyris<br><b>Base:</b> Leather, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Colonia_Oud"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "MP",
         "inspiredBy": "COLONIA LEATHER",
         "code": "1007-ACQ",
-        "description": "En elegant og original duft, hvor den friske duft af italiensk citrus blandes med de dybe og varme noter af læder og cedertræ.",
-        "scentType": "Citrus Læder",
-        "notes": "<b>Top:</b> Brasiliansk appelsin, Siciliansk lime<br><b>Hjerte:</b> Rose, Petitgrain fra Paraguay<br><b>Bund:</b> Læder, Guaiac træ, Cedertræ",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Colonia-Leather-Eau-de-Cologne-Concentr-e-26244.html"
+        "description": "An elegant and original fragrance where the fresh scent of Italian citrus is blended with the deep and warm notes of leather and cedarwood.",
+        "scentType": "Citrus Leather",
+        "notes": "<b>Top:</b> Brazilian Orange, Lime<br><b>Heart:</b> Rose, Petitgrain<br><b>Base:</b> Leather, Guaiac Wood, Cedar",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Colonia_Leather"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "MP",
         "inspiredBy": "COLONIA PURA",
         "code": "1008-ACQ",
-        "description": "En moderne og let fortolkning af den klassiske Colonia. Den er sensuel og maskulin, men med en afslappet lethed og friskhed.",
-        "scentType": "Citrus Aromatisk",
-        "notes": "<b>Top:</b> Ozoniske noter, Bergamot, Appelsin, Petitgrain<br><b>Hjerte:</b> Narcissus, Jasmin Sambac, Koriander<br><b>Bund:</b> Hvid moskus, Cedertræ, Patchouli",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Colonia-Pura-45214.html"
+        "description": "A modern and light interpretation of the classic Colonia. It is sensual and masculine, but with a relaxed lightness and freshness.",
+        "scentType": "Citrus Aromatic",
+        "notes": "<b>Top:</b> Ozonic notes, Bergamot, Orange, Petitgrain<br><b>Heart:</b> Narcissus, Jasmine Sambac, Coriander<br><b>Base:</b> White Musk, Cedar, Patchouli",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Colonia_Pura"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "MP",
         "inspiredBy": "COLONIA QUERCIA",
         "code": "1009-ACQ",
-        "description": "En elegant og kraftfuld duft, der forener friske citrusnoter med den dybe og rige aroma af egetræsmos.",
-        "scentType": "Aromatisk Fougere",
-        "notes": "<b>Top:</b> Bergamot, Citron, Petitgrain, Lyserød peber<br><b>Hjerte:</b> Kardemomme, Geranium, Cedertræ<br><b>Bund:</b> Egetræsmos, Tonkabønne, Patchouli",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Colonia-Quercia-39145.html"
+        "description": "An elegant and powerful fragrance that unites fresh citrus notes with the deep and rich aroma of oakmoss.",
+        "scentType": "Aromatic Fougere",
+        "notes": "<b>Top:</b> Bergamot, Lemon, Petitgrain, Pink Pepper<br><b>Heart:</b> Cardamom, Geranium, Cedar<br><b>Base:</b> Oakmoss, Tonka Bean, Patchouli",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Colonia_Quercia"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "MP",
         "inspiredBy": "ESSENZA",
         "code": "1010-ACQ",
-        "description": "En spændende og sofistikeret fortolkning af den klassiske Colonia, der fremhæver træagtige og aromatiske noter for et mere intenst udtryk.",
-        "scentType": "Citrus Aromatisk",
-        "notes": "<b>Top:</b> Citron, Appelsin, Bergamot, Mandarin, Grapefrugt<br><b>Hjerte:</b> Liljekonval, Rosmarin, Rose, Jasmin, Kryddernellike<br><b>Bund:</b> Vetiver, Patchouli, Hvid moskus, Rav, Egetræsmos",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Colonia-Essenza-9347.html"
+        "description": "An exciting and sophisticated interpretation of the classic Colonia, highlighting woody and aromatic notes for a more intense expression.",
+        "scentType": "Citrus Aromatic",
+        "notes": "<b>Top:</b> Lemon, Orange, Bergamot, Mandarin, Grapefruit<br><b>Heart:</b> Lily-of-the-Valley, Rosemary, Rose, Jasmine, Cloves<br><b>Base:</b> Vetiver, Patchouli, White Musk, Amber, Oakmoss",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Colonia_Essenza"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "WP",
         "inspiredBy": "FICO DI AMALFI",
         "code": "1493-ACQ",
-        "description": "En livlig og uimodståelig duft, der blander figennektar med grønne bladnoter for at skabe en følelse af den italienske Amalfikyst.",
-        "scentType": "Blomster Frugtig",
-        "notes": "<b>Top:</b> Grapefrugt, Bergamot, Citron, Cedrat<br><b>Hjerte:</b> Lyserød peber, Jasmin, Figennnektar<br><b>Bund:</b> Cedertræ, Figentræ, Benzoin",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Blu-Mediterraneo-Fico-di-Amalfi-570.html"
+        "description": "A vibrant and irresistible fragrance that blends fig nectar with green leaf notes to create a sense of the Italian Amalfi Coast.",
+        "scentType": "Floral Fruity",
+        "notes": "<b>Top:</b> Grapefruit, Bergamot, Lemon, Citron<br><b>Heart:</b> Pink Pepper, Jasmine, Fig Nectar<br><b>Base:</b> Cedar, Fig Tree, Benzoin",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Blu_Mediterraneo_Fico_di_Amalfi"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "WP",
         "inspiredBy": "PEONIA NOBILE",
         "code": "391-ACQ",
-        "description": "En sofistikeret og feminin blomsterduft, der er bygget op omkring den overdådige pæon, accentueret af peber og hindbær.",
-        "scentType": "Blomster",
-        "notes": "<b>Top:</b> Sort peber, Hindbær<br><b>Hjerte:</b> Pæon, Geranium, Fresia, Tyrkisk rose<br><b>Bund:</b> Rav, Patchouli, Moskus",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Peonia-Nobile-39144.html"
+        "description": "A sophisticated and feminine floral fragrance built around the opulent peony, accented by pepper and raspberry.",
+        "scentType": "Floral",
+        "notes": "<b>Top:</b> Black Pepper, Raspberry<br><b>Heart:</b> Peony, Geranium, Freesia, Turkish Rose<br><b>Base:</b> Amber, Patchouli, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Peonia_Nobile_Eau_de_Parfum"
     },
     {
         "brand": "ACQUA DI PARMA",
         "category": "EL",
         "inspiredBy": "SAKURA",
         "code": "2293-ACQ",
-        "description": "En delikat og lysende duft, der fanger den flygtige skønhed af japanske kirsebærblomster i fuldt flor.",
-        "scentType": "Citrus Blomster",
-        "notes": "<b>Top:</b> Bergamot, Gul mandarin, Lyserød peber<br><b>Hjerte:</b> Kirsebærblomst (Sakura), Jasmin Sambac<br><b>Bund:</b> Moskus",
-        "fragrantica": "https://www.fragrantica.com/perfume/Acqua-di-Parma/Sakura-53842.html"
+        "description": "A delicate and luminous fragrance that captures the fleeting beauty of Japanese cherry blossoms in full bloom.",
+        "scentType": "Citrus Floral",
+        "notes": "<b>Top:</b> Bergamot, Yellow Mandarin, Pink Pepper<br><b>Heart:</b> Cherry Blossom (Sakura), Jasmine Sambac<br><b>Base:</b> Musk",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Signatures_of_the_Sun_Sakura"
+    },
+    {
+        "brand": "ACQUA DI PARMA",
+        "category": "WP",
+        "inspiredBy": "VANIGLIA (SIGNATURES OF THE SUN)",
+        "code": "2418-ACQ",
+        "description": "An artistic combination of the sweet essence of vanilla from Madagascar with sunny citrus notes and the richness of cedar and musk.",
+        "scentType": "Amber",
+        "notes": "<b>Top:</b> Bergamot, Mandarin Orange, Neroli, Heliotrope<br><b>Heart:</b> Jasmine Sambac, Vanilla<br><b>Base:</b> Cedar, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Signatures_of_the_Sun_Vaniglia"
+    },
+    {
+        "brand": "ACQUA DI PARMA",
+        "category": "EL",
+        "inspiredBy": "YUZU",
+        "code": "2294-ACQ",
+        "description": "A sparkling and energizing fragrance where the bittersweet notes of yuzu fruit meet aromatic herbs and a warm, woody base.",
+        "scentType": "Citrus Aromatic",
+        "notes": "<b>Top:</b> Yuzu, Bergamot, Sichuan Pepper<br><b>Heart:</b> Lotus, Mimosa, Violet Leaf, Jasmine<br><b>Base:</b> Sandalwood, Musk, Licorice",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Signatures_of_the_Sun_Yuzu"
+    },
+    {
+        "brand": "ACQUA DI PARMA",
+        "category": "EL",
+        "inspiredBy": "ZAFFERANO",
+        "code": "1992-ACQ",
+        "description": "A radiant and spicy fragrance that interprets the opulence of saffron through a luminous blend of citrus, florals, and warm woods.",
+        "scentType": "Amber Floral",
+        "notes": "<b>Top:</b> Bergamot, Mandarin Orange, Bitter Orange, Coriander<br><b>Heart:</b> Saffron, Orange Blossom, Geranium, Jasmine Sambac, Rose<br><b>Base:</b> Woody Notes, Vanilla, Tonka Bean",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Signatures_of_the_Sun_Zafferano"
+    },
+    {
+        "brand": "ACQUA DI PARMA",
+        "category": "",
+        "inspiredBy": "COLONIA (1916)",
+        "code": "1654-ACQ",
+        "description": "The original, timeless masterpiece. A fresh, refined, and elegant scent that has embodied Italian style for over a century.",
+        "scentType": "Citrus",
+        "notes": "<b>Top:</b> Sicilian Citruses<br><b>Heart:</b> Lavender, Rosemary, Verbena, Damask Rose<br><b>Base:</b> Vetiver, Sandalwood, Patchouli",
+        "link": "https://www.parfumo.com/Perfumes/Acqua_di_Parma/Colonia_Eau_de_Cologne"
+    },
+    {
+        "brand": "ADOLFO DOMINGUEZ",
+        "category": "MP",
+        "inspiredBy": "AGUA FRESCA",
+        "code": "1000-ADO",
+        "description": "A classic aromatic fougère that evokes the fresh, humid scent of a Galician forest, with notes of herbs, moss, and pine.",
+        "scentType": "Aromatic Fougere",
+        "notes": "<b>Top:</b> Petitgrain, Bergamot, Marjoram, Mandarin Orange, Artemisia<br><b>Heart:</b> Lavender, Rosemary, Juniper Berries, Pepper, Clary Sage, Coriander<br><b>Base:</b> Vetiver, Pine, Oakmoss, Sandalwood, Musk, Patchouli",
+        "link": "https://www.parfumo.com/Perfumes/Adolfo_Dominguez/Agua_Fresca_Eau_de_Toilette"
+    },
+    {
+        "brand": "AERIN LAUDER",
+        "category": "WP",
+        "inspiredBy": "AMBER MUSK",
+        "code": "392-AER",
+        "description": "A warm, inviting, and sensual fragrance that feels like a cozy cashmere wrap, blending ambrox, coconut water, and rose.",
+        "scentType": "Amber Musk",
+        "notes": "<b>Top:</b> Ambroxan<br><b>Heart:</b> Coconut Water, Rose Centifolia<br><b>Base:</b> Benzoin, Musk",
+        "link": "https://www.parfumo.com/Perfumes/AERIN/Amber_Musk"
+    },
+    {
+        "brand": "AERIN LAUDER",
+        "category": "WP",
+        "inspiredBy": "LILAC PATH",
+        "code": "393-AER",
+        "description": "A rich and evocative floral scent that captures the essence of springtime lilac bushes in full bloom.",
+        "scentType": "Floral Green",
+        "notes": "<b>Top:</b> Lilac, Galbanum<br><b>Heart:</b> Jasmine Lactones, Angelica Seed Oil<br><b>Base:</b> Orange Flower",
+        "link": "https://www.parfumo.com/Perfumes/AERIN/Lilac_Path"
+    },
+    {
+        "brand": "AFNAN PERFUMES",
+        "category": "AR",
+        "inspiredBy": "DEHN AL OUDH ABIYAD",
+        "code": "1523-AFN",
+        "description": "A fresh and woody fragrance with a dominant note of Indian agarwood (oud). It's clean, slightly herbal, and very wearable.",
+        "scentType": "Woody",
+        "notes": "<b>Top:</b> Woody Notes<br><b>Heart:</b> Musk<br><b>Base:</b> Agarwood (Oud)",
+        "link": "https://www.parfumo.com/Perfumes/Afnan/Dehn_Al_Oudh_Abiyad"
+    },
+    {
+        "brand": "AGENT PROVOCATEUR",
+        "category": "WP",
+        "inspiredBy": "APHRODISIAQUE",
+        "code": "394-AGE",
+        "description": "A seductive and addictive floral-fruity gourmand scent with a creamy blend of jasmine, wild orchid, and warm resins.",
+        "scentType": "Floral Fruity Gourmand",
+        "notes": "<b>Top:</b> Blackberry, White Pepper, Jasmine<br><b>Heart:</b> Black Honey, Blooming Cereus, Vanilla Orchid<br><b>Base:</b> Musk, Resins",
+        "link": "https://www.parfumo.com/Perfumes/Agent_Provocateur/Aphrodisiaque"
+    },
+    {
+        "brand": "AGENT PROVOCATEUR",
+        "category": "WP",
+        "inspiredBy": "FATALE PINK",
+        "code": "395-AGE",
+        "description": "A flirtatious and enchanting fragrance with exotic floral notes and a creamy, musky base.",
+        "scentType": "Floral Fruity",
+        "notes": "<b>Top:</b> Tangerine, Pear Blossom, Yuzu Whipped Cream<br><b>Heart:</b> Pink Lotus, Camellia, Datura<br><b>Base:</b> Bamboo, Musk, Saffron",
+        "link": "https://www.parfumo.com/Perfumes/Agent_Provocateur/Fatale_Pink"
+    },
+    {
+        "brand": "AGUILERA CHRISTINA",
+        "category": "WP",
+        "inspiredBy": "BY NIGHT",
+        "code": "1659-CHRA",
+        "description": "A seductive and mysterious oriental-floral fragrance designed for evening wear, with notes of red apple, vanilla, and amber.",
+        "scentType": "Amber Floral",
+        "notes": "<b>Top:</b> Red Apple, Rhubarb, Freesia, Tangerine, Pineapple<br><b>Heart:</b> Heliotrope, Peach Blossom, Lily-of-the-Valley<br><b>Base:</b> Vanilla, Amber, Sandalwood, Oakmoss",
+        "link": "https://www.parfumo.com/Perfumes/Christina_Aguilera/By_Night"
+    },
+    {
+        "brand": "AHWAZ",
+        "category": "AR",
+        "inspiredBy": "KING'S HAREM",
+        "code": "101-AHW",
+        "description": "An opulent and luxurious fragrance evoking the splendors of a royal court, likely rich with amber, spices, and precious woods.",
+        "scentType": "Amber Spicy",
+        "notes": "<b>Top:</b> Bergamot, Apple, Cinnamon<br><b>Heart:</b> Saffron, Oud, Myrrh<br><b>Base:</b> Amber, Vetiver, Sandalwood, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Ahwaz_Fragrance/King_s_Harem"
+    },
+    {
+        "brand": "AJMAL",
+        "category": "EL",
+        "inspiredBy": "AMBER WOOD",
+        "code": "2219-AJMA",
+        "description": "A rich and deep amber-woody fragrance that is both opulent and inviting, blending fruity notes with warm spices and precious woods.",
+        "scentType": "Amber Woody",
+        "notes": "<b>Top:</b> Apple, White Pepper, Lavender, Cardamom<br><b>Heart:</b> Orris, Cedar<br><b>Base:</b> Amber, Patchouli",
+        "link": "https://www.parfumo.com/Perfumes/Ajmal/Amber_Wood"
+    },
+    {
+        "brand": "AJMAL",
+        "category": "",
+        "inspiredBy": "MIZYAAN",
+        "code": "1814-AJMA",
+        "description": "A beautiful oriental fragrance that balances floral and spicy notes with a warm, woody-musky base.",
+        "scentType": "Amber Floral",
+        "notes": "<b>Top:</b> Floral Notes, Saffron<br><b>Heart:</b> Spices, Rose<br><b>Base:</b> Woody Notes, Amber, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Ajmal/Mizyaan"
+    },
+    {
+        "brand": "AKRO",
+        "category": "EL",
+        "inspiredBy": "BAKE",
+        "code": "2402-AKR",
+        "description": "A delicious and photorealistic gourmand fragrance that perfectly captures the scent of a lemon cupcake, with tart citrus and sweet vanilla.",
+        "scentType": "Citrus Gourmand",
+        "notes": "<b>Top:</b> Lemon Zest<br><b>Heart:</b> Chantilly Cream, Praline<br><b>Base:</b> Brown Sugar, Vanilla",
+        "link": "https://www.parfumo.com/Perfumes/Akro/Bake"
+    },
+    {
+        "brand": "AL HARAMAIN",
+        "category": "",
+        "inspiredBy": "AMBERGRIS",
+        "code": "-AL HAR",
+        "description": "A single-note fragrance oil focused on the complex scent of ambergris - salty, sweet, musky, and marine.",
+        "scentType": "Amber",
+        "notes": "<b>Notes:</b> Ambergris",
+        "link": "https://www.parfumo.com/Perfumes/Al_Haramain/Ambergis"
+    },
+    {
+        "brand": "AL HARAMAIN",
+        "category": "",
+        "inspiredBy": "DHAHB 15ml",
+        "code": "-AL HAR",
+        "description": "A sweet and pleasant fragrance oil with notes of caramel, vanilla, and citrus, offering a light and uplifting gourmand experience.",
+        "scentType": "Gourmand",
+        "notes": "<b>Top:</b> Bergamot, Orange<br><b>Heart:</b> Caramel, Cedar<br><b>Base:</b> Vanilla, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Al_Haramain/Dhahab"
+    },
+    {
+        "brand": "AL HARAMAIN",
+        "category": "AR",
+        "inspiredBy": "HAYATI",
+        "code": "2220-AL HAR",
+        "description": "A rich and warm amber fragrance oil that is both sweet and musky, creating a cozy and inviting aura.",
+        "scentType": "Amber",
+        "notes": "<b>Top:</b> Amber, Musk<br><b>Heart:</b> Musk, Sugar<br><b>Base:</b> Woody Notes, Oud",
+        "link": "https://www.parfumo.com/Perfumes/Al_Haramain/Hayati_Attar"
+    },
+    {
+        "brand": "AL HARAMAIN",
+        "category": "AR",
+        "inspiredBy": "MUKHALLAT AL EMIRATES",
+        "code": "1526-AL HAR",
+        "description": "An opulent and traditional Middle Eastern blend (mukhallat) featuring rose, oud, and spices for a rich and luxurious scent.",
+        "scentType": "Amber Spicy",
+        "notes": "<b>Notes:</b> Rose, Spices, Agarwood (Oud), Amber, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Al_Haramain/Mukhallath_Al_Emirates"
+    },
+    {
+        "brand": "AL HARAMAIN",
+        "category": "",
+        "inspiredBy": "MUSK MALIKI",
+        "code": "1629-AL HAR",
+        "description": "A complex and captivating musk fragrance that combines fresh, fruity, and floral notes with a deep, animalic, and leathery base.",
+        "scentType": "Floral Fruity Musk",
+        "notes": "<b>Top:</b> Green Apple, Violet, Lemon<br><b>Heart:</b> Jasmine, Moroccan Rose, Bulgarian Rose, Geranium<br><b>Base:</b> Musk, Sandalwood, Saffron, Leather",
+        "link": "https://www.parfumo.com/Perfumes/Al_Haramain/Musk_Maliki"
+    },
+    {
+        "brand": "AL HARAMAIN",
+        "category": "AR",
+        "inspiredBy": "RED AFRICAN",
+        "code": "185-AL HAR",
+        "description": "An exotic and unique fragrance oil, inspired by African landscapes, featuring warm, earthy, and spicy resinous notes.",
+        "scentType": "Amber Woody",
+        "notes": "<b>Notes:</b> Spices, Myrrh, Woody Notes, Frankincense, Vetiver",
+        "link": ""
+    },
+    {
+        "brand": "AL HARAMAIN",
+        "category": "AR",
+        "inspiredBy": "WARDIA",
+        "code": "1628-AL HAR",
+        "description": "A pure and beautiful rose fragrance oil, capturing the scent of fresh, blooming roses with hints of sweetness and green notes.",
+        "scentType": "Floral",
+        "notes": "<b>Notes:</b> Taif Rose, White Flowers, Green Notes, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Al_Haramain/Wardia"
+    },
+    {
+        "brand": "AL HARAMAIN",
+        "category": "",
+        "inspiredBy": "SULTAN",
+        "code": "1783-AL HAR",
+        "description": "A sweet, fruity, and floral fragrance oil that is playful and vibrant, with dominant notes of strawberry, pineapple, and vanilla.",
+        "scentType": "Fruity Gourmand",
+        "notes": "<b>Top:</b> Strawberry, Pineapple, Cinnamon<br><b>Heart:</b> Rose, Jasmine, Ylang-Ylang, Peach, Raspberry<br><b>Base:</b> Vanilla, Sandalwood, Patchouli, Amber, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Al_Haramain/Sultan_Attar"
+    },
+    {
+        "brand": "AL JAZEERA PERFUMES",
+        "category": "AR",
+        "inspiredBy": "MAGIC",
+        "code": "1811-ALJA",
+        "description": "An enchanting and luxurious floral-woody-musk fragrance designed to create a magical and unforgettable aura.",
+        "scentType": "Floral Woody Musk",
+        "notes": "<b>Top:</b> Bergamot, Mandarin<br><b>Heart:</b> Rose, Jasmine, Patchouli<br><b>Base:</b> Sandalwood, Amber, Vanilla, Musk",
+        "link": ""
+    },
+    {
+        "brand": "AL JAZEERA PERFUMES",
+        "category": "AR",
+        "inspiredBy": "PALACE",
+        "code": "1812-ALJA",
+        "description": "An opulent and regal scent befitting its name, likely featuring rich notes of oud, rose, amber, and spices.",
+        "scentType": "Amber Woody",
+        "notes": "<b>Notes:</b> Agarwood (Oud), Rose, Saffron, Amber, Sandalwood",
+        "link": ""
+    },
+    {
+        "brand": "ALEXANDRE J.",
+        "category": "AR",
+        "inspiredBy": "IMPERIAL PEACOCK",
+        "code": "2253-ALEX",
+        "description": "A sweet and almond-forward gourmand fragrance that is creamy, comforting, and utterly delicious.",
+        "scentType": "Amber Vanilla",
+        "notes": "<b>Top:</b> Almond, Rhubarb, Heliotrope<br><b>Heart:</b> Sugar, Tonka Bean, Vanilla, Cinnamon<br><b>Base:</b> Musk, Balsamic Notes",
+        "link": "https://www.parfumo.com/Perfumes/Alexandre_J/Imperial_Peacock"
+    },
+    {
+        "brand": "ALEXANDRE J.",
+        "category": "AR",
+        "inspiredBy": "ZAFEER OUD VANILLE",
+        "code": "1982-ALEX",
+        "description": "A rich and decadent gourmand fragrance that combines creamy vanilla and toffee with exotic notes of coconut, leather, and oud.",
+        "scentType": "Amber Vanilla",
+        "notes": "<b>Top:</b> Toffee, Coconut, Leather<br><b>Heart:</b> Cloves, Tonka Bean, Ylang-Ylang, White Woods<br><b>Base:</b> Vanilla, Agarwood (Oud), Musk",
+        "link": "https://www.parfumo.com/Perfumes/Alexandre_J/Zafeer_Oud_Vanille"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "EL",
+        "inspiredBy": "BEACH HUT MAN",
+        "code": "2221-AMG",
+        "description": "A fresh and green aromatic fragrance that evokes the scent of a beachside garden after a storm, with strong notes of mint, ivy, and vetiver.",
+        "scentType": "Aromatic Green",
+        "notes": "<b>Top:</b> Mint, Galbanum, Orange Blossom<br><b>Heart:</b> Vetiver, Ivy, Moss<br><b>Base:</b> Myrrh, Patchouli, Woody Notes",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Beach_Hut_Man"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "EL",
+        "inspiredBy": "DIA WOMAN",
+        "code": "2040-AMG",
+        "description": "A sophisticated and luminous aldehydic floral fragrance that is elegant and understated. A classic scent for daytime wear.",
+        "scentType": "Floral Aldehyde",
+        "notes": "<b>Top:</b> Aldehydes, Cyclamen, Violet Leaf, Sage, Bergamot, Fig, Tarragon<br><b>Heart:</b> Peony, Turkish Rose Oil, Orris Root, Orange Blossom, Peach Blossom<br><b>Base:</b> White Musk, Incense, Vanilla, Heliotrope, Sandalwood, Cedar, Guaiac Wood",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Dia_Woman_Eau_de_Parfum"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "EL",
+        "inspiredBy": "EPIC 56 WOMAN",
+        "code": "2212-AMG",
+        "description": "An even more potent and deeper version of Epic Woman, this extrait de parfum intensifies the spicy, amber, and oud facets.",
+        "scentType": "Amber Spicy",
+        "notes": "<b>Top:</b> Cumin, Pink Pepper, Cinnamon<br><b>Heart:</b> Damask Rose, Geranium, Jasmine, Tea<br><b>Base:</b> Agarwood (Oud), Patchouli, Incense, Sandalwood, Amber, Guaiac Wood, Vanilla, Orris",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Epic_56"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "EL",
+        "inspiredBy": "EPIC WOMAN",
+        "code": "2222-AMG",
+        "description": "A spicy and amber-heavy fragrance inspired by the Silk Road, blending exotic spices with precious woods, tea, and rose.",
+        "scentType": "Amber Spicy",
+        "notes": "<b>Top:</b> Cumin, Pink Pepper, Cinnamon<br><b>Heart:</b> Damask Rose, Geranium, Jasmine, Tea<br><b>Base:</b> Agarwood (Oud), Patchouli, Incense, Amber, Sandalwood, Guaiac Wood, Vanilla, Orris Root",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Epic_Woman_Eau_de_Parfum"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "FATE FOR MAN",
+        "code": "2277-AMG",
+        "description": "A bold and complex spicy-woody fragrance with an intense blend of cumin, incense, licorice, and resins.",
+        "scentType": "Amber Spicy",
+        "notes": "<b>Top:</b> Cumin, Saffron, Ginger, Wormwood, Mandarin Orange<br><b>Heart:</b> Immortelle, Olibanum, Resins, Labdanum, Rose, Copahu Balm<br><b>Base:</b> Licorice, Labdanum, Tonka Bean, Sandalwood, Cedar, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Fate_Man"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "GUIDANCE",
+        "code": "2348-AMG",
+        "description": "A unique and powerful fragrance that combines pear, hazelnut, and saffron with a floral heart and a warm, woody-amber base.",
+        "scentType": "Floral Fruity",
+        "notes": "<b>Top:</b> Pear, Hazelnut, Olibanum<br><b>Heart:</b> Saffron, Rose, Jasmine Sambac, Osmanthus<br><b>Base:</b> Sandalwood, Vanilla, Akigalawood, Ambergris, Labdanum",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Guidance"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "HONOUR WOMAN",
+        "code": "1927-AMG",
+        "description": "A tribute to tragic love, this is a poetic and opulent white floral fragrance, dominated by tuberose, gardenia, and jasmine.",
+        "scentType": "White Floral",
+        "notes": "<b>Top:</b> Rhubarb, Pepper, Coriander<br><b>Heart:</b> Gardenia, Tuberose, Jasmine, Lily-of-the-Valley, Carnation<br><b>Base:</b> Amber, Incense, Vetiver, Opoponax, Leather",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Honour_Woman"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "INTERLUDE 53",
+        "code": "2110-AMG",
+        "description": "An extrait version of Interlude Man, aged for 6 months and with a 53% perfume oil concentration, making it deeper, smoother, and more potent.",
+        "scentType": "Amber Woody",
+        "notes": "<b>Top:</b> Oregano, Pimento, Bergamot<br><b>Heart:</b> Opoponax, Incense, Amber, Labdanum<br><b>Base:</b> Agarwood (Oud), Leather, Sandalwood, Patchouli",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Interlude_53"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "INTERLUDE BLACK IRIS",
+        "code": "2268-AMG",
+        "description": "A smoother and more refined version of the original Interlude, where the powerful spices are softened by a prominent, powdery orris note.",
+        "scentType": "Amber Woody",
+        "notes": "<b>Top:</b> Rosemary, Violet Leaf, Bergamot<br><b>Heart:</b> Orris, Olibanum, Myrrh, Labdanum, Amber, Vanilla<br><b>Base:</b> Leather, Agarwood (Oud), Sandalwood, Patchouli, Cedar",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Interlude_Black_Iris"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "INTERLUDE MAN",
+        "code": "102-AMG",
+        "description": "A chaotic and complex masterpiece of smoke and spice. This is a powerful, dark, and resinous fragrance with incredible performance.",
+        "scentType": "Amber Woody",
+        "notes": "<b>Top:</b> Oregano, Pepper, Bergamot<br><b>Heart:</b> Incense, Opoponax, Amber, Labdanum<br><b>Base:</b> Agarwood (Oud), Leather, Sandalwood, Patchouli",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Interlude_Man"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "INTERLUDE WOMAN",
+        "code": "1524-AMG",
+        "description": "A complex and unique chypre-floral scent that creates a moment of harmony amidst chaos, with notes of incense, kiwi, and leather.",
+        "scentType": "Chypre Floral",
+        "notes": "<b>Top:</b> Marigold, Ginger, Bergamot, Grapefruit<br><b>Heart:</b> Incense, Walnut, Immortelle, Kiwi, Honey, Opoponax, Coffee, Sandalwood, Rose, Orange Blossom, Jasmine<br><b>Base:</b> Oakmoss, Leather, Agarwood (Oud), Benzoin, Tonka Bean, Amber, Sandalwood, Vanilla, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Interlude_Woman"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "JUBILATION XXV MAN",
+        "code": "100-AMG",
+        "description": "An opulent and majestic fragrance created for a king. It's a complex blend of frankincense, blackberry, honey, and oud.",
+        "scentType": "Amber Fougere",
+        "notes": "<b>Top:</b> Blackberry, Olibanum, Orange, Labdanum, Coriander, Tarragon<br><b>Heart:</b> Honey, Guaiac Wood, Cinnamon, Bay Leaf, Clove, Rose, Orchid, Celery Seeds<br><b>Base:</b> Opoponax, Agarwood (Oud), Myrrh, Patchouli, Cedar, Ambergris, Immortelle, Musk, Oakmoss",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Jubilation_XXV_Man"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "LOVE TUBEROSE",
+        "code": "2181-AMG",
+        "description": "A delicate and creamy gourmand floral that combines lush tuberose and gardenia with a delicious chantilly cream and vanilla base.",
+        "scentType": "Floral Gourmand",
+        "notes": "<b>Top:</b> Tuberose, Gardenia, Jasmine<br><b>Heart:</b> Chantilly Cream, Vanilla<br><b>Base:</b> Cedar, Sandalwood",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Love_Tuberose"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "EL",
+        "inspiredBy": "MATERIAL",
+        "code": "2091-AMG",
+        "description": "A warm and resinous fragrance that showcases vanilla absolute in its raw, woody, and smoky form, rather than its sweet one.",
+        "scentType": "Amber Vanilla",
+        "notes": "<b>Top:</b> Elemi, Patchouli<br><b>Heart:</b> Madagascar Vanilla, Benzoin<br><b>Base:</b> Guaiac Wood, Agarwood (Oud), Labdanum, Tonka Bean, Incense",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Material"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "MYTHS MAN",
+        "code": "1912-AMG",
+        "description": "A surreal and artistic fragrance with an unusual combination of chrysanthemum, orris, leather, and ash.",
+        "scentType": "Aromatic",
+        "notes": "<b>Top:</b> Chrysanthemum, Orris<br><b>Heart:</b> Rum, Rose, Vetiver, Elemi<br><b>Base:</b> Labdanum, Ash, Leather",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Myths_Man"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "EL",
+        "inspiredBy": "OPUS XIV ROYAL TOBACCO",
+        "code": "2213-AMG",
+        "description": "A bold and unique fragrance that marries aromatic tobacco with rich frankincense and a host of warm spices and resins.",
+        "scentType": "Amber Spicy",
+        "notes": "<b>Top:</b> Frankincense, Elemi, Cardamom, Anise, Basil, Bergamot<br><b>Heart:</b> Tobacco, Licorice Root, Fenugreek, Prunol, Lavender, Orange Blossom, Osmanthus, Rose<br><b>Base:</b> Frankincense, Peru Balsam, Benzoin, Labdanum, Myrrh, Birch Tar, Tonka Bean, Vanilla, Vetiver, Guaiac Wood, Agarwood (Oud), Musk",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Opus_XIV_Royal_Tobacco"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "LUX",
+        "inspiredBy": "ORRIS WAKAN",
+        "code": "1900-AMG",
+        "description": "A limited edition attar oil focusing on the precious and powdery scent of orris, blended with creamy sandalwood and white musk.",
+        "scentType": "Floral Woody Musk",
+        "notes": "<b>Notes:</b> Orris, Sandalwood, White Musk",
+        "link": ""
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "PORTRAYAL MAN",
+        "code": "2347-AMG",
+        "description": "A daring and refined woody-aromatic scent representing the bohemian culture of the 1920s, with notes of violet leaf and vetiver.",
+        "scentType": "Woody Aromatic",
+        "notes": "<b>Top:</b> Violet Leaf<br><b>Heart:</b> Vetiver<br><b>Base:</b> Cade oil",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Portrayal_Man"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "REFLECTION 45",
+        "code": "2223-AMG",
+        "description": "A more potent and richer version of the original Reflection Man, with a 45% oil concentration that enhances its woody and spicy facets.",
+        "scentType": "Aromatic Spicy",
+        "notes": "<b>Top:</b> Benzoin, Pink Pepper, Clary Sage, Lavender, Cardamom, Juniper Berries<br><b>Heart:</b> Neroli, Orris, Jasmine, Angelica, Tonka Bean, Vanilla<br><b>Base:</b> Sandalwood, Olibanum, Myrrh, Vetiver, Patchouli, Cedar",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Reflection_45_Man"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "REFLECTION MAN",
+        "code": "2130-AMG",
+        "description": "A timeless and elegant fresh-spicy-woody fragrance that is clean, floral, and unmistakably masculine.",
+        "scentType": "Woody Floral Musk",
+        "notes": "<b>Top:</b> Rosemary, Pink Pepper, Petitgrain<br><b>Heart:</b> Jasmine, Neroli, Orris Root, Ylang-Ylang<br><b>Base:</b> Sandalwood, Vetiver, Cedar, Patchouli",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Reflection_Man"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "REFLECTION WOMAN",
+        "code": "1525-AMG",
+        "description": "A sophisticated and radiant floral fragrance that evokes the freshness of a spring morning with notes of water violet, magnolia, and jasmine.",
+        "scentType": "Floral",
+        "notes": "<b>Top:</b> Water Violet, Freesia, Tropical Green Leaves<br><b>Heart:</b> Magnolia, Ylang-Ylang, Jasmine<br><b>Base:</b> Amber, Musk, Cedar, Sandalwood",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Reflection_Woman"
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "LUX",
+        "inspiredBy": "SAFFRON HAMRA",
+        "code": "1905-AMG",
+        "description": "A luxurious attar oil that celebrates the opulence of saffron, enriched with rose and juniper for a rich, leathery, and spicy profile.",
+        "scentType": "Amber Spicy",
+        "notes": "<b>Notes:</b> Saffron, Rose Centifolia, Cade oil",
+        "link": ""
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "AR",
+        "inspiredBy": "VANILLA BARKA",
+        "code": "1936-AMG",
+        "description": "A simple yet beautiful attar oil that highlights the sweet, creamy, and comforting aroma of pure vanilla.",
+        "scentType": "Amber Vanilla",
+        "notes": "<b>Notes:</b> Vanilla, Frankincense",
+        "link": ""
+    },
+    {
+        "brand": "AMOUAGE",
+        "category": "",
+        "inspiredBy": "JOURNEY MAN",
+        "code": "1798-AMG",
+        "description": "A masculine and adventurous spicy-leathery fragrance with a prominent tobacco note, softened by bright citrus and juniper.",
+        "scentType": "Spicy Woody",
+        "notes": "<b>Top:</b> Sichuan Pepper, Bergamot, Cardamom, Neroli<br><b>Heart:</b> Juniper Berries, Incense, Geraniol<br><b>Base:</b> Tobacco, Leather, Cypriol Oil, Tonka Bean, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Amouage/Journey_Man"
+    },
+    {
+        "brand": "ANFAS",
+        "category": "AR",
+        "inspiredBy": "ISHQ",
+        "code": "2390-ANFAS",
+        "description": "A passionate and romantic fragrance, with 'Ishq' meaning 'Love'. It likely features a rich blend of florals, saffron, and warm ambery notes.",
+        "scentType": "Amber Floral",
+        "notes": "<b>Top:</b> Saffron, Jasmine<br><b>Heart:</b> Amberwood, Ambergris<br><b>Base:</b> Fir Resin, Cedar",
+        "link": "https://www.parfumo.com/Perfumes/Anfas/Ishq"
+    },
+    {
+        "brand": "ANFAS",
+        "category": "AR",
+        "inspiredBy": "SALAM",
+        "code": "2392-ANFAS",
+        "description": "A welcoming and serene fragrance, with 'Salam' meaning 'Peace'. It blends bright citrus with soft florals and a gentle musky base.",
+        "scentType": "Citrus Floral",
+        "notes": "<b>Top:</b> Mandarin, Bergamot<br><b>Heart:</b> Jasmine, Magnolia, Amber<br><b>Base:</b> Sandalwood, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Anfas/Salam"
+    },
+    {
+        "brand": "ANFASIC DOKHOON",
+        "category": "AR",
+        "inspiredBy": "SUKAR",
+        "code": "2173-ANFAD",
+        "description": "A sweet and playful gourmand fragrance, with 'Sukar' meaning 'Sugar'. It evokes the scent of candy and sweet treats.",
+        "scentType": "Gourmand",
+        "notes": "<b>Notes:</b> Sugar, Fruits, Vanilla, Creamy Notes, Musk",
+        "link": ""
+    },
+    {
+        "brand": "ANNA SUI",
+        "category": "WP",
+        "inspiredBy": "FANTASIA MERMAID",
+        "code": "2488-ANN",
+        "description": "A whimsical and aquatic floral-fruity scent with a spicy-sweet character, designed for playful dreamers.",
+        "scentType": "Floral Fruity",
+        "notes": "<b>Top:</b> Blood Orange, Mandarin, Cardamom<br><b>Heart:</b> Jasmine, Peony, Litchi<br><b>Base:</b> White Woods, Vanilla, Honey",
+        "link": "https://www.parfumo.com/Perfumes/Anna_Sui/Fantasia_Mermaid"
+    },
+    {
+        "brand": "ANNA SUI",
+        "category": "WP",
+        "inspiredBy": "LUCKY WISH",
+        "code": "2022-ANN",
+        "description": "A cheerful and uplifting floral-citrus fragrance that is light, airy, and designed to bring a touch of luck.",
+        "scentType": "Floral Citrus",
+        "notes": "<b>Top:</b> Pomelo, Lemon, Tangerine<br><b>Heart:</b> Freesia, Orchid, Bamboo<br><b>Base:</b> Sandalwood, Amber, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Anna_Sui/Lucky_Wish"
+    },
+    {
+        "brand": "ANTONIO BANDERAS",
+        "category": "WP",
+        "inspiredBy": "BLUE SEDUCTION",
+        "code": "396-ANT",
+        "description": "A fresh, aquatic, and fruity fragrance for women, capturing a sensually cool and charming essence.",
+        "scentType": "Floral Aquatic",
+        "notes": "<b>Top:</b> Melon, Violet Leaf, Pear, Bergamot<br><b>Heart:</b> Peony, Gardenia, Jasmine, Lily-of-the-Valley, Bulgarian Rose<br><b>Base:</b> Patchouli, Musk, Benzoin, Raspberry",
+        "link": "https://www.parfumo.com/Perfumes/Antonio_Banderas/Blue_Seduction_for_Women"
+    },
+    {
+        "brand": "ANTONIO BANDERAS",
+        "category": "MP",
+        "inspiredBy": "KING OF SEDUCTION",
+        "code": "1001-ANT",
+        "description": "A fresh and aromatic woody fragrance with a marine accord, representing a charismatic and confident man.",
+        "scentType": "Woody Aromatic",
+        "notes": "<b>Top:</b> Grapefruit, Bergamot, Pineapple, Melon, Green Apple<br><b>Heart:</b> Neroli, Jasmine, Cardamom, Sea Notes<br><b>Base:</b> Cedar, Vetiver, Amber, Suede, White Musk",
+        "link": "https://www.parfumo.com/Perfumes/Antonio_Banderas/King_of_Seduction"
+    },
+    {
+        "brand": "ANTONIO BANDERAS",
+        "category": "WP",
+        "inspiredBy": "QUEEN OF SEDUCTION",
+        "code": "397-ANT",
+        "description": "An aquatic and floral fragrance that is fresh, elegant, and sensually feminine.",
+        "scentType": "Floral Aquatic",
+        "notes": "<b>Top:</b> Watery Notes, Raspberry, Grapefruit<br><b>Heart:</b> Jasmine, Peony, Pink Pepper, Iris<br><b>Base:</b> Amber, Cedar, Suede",
+        "link": "https://www.parfumo.com/Perfumes/Antonio_Banderas/Queen_of_Seduction"
+    },
+    {
+        "brand": "AQUOLINA",
+        "category": "WP",
+        "inspiredBy": "GOLD SUGAR",
+        "code": "2307-AQU",
+        "description": "A warm and sunny gourmand fragrance that blends creamy coconut and citrus with a sensual floral heart.",
+        "scentType": "Amber Vanilla",
+        "notes": "<b>Top:</b> Neroli, Mandarin Orange<br><b>Heart:</b> Coconut, Orange Blossom, Creme Brulee<br><b>Base:</b> Musk, Sandalwood, Australian Sandalwood",
+        "link": "https://www.parfumo.com/Perfumes/Aquolina/Gold_Sugar"
+    },
+    {
+        "brand": "AQUOLINA",
+        "category": "WP",
+        "inspiredBy": "PINK SUGAR",
+        "code": "398-AQU",
+        "description": "The iconic gourmand fragrance that smells like cotton candy, caramel, and vanilla. A sweet and playful delight.",
+        "scentType": "Floral Fruity Gourmand",
+        "notes": "<b>Top:</b> Raspberry, Orange, Fig Leaf, Bergamot<br><b>Heart:</b> Cotton Candy, Licorice, Red Berries, Strawberry, Lily-of-the-Valley<br><b>Base:</b> Caramel, Vanilla, Musk, Tonka Bean, Sandalwood",
+        "link": "https://www.parfumo.com/Perfumes/Aquolina/Pink_Sugar_Eau_de_Toilette"
+    },
+    {
+        "brand": "ARABIAN OUD",
+        "category": "AR",
+        "inspiredBy": "ARABIAN KNIGHT",
+        "code": "2269-ARB",
+        "description": "A luxurious and powerful fragrance for men, blending fresh citrus and spices with a rich base of amber, cedar, and musk.",
+        "scentType": "Amber Spicy",
+        "notes": "<b>Top:</b> Citron, Bergamot<br><b>Heart:</b> Cinnamon, Geranium<br><b>Base:</b> Amber, Cedar, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Arabian_Oud/Arabian_Knight"
+    },
+    {
+        "brand": "ARABIAN OUD",
+        "category": "AR",
+        "inspiredBy": "KALEMAT",
+        "code": "103-ARB",
+        "description": "A legendary and beloved amber fragrance. It's a warm, sweet, and smoky blend of honey, amber, and rich woods.",
+        "scentType": "Amber",
+        "notes": "<b>Top:</b> Blueberry, Anise<br><b>Heart:</b> Cashmere Wood, Floral Notes, Rosemary<br><b>Base:</b> Amber, Honey, Musk",
+        "link": "https://www.parfumo.com/Perfumes/Arabian_Oud/Kalemat_Eau_de_Parfum"
+    },
+    {
+        "brand": "ARABIAN OUD",
+        "category": "AR",
+        "inspiredBy": "KASHMIR",
+        "code": "104-ARB",
+        "description": "A beautiful and elegant fragrance that combines fruity notes of plum and yuzu with a soft floral heart and a musky, woody base.",
+        "scentType": "Floral Woody Musk",
+        "notes": "<b>Top:</b> Yuzu, Black Currant, Plum<br><b>Heart:</b> Jasmine, Rose, Oud<br><b>Base:</b> White Musk, Cashmere Wood, Vanilla",
+        "link": "https://www.parfumo.com/Perfumes/Arabian_Oud/Kashmir"
+    },
+    {
+        "brand": "ARABIAN OUD",
+        "category": "AR",
+        "inspiredBy": "MADAWI",
+        "code": "1964-ARB",
+        "description": "An elegant and captivating fruity-floral fragrance with a warm, ambery base that feels both modern and timeless.",
+        "scentType": "Floral Fruity",
+        "notes": "<b>Top:</b> Apple Blossom, Peach<br><b>Heart:</b> Pineapple Blossom<br><b>Base:</b> Wild Rose, Musk, Patchouli",
+        "link": "https://www.parfumo.com/Perfumes/Arabian_Oud/Madawi"
+    },
+    {
+        "brand": "ARABIAN OUD",
+        "category": "AR",
+        "inspiredBy": "PRESTIGE CLASSIC",
+        "code": "105-ARB",
+        "description": "A classic and sophisticated fragrance for men, featuring a blend of spicy, woody, and musky notes.",
+        "scentType": "Aromatic Spicy",
+        "notes": "<b>Top:</b> Spices<br><b>Heart:</b> Woody Notes<br><b>Base:</b> Musk, Agarwood (Oud)",
+        "link": "https://www.parfumo.com/Perfumes/Arabian_Oud/Classic"
+    },
+    {
+        "brand": "ARABIAN OUD",
+        "category": "AR",
+        "inspiredBy": "SULTAN (Μ)",
+        "code": "106-ARB",
+        "description": "A regal and powerful fragrance built around precious Taif rose, oud, and sandalwood, evoking oriental luxury.",
+        "scentType": "Amber Woody",
+        "notes": "<b>Notes:</b> Taif Rose, Sandalwood, Musk, Agarwood (Oud)",
+        "link": "https://www.parfumo.com/Perfumes/Arabian_Oud/Sultan"
+    },
+    {
+        "brand": "ARABIAN OUD",
+        "category": "AR",
+        "inspiredBy": "TITANIUM (Μ)",
+        "code": "107-ARB",
+        "description": "A modern and strong fragrance with a fresh, spicy, and woody character, designed for a confident man.",
+        "scentType": "Aromatic Woody",
+        "notes": "<b>Top:</b> Green Notes, Spices<br><b>Heart:</b> Rose, Lily-of-the-Valley<br><b>Base:</b> Musk, Cedar, Sandalwood",
+        "link": "https://www.parfumo.com/Perfumes/Arabian_Oud/Titanium"
+    },
+    {
+        "brand": "ARABIC PERFUME",
+        "category": "",
+        "inspiredBy": "HABIBI",
+        "code": "-",
+        "description": "A generic name meaning 'My Love'. This type of perfume is typically a warm, sweet, and romantic blend of rose, amber, and musk.",
+        "scentType": "Amber Floral",
+        "notes": "<b>Notes:</b> Rose, Amber, Spices, Musk, Woody Notes",
+        "link": ""
+    },
+    {
+        "brand": "ARABIC PERFUME",
+        "category": "",
+        "inspiredBy": "LOVE BIRDS",
+        "code": "-",
+        "description": "A generic name for a romantic perfume. It likely features a bright and cheerful blend of fruits, white florals, and soft musk.",
+        "scentType": "Floral Fruity",
+        "notes": "<b>Notes:</b> Fruits, White Flowers, Vanilla, Musk",
+        "link": ""
+    },
+    {
+        "brand": "ARAMIS",
+        "category": "MP",
+        "inspiredBy": "ADVENTURER",
+        "code": "1011-ARA",
+        "description": "A fresh and adventurous aromatic fragrance with spicy and woody undertones, designed for the modern explorer.",
+        "scentType": "Aromatic Spicy",
+        "notes": "<b>Top:</b> Lemon, Bergamot, Black Pepper<br><b>Heart:</b> Geranium, Lavender, Wormwood<br><b>Base:</b> Patchouli, Cedar, Seaweed",
+        "link": "https://www.parfumo.com/Perfumes/Aramis/Adventurer"
+    },
+    {
+        "brand": "ARAMIS",
+        "category": "MP",
+        "inspiredBy": "HAVANA",
+        "code": "1012-ARA",
+        "description": "A rich and warm tobacco fragrance that captures the spirit of Cuba with notes of rum, spices, and patchouli.",
+        "scentType": "Amber Spicy",
+        "notes": "<b>Top:</b> Artemisia, Caraway, Mandarin Orange, Basil<br><b>Heart:</b> Carnation, Fir, Cinnamon, Tobacco<br><b>Base:</b> Sandalwood, Patchouli, Oakmoss, Vetiver",
+        "link": "https://www.parfumo.com/Perfumes/Aramis/Havana_Eau_de_Toilette"
+    },
+    {
+        "brand": "ARAMIS",
+        "category": "WP",
+        "inspiredBy": "TUSCANY PER DONNA",
+        "code": "399-ARA",
+        "description": "A classic and elegant floral fragrance inspired by the Italian countryside, with a rich bouquet of flowers and a warm, woody base.",
+        "scentType": "Floral",
+        "notes": "<b>Top:</b> Hyacinth, Peach, Plum, Green Notes, Grapefruit, Bergamot, Mandarin Orange<br><b>Heart:</b> Carnation, Orange Blossom, Ylang-Ylang, Jasmine, Violet, Honeysuckle, Rose, Lily-of-the-Valley<br><b>Base:</b> Sandalwood, Amber, Musk, Vanilla, Cedar, Styrax",
+        "link": "https://www.parfumo.com/Perfumes/Aramis/Tuscany_Per_Donna_Eau_de_Parfum"
+    },
+    {
+        "brand": "ARAMIS",
+        "category": "MP",
+        "inspiredBy": "VOYAGER",
+        "code": "1013-ARA",
+        "description": "A bold and spicy fragrance for the modern traveler, blending vibrant ginger and exotic spices with a warm, ambery base.",
+        "scentType": "Amber Spicy",
+        "notes": "<b>Top:</b> Ginger, Juniper Berries, Black Pepper<br><b>Heart:</b> Nutmeg, Sage, Lavender<br><b>Base:</b> Tonka Bean",
+        "link": "https://www.parfumo.com/Perfumes/Aramis/Voyager"
+    },
+    {
+        "brand": "ARD AL ZAAFARAN",
+        "category": "AR",
+        "inspiredBy": "AMEERAT AL EHSAAS",
+        "code": "1870-ARDAL",
+        "description": "An elegant and sensual fragrance with a blend of fresh spices, florals, and a warm, woody-musky base.",
+        "scentType": "Floral Woody Musk",
+        "notes": "<b>Top:</b> Ginger, Cardamom, Black Pepper<br><b>Heart:</b> Peony, Orange Blossom, Gardenia, Coconut<br><b>Base:</b> Sandalwood, Musk, Amber",
+        "link": "https://www.parfumo.com/Perfumes/Ard_Al_Zaafaran/Ameerat_Al_Ehsaas"
+    },
+    {
+        "brand": "ARIANA GRANDE",
+        "category": "WP",
+        "inspiredBy": "ARI",
+        "code": "400-ARIA",
+        "description": "A sweet and luscious gourmand fragrance with notes of marshmallow, raspberry, and pear, reflecting a playful and confident personality.",
+        "scentType": "Floral Fruity Gourmand",
+        "notes": "<b>Top:</b> Raspberry, Pear, Grapefruit<br><b>Heart:</b> Vanilla Orchid, Rose, Lily-of-the-Valley<br><b>Base:</b> Marshmallow, Musk, Woody Notes",
+        "link": "https://www.parfumo.com/Perfumes/Ariana_Grande/Ari"
+    },
+    {
+        "brand": "ARIANA GRANDE",
+        "category": "WP",
+        "inspiredBy": "CLOUD",
+        "code": "401-ARIA",
+        "description": "An addictive and dreamy gourmand fragrance that blends lavender blossom with creamy coconut, praline, and a sensual musk base.",
+        "scentType": "Floral Fruity Gourmand",
+        "notes": "<b>Top:</b> Lavender, Bergamot, Pear<br><b>Heart:</b> Whipped Cream, Praline, Coconut, Vanilla Orchid<br><b>Base:</b> Musk, Woody Notes",
+        "link": "https://www.parfumo.com/Perfumes/Ariana_Grande/Cloud"
+    },
+    {
+        "brand": "ARIANA GRANDE",
+        "category": "WP",
+        "inspiredBy": "CLOUD INTENSE",
+        "code": "1941-ARIA",
+        "description": "A more intense and richer version of the original Cloud, with amplified notes of whipped cream and praline, and an added touch of ambroxan.",
+        "scentType": "Amber Vanilla",
+        "notes": "<b>Top:</b> Lavender, Bergamot, Pear<br><b>Heart:</b> Whipped Cream, Praline, Coconut, Vanilla Orchid<br><b>Base:</b> Ambroxan, Musk, Cashmeran, Woody Notes",
+        "link": "https://www.parfumo.com/Perfumes/Ariana_Grande/Cloud_Intense"
     }
 ]
