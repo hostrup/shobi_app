@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -6,27 +5,49 @@
     <title>Parfume Klon Finder</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f7f7f7; }
-        header { background: #222; color: #fff; padding: 1em; text-align: center; }
+        :root {
+            --primary: #0077cc;
+            --bg: #f7f7f7;
+            --card: #fff;
+            --text: #222;
+            --accent: #eab308;
+            --shadow: 0 2px 8px #0001;
+        }
+        [data-theme="dark"] {
+            --primary: #60a5fa;
+            --bg: #18181b;
+            --card: #23232b;
+            --text: #f3f3f3;
+            --accent: #facc15;
+            --shadow: 0 2px 8px #0005;
+        }
+        html, body { height: 100%; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); min-height: 100vh; }
+        header { background: var(--primary); color: #fff; padding: 1.2em 0 1em 0; text-align: center; box-shadow: var(--shadow);}
         .container { max-width: 900px; margin: auto; padding: 1em; }
         .filters, .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-bottom: 1em; }
         .filters > * { flex: 1 1 120px; min-width: 120px; }
-        .actions { justify-content: flex-end; }
-        input, select, button { padding: 0.5em; border-radius: 5px; border: 1px solid #ccc; }
-        button { background: #0077cc; color: #fff; border: none; cursor: pointer; }
+        .actions { justify-content: flex-end; align-items: center; }
+        input, select, button { padding: 0.5em; border-radius: 5px; border: 1px solid #ccc; font-size: 1em; }
+        button { background: var(--primary); color: #fff; border: none; cursor: pointer; transition: background 0.2s; }
         button:active { background: #005fa3; }
+        .theme-toggle { background: none; border: none; font-size: 1.5em; margin-left: 1em; color: var(--accent); cursor: pointer; }
         .parfume-list { display: flex; flex-direction: column; gap: 1em; }
-        .parfume { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 1em; display: flex; flex-direction: column; gap: 0.5em; }
+        .parfume { background: var(--card); border-radius: 12px; box-shadow: var(--shadow); padding: 1em; display: flex; flex-direction: column; gap: 0.5em; transition: box-shadow 0.2s; }
+        .parfume:hover { box-shadow: 0 4px 16px #0002; }
         .parfume .row { display: flex; flex-wrap: wrap; gap: 1em; align-items: center; }
-        .brand { font-weight: bold; font-size: 1.1em; }
-        .fav-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: #eab308; }
-        .fav-btn.fav { color: #eab308; }
+        .brand { font-weight: bold; font-size: 1.1em; letter-spacing: 0.5px; }
+        .fav-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--accent); }
+        .fav-btn.fav { color: var(--accent); }
         .fav-btn:not(.fav) { color: #bbb; }
-        .links a { margin-right: 1em; color: #0077cc; text-decoration: none; }
+        .links a { margin-right: 1em; color: var(--primary); text-decoration: none; font-weight: 500; }
         .links a:hover { text-decoration: underline; }
+        .sort-btn { background: none; border: none; color: var(--primary); font-size: 1em; cursor: pointer; margin-left: 0.2em; }
+        .sort-btn.active { font-weight: bold; }
         @media (max-width: 600px) {
             .filters, .actions { flex-direction: column; }
             .parfume .row { flex-direction: column; align-items: flex-start; }
+            .container { padding: 0.5em; }
         }
     </style>
 </head>
@@ -34,10 +55,10 @@
     <header>
         <h1>Parfume Klon Finder</h1>
         <small>Find kloner, filtrér, sorter og gem favoritter – mobilvenlig!</small>
+        <button class="theme-toggle" id="themeToggle" title="Skift lys/mørk">🌙</button>
     </header>
     <div class="container">
         <div class="actions">
-            <input type="file" id="fileInput" accept=".json">
             <button id="showFavsBtn">Vis kun favoritter</button>
             <button id="resetFavsBtn">Nulstil favoritter</button>
         </div>
@@ -48,6 +69,14 @@
             <select id="confFilter"><option value="">Sikkerhed</option></select>
             <input type="text" id="searchInput" placeholder="Fritekstsøgning...">
         </div>
+        <div class="actions" style="justify-content: flex-start; margin-bottom: 0;">
+            <span>Sortér efter:</span>
+            <button class="sort-btn" data-sort="brand">Brand</button>
+            <button class="sort-btn" data-sort="cat">Kategori</button>
+            <button class="sort-btn" data-sort="scentType">Duftfamilie</button>
+            <button class="sort-btn" data-sort="confidence">Sikkerhed</button>
+            <button class="sort-btn" data-sort="INSPIRED BY">Navn</button>
+        </div>
         <div class="parfume-list" id="results"></div>
     </div>
     <script>
@@ -55,6 +84,19 @@
         let flatList = [];
         let favorites = JSON.parse(localStorage.getItem('parfumeFavs') || '[]');
         let showOnlyFavs = false;
+        let sortKey = null, sortDir = 1;
+
+        // Lys/mørk mode
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+        document.getElementById('themeToggle').onclick = function() {
+            setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+        };
+        // Init theme
+        setTheme(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
 
         // Utility: Flatter JSON til liste
         function flattenData(data) {
@@ -66,23 +108,7 @@
             });
             return arr;
         }
-
-        // Utility: Unik liste
         function uniq(arr) { return [...new Set(arr)].sort(); }
-
-        // Load JSON fra fil
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                parfumeData = JSON.parse(evt.target.result);
-                flatList = flattenData(parfumeData);
-                updateFilters();
-                render();
-            };
-            reader.readAsText(file);
-        });
 
         // Filtrering og sortering
         function getFilteredList() {
@@ -104,6 +130,7 @@
                 );
             }
             if (showOnlyFavs) list = list.filter(p => favorites.includes(p.CODE));
+            if (sortKey) list = list.sort((a, b) => (a[sortKey]||'').localeCompare(b[sortKey]||'') * sortDir);
             return list;
         }
 
@@ -123,9 +150,8 @@
         }
 
         // Render parfumer
-        function render(sortKey = null, sortDir = 1) {
+        function render() {
             let list = getFilteredList();
-            if (sortKey) list = list.sort((a, b) => (a[sortKey]||'').localeCompare(b[sortKey]||'') * sortDir);
             const results = document.getElementById('results');
             if (!list.length) { results.innerHTML = "<i>Ingen resultater.</i>"; return; }
             results.innerHTML = list.map(p => `
@@ -144,7 +170,9 @@
                     <div><b>Sikkerhed:</b> ${p.confidence}</div>
                     <div><b>Beskrivelse:</b> ${p.shortDesc}</div>
                     <div class="links">
-                        <a href="https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${encodeURIComponent(p.CODE)}" target        <a href="https://shobi.dk/search?q=${encodeURIComponent(p['INSPIRED BY'])}" target="_blank">
+                        https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${encodeURIComponent(p.CODE)}
+                        https://shobi.dk/search?q=${encodeURIComponent(p['INSPIRED BY'])}
+                    </div>
                 </div>
             `).join('');
         }
@@ -178,19 +206,24 @@
             document.getElementById(id).oninput = () => render();
         });
 
-        // Sortering (klik på label for at sortere)
-        // Kan udvides med sorteringsknapper hvis ønsket
-
-        // Automatisk load hvis filen ligger på serveren
-        fetch('Parfumer_beriget_AI.json').then(r => r.ok ? r.json() : null).then(data => {
-            if (data) {
-                parfumeData = data;
-                flatList = flattenData(parfumeData);
-                updateFilters();
+        // Sortering
+        document.querySelectorAll('.sort-btn').forEach(btn => {
+            btn.onclick = function() {
+                if (sortKey === this.dataset.sort) sortDir *= -1;
+                else { sortKey = this.dataset.sort; sortDir = 1; }
+                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
                 render();
-            }
-        }).catch(()=>{});
+            };
+        });
 
+        // Automatisk load fra server
+        fetch('Parfumer_beriget_AI.json').then(r => r.json()).then(data => {
+            parfumeData = data;
+            flatList = flattenData(parfumeData);
+            updateFilters();
+            render();
+        }).catch(()=>{document.getElementById('results').innerHTML = "<b>Kunne ikke loade parfume-data.</b>";});
     </script>
 </body>
 </html>
