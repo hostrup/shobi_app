@@ -218,7 +218,7 @@
         });
 
         // Automatisk load fra server
-        fetch('Parfumer_beriget_AI.json').then(r => r.json()).then(data => {
+        fetch('parfumer_beriget_ai.json').then(r => r.json()).then(data => {
             parfumeData = data;
             flatList = flattenData(parfumeData);
             updateFilters();
@@ -227,3 +227,4 @@
     </script>
 </body>
 </html>
+
