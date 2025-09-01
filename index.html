@@ -1,450 +1,196 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Perfume Finder</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Parfume Klon Finder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .sort-icon { opacity: 0.4; transition: opacity 0.2s; }
-        .sort-icon.active { opacity: 1; }
-        
-        /* Custom styles for multi-select dropdown */
-        .multi-select-dropdown { position: relative; }
-        .multi-select-options {
-            max-height: 250px;
-            overflow-y: auto;
-        }
-
-        /* Dark mode styles */
-        .dark body { background-color: #111827; color: #d1d5db; }
-        .dark .bg-white { background-color: #1f2937; }
-        .dark .text-gray-900 { color: #f9fafb; }
-        .dark .text-gray-600 { color: #9ca3af; }
-        .dark .border-gray-300 { border-color: #4b5563; }
-        .dark .filter-input, .dark .multi-select-button { background-color: #374151; color: #d1d5db; }
-        .dark .table-container, .dark .cards-container .bg-white { border-color: #4b5563; }
-        .dark .divide-y > :not([hidden]) ~ :not([hidden]) { border-color: #4b5563; }
-        .dark .bg-gray-800 { background-color: #374151; }
-        .dark .even\:bg-gray-50:nth-child(even) { background-color: #374151; }
-        .dark .hover\:bg-blue-50:hover { background-color: #3b82f630; }
-        .dark #wishlistModal .bg-white { background-color: #1f2937; }
-        .dark #wishlistModal .border-b, .dark #wishlistModal .border-t { border-color: #4b5563; }
-        .dark #wishlistModal .text-gray-800 { color: #f9fafb; }
-
-        /* Mobile Card Layout */
-        @media (max-width: 768px) {
-            .table-container { display: none; }
-            .cards-container { display: block; }
-        }
-        @media (min-width: 769px) {
-            .table-container { display: block; }
-            .cards-container { display: none; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f7f7f7; }
+        header { background: #222; color: #fff; padding: 1em; text-align: center; }
+        .container { max-width: 900px; margin: auto; padding: 1em; }
+        .filters, .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-bottom: 1em; }
+        .filters > * { flex: 1 1 120px; min-width: 120px; }
+        .actions { justify-content: flex-end; }
+        input, select, button { padding: 0.5em; border-radius: 5px; border: 1px solid #ccc; }
+        button { background: #0077cc; color: #fff; border: none; cursor: pointer; }
+        button:active { background: #005fa3; }
+        .parfume-list { display: flex; flex-direction: column; gap: 1em; }
+        .parfume { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 1em; display: flex; flex-direction: column; gap: 0.5em; }
+        .parfume .row { display: flex; flex-wrap: wrap; gap: 1em; align-items: center; }
+        .brand { font-weight: bold; font-size: 1.1em; }
+        .fav-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: #eab308; }
+        .fav-btn.fav { color: #eab308; }
+        .fav-btn:not(.fav) { color: #bbb; }
+        .links a { margin-right: 1em; color: #0077cc; text-decoration: none; }
+        .links a:hover { text-decoration: underline; }
+        @media (max-width: 600px) {
+            .filters, .actions { flex-direction: column; }
+            .parfume .row { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 transition-colors duration-300">
-
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
-        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
-            <!-- Header with Theme Toggle -->
-            <div class="flex justify-between items-center mb-8">
-                <div class="text-center flex-grow">
-                    <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Interactive Perfume Finder</h1>
-                    <p class="text-gray-600 mt-2">Filter, sort, and create a wishlist of your favorite scents.</p>
-                </div>
-                <button id="theme-toggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-2xl">
-                    <span id="theme-icon">🌙</span>
-                </button>
-            </div>
-            
-            <!-- Filter Controls -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <input type="text" id="inspiredByFilter" placeholder="Filter by Name..." class="filter-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                <div id="brand-filter-container"></div>
-                <div id="type-filter-container"></div>
-                <div id="scent-type-filter-container"></div>
-                <div id="notes-filter-container" class="sm:col-span-2 lg:col-span-4"></div>
-            </div>
-
-            <!-- Desktop Table View -->
-            <div class="table-container border border-gray-200 rounded-lg overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-700">
-                    <thead class="bg-gray-800 text-gray-100 text-xs uppercase">
-                        <tr>
-                            <th class="px-6 py-3 cursor-pointer" data-sort="brand">Brand <span class="sort-icon">↕️</span></th>
-                            <th class="px-6 py-3 cursor-pointer" data-sort="category">Type <span class="sort-icon">↕️</span></th>
-                            <th class="px-6 py-3 cursor-pointer" data-sort="inspiredBy">Inspired By <span class="sort-icon">↕️</span></th>
-                            <th class="px-6 py-3">Description</th>
-                            <th class="px-6 py-3">Scent Type</th>
-                            <th class="px-6 py-3">Notes</th>
-                            <th class="px-6 py-3">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="perfumeTableBody" class="divide-y"></tbody>
-                </table>
-            </div>
-
-            <!-- Mobile Card View -->
-            <div id="perfumeCardsContainer" class="cards-container space-y-4"></div>
-            
-            <div id="no-results" class="text-center py-12 text-gray-500 hidden">
-                <p class="text-xl font-semibold">No Results Found</p>
-                <p class="mt-2">Try adjusting your filters.</p>
-            </div>
+<body>
+    <header>
+        <h1>Parfume Klon Finder</h1>
+        <small>Find kloner, filtrér, sorter og gem favoritter – mobilvenlig!</small>
+    </header>
+    <div class="container">
+        <div class="actions">
+            <input type="file" id="fileInput" accept=".json">
+            <button id="showFavsBtn">Vis kun favoritter</button>
+            <button id="resetFavsBtn">Nulstil favoritter</button>
         </div>
-    </div>
-
-    <!-- Wishlist Floating Button -->
-    <button id="wishlistBtn" class="fixed bottom-6 right-6 bg-purple-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-purple-700 transition">
-        <span>🛒</span>
-        <span id="wishlistCounter" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">0</span>
-    </button>
-
-    <!-- Wishlist Modal -->
-    <div id="wishlistModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[80vh] flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 class="text-xl font-bold text-gray-800">Your Wishlist</h3>
-                <button id="closeModal" class="text-2xl text-gray-500 hover:text-gray-800">&times;</button>
-            </div>
-            <div id="wishlistBody" class="p-6 overflow-y-auto"></div>
-            <div class="p-4 border-t flex justify-end">
-                <button id="copyWishlistBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Copy to Clipboard</button>
-            </div>
+        <div class="filters">
+            <select id="brandFilter"><option value="">Brand</option></select>
+            <select id="catFilter"><option value="">Kategori</option></select>
+            <select id="typeFilter"><option value="">Duftfamilie</option></select>
+            <select id="confFilter"><option value="">Sikkerhed</option></select>
+            <input type="text" id="searchInput" placeholder="Fritekstsøgning...">
         </div>
+        <div class="parfume-list" id="results"></div>
     </div>
-
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            // --- DOM ELEMENTS ---
-            const tableBody = document.getElementById('perfumeTableBody');
-            const cardsContainer = document.getElementById('perfumeCardsContainer');
-            const noResultsDiv = document.getElementById('no-results');
-            const sortHeaders = document.querySelectorAll('th[data-sort]');
-            const wishlistBtn = document.getElementById('wishlistBtn');
-            const wishlistCounter = document.getElementById('wishlistCounter');
-            const wishlistModal = document.getElementById('wishlistModal');
-            const closeModalBtn = document.getElementById('closeModal');
-            const copyWishlistBtn = document.getElementById('copyWishlistBtn');
-            const themeToggle = document.getElementById('theme-toggle');
-            const themeIcon = document.getElementById('theme-icon');
+        let parfumeData = {};
+        let flatList = [];
+        let favorites = JSON.parse(localStorage.getItem('parfumeFavs') || '[]');
+        let showOnlyFavs = false;
 
-            // --- STATE MANAGEMENT ---
-            let allPerfumeData = [];
-            let displayedData = [];
-            let wishlist = [];
-            let sortState = { column: 'brand', direction: 'asc' };
-            let activeFilters = {
-                brand: [],
-                inspiredBy: '',
-                type: [],
-                scentType: [],
-                notes: []
+        // Utility: Flatter JSON til liste
+        function flattenData(data) {
+            let arr = [];
+            Object.entries(data).forEach(([brand, cats]) => {
+                Object.entries(cats).forEach(([cat, parfumes]) => {
+                    parfumes.forEach(p => arr.push({...p, brand, cat}));
+                });
+            });
+            return arr;
+        }
+
+        // Utility: Unik liste
+        function uniq(arr) { return [...new Set(arr)].sort(); }
+
+        // Load JSON fra fil
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                parfumeData = JSON.parse(evt.target.result);
+                flatList = flattenData(parfumeData);
+                updateFilters();
+                render();
             };
-
-            // --- DATA FETCHING ---
-            async function loadPerfumeData() {
-                try {
-                    const response = await fetch('perfumes.json');
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    allPerfumeData = await response.json();
-                    initialize();
-                } catch (error) {
-                    console.error("Could not load perfume data:", error);
-                    const errorMessage = `<tr><td colspan="7" class="text-center text-red-500 p-6">Error: Could not load data from perfumes.json. Please ensure the file exists in the same directory.</td></tr>`;
-                    tableBody.innerHTML = errorMessage;
-                    cardsContainer.innerHTML = `<div class="text-center text-red-500 p-6">${errorMessage}</div>`;
-                }
-            }
-
-            // --- INITIALIZATION ---
-            function initialize() {
-                setupTheme();
-                setupMultiSelectDropdowns();
-                loadWishlistFromStorage();
-                applyFiltersAndSort();
-            }
-
-            // --- THEME LOGIC ---
-            function setupTheme() {
-                const isDarkMode = localStorage.getItem('theme') === 'dark';
-                if (isDarkMode) {
-                    document.documentElement.classList.add('dark');
-                    themeIcon.textContent = '☀️';
-                }
-                themeToggle.addEventListener('click', () => {
-                    document.documentElement.classList.toggle('dark');
-                    const isDark = document.documentElement.classList.contains('dark');
-                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                    themeIcon.textContent = isDark ? '☀️' : '🌙';
-                });
-            }
-            
-            // --- MULTI-SELECT DROPDOWN LOGIC ---
-            function createMultiSelectDropdown(containerId, items, placeholder, filterKey) {
-                const container = document.getElementById(containerId);
-                const dropdownId = `${containerId}-dropdown`;
-
-                container.innerHTML = `
-                    <div class="multi-select-dropdown w-full">
-                        <button id="${containerId}-button" class="multi-select-button w-full flex justify-between items-center px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                            <span class="truncate">${placeholder}</span>
-                            <span>▼</span>
-                        </button>
-                        <div id="${dropdownId}" class="multi-select-options absolute w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 rounded-lg shadow-lg z-10 hidden p-2">
-                            ${items.map(item => `
-                                <label class="flex items-center space-x-2 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-600 text-sm">
-                                    <input type="checkbox" value="${item}" data-filter-key="${filterKey}" class="form-checkbox h-4 w-4 text-blue-600 rounded">
-                                    <span>${item}</span>
-                                </label>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-
-                const button = document.getElementById(`${containerId}-button`);
-                const dropdown = document.getElementById(dropdownId);
-                
-                button.addEventListener('click', () => dropdown.classList.toggle('hidden'));
-                
-                document.addEventListener('click', (e) => {
-                    if (!container.contains(e.target)) {
-                        dropdown.classList.add('hidden');
-                    }
-                });
-
-                dropdown.addEventListener('change', (e) => {
-                    if (e.target.type === 'checkbox') {
-                        const key = e.target.dataset.filterKey;
-                        const checkedValues = Array.from(dropdown.querySelectorAll('input:checked')).map(cb => cb.value);
-                        activeFilters[key] = checkedValues;
-                        
-                        const buttonText = button.querySelector('span:first-child');
-                        if (checkedValues.length > 0) {
-                            buttonText.textContent = checkedValues.length > 2 ? `${checkedValues.length} selected` : checkedValues.join(', ');
-                        } else {
-                            buttonText.textContent = placeholder;
-                        }
-                        
-                        applyFiltersAndSort();
-                    }
-                });
-            }
-
-            function setupMultiSelectDropdowns() {
-                // Type Filter
-                createMultiSelectDropdown('type-filter-container', ['Male', 'Female', 'Unisex', 'Niche'], 'Filter by Type', 'type');
-                
-                // Brand Filter
-                const brands = [...new Set(allPerfumeData.map(p => p.brand))].sort();
-                createMultiSelectDropdown('brand-filter-container', brands, 'Filter by Brand', 'brand');
-
-                // Scent Type Filter
-                const scentTypes = [...new Set(allPerfumeData.map(p => p.scentType))].sort();
-                createMultiSelectDropdown('scent-type-filter-container', scentTypes, 'Filter by Scent Type', 'scentType');
-
-                // Notes Filter
-                const allNotes = new Set();
-                allPerfumeData.forEach(p => {
-                    const cleanedNotes = p.notes.replace(/<b>.*?<\/b>/g, '').replace(/<br>/g, ',').split(',');
-                    cleanedNotes.forEach(note => {
-                        const trimmedNote = note.trim();
-                        if (trimmedNote) allNotes.add(trimmedNote);
-                    });
-                });
-                createMultiSelectDropdown('notes-filter-container', [...allNotes].sort(), 'Filter by Notes', 'notes');
-            }
-
-            // --- WISHLIST LOGIC ---
-            function loadWishlistFromStorage() {
-                const savedWishlist = localStorage.getItem('perfumeWishlist');
-                if (savedWishlist) wishlist = JSON.parse(savedWishlist);
-                updateWishlistCounter();
-            }
-
-            function saveWishlistToStorage() {
-                localStorage.setItem('perfumeWishlist', JSON.stringify(wishlist));
-            }
-            
-            window.toggleWishlist = (code) => {
-                const index = wishlist.indexOf(code);
-                if (index > -1) wishlist.splice(index, 1);
-                else wishlist.push(code);
-                saveWishlistToStorage();
-                updateWishlistCounter();
-                renderAll();
-            };
-
-            function updateWishlistCounter() {
-                wishlistCounter.textContent = wishlist.length;
-            }
-
-            function renderWishlistModal() {
-                const wishlistBody = document.getElementById('wishlistBody');
-                if (wishlist.length === 0) {
-                    wishlistBody.innerHTML = `<p class="text-gray-500">Your wishlist is empty.</p>`;
-                    return;
-                }
-                const wishlistItems = allPerfumeData.filter(p => wishlist.includes(p.code));
-                wishlistBody.innerHTML = wishlistItems.map(p => `
-                    <div class="flex justify-between items-center py-2 border-b last:border-b-0">
-                        <div><p class="font-semibold">${p.inspiredBy}</p><p class="text-xs text-gray-500">${p.brand}</p></div>
-                        <span class="text-sm font-mono">${p.code}</span>
-                    </div>
-                `).join('');
-            }
-
-            // --- FILTERING & SORTING LOGIC ---
-            function applyFiltersAndSort() {
-                const typeMap = { 'Male': 'MP', 'Female': 'WP', 'Unisex': 'EL', 'Niche': 'AR' };
-                
-                activeFilters.inspiredBy = document.getElementById('inspiredByFilter').value.toLowerCase();
-
-                displayedData = allPerfumeData.filter(p => {
-                    const selectedTypeCodes = activeFilters.type.map(t => typeMap[t]);
-
-                    const brandMatch = activeFilters.brand.length === 0 || activeFilters.brand.includes(p.brand);
-                    const inspiredByMatch = !activeFilters.inspiredBy || p.inspiredBy.toLowerCase().includes(activeFilters.inspiredBy);
-                    const typeMatch = activeFilters.type.length === 0 || selectedTypeCodes.includes(p.category);
-                    const scentTypeMatch = activeFilters.scentType.length === 0 || activeFilters.scentType.includes(p.scentType);
-                    const notesMatch = activeFilters.notes.length === 0 || activeFilters.notes.every(note => p.notes.includes(note));
-
-                    return brandMatch && inspiredByMatch && typeMatch && scentTypeMatch && notesMatch;
-                });
-                
-                applySorting();
-            }
-
-            function applySorting() {
-                const { column, direction } = sortState;
-                displayedData.sort((a, b) => {
-                    const valA = a[column].toLowerCase();
-                    const valB = b[column].toLowerCase();
-                    if (valA < valB) return direction === 'asc' ? -1 : 1;
-                    if (valA > valB) return direction === 'asc' ? 1 : -1;
-                    return 0;
-                });
-                updateSortIcons();
-                renderAll();
-            }
-            
-            function updateSortIcons() {
-                sortHeaders.forEach(header => {
-                    const icon = header.querySelector('.sort-icon');
-                    if (header.dataset.sort === sortState.column) {
-                        icon.classList.add('active');
-                        icon.textContent = sortState.direction === 'asc' ? '🔼' : '🔽';
-                    } else {
-                        icon.classList.remove('active');
-                        icon.textContent = '↕️';
-                    }
-                });
-            }
-
-            // --- RENDERING LOGIC ---
-            function renderAll() {
-                populateTable(displayedData);
-                populateCards(displayedData);
-                noResultsDiv.classList.toggle('hidden', displayedData.length > 0);
-            }
-
-            function populateTable(data) {
-                const typeMap = { 'MP': 'Male', 'WP': 'Female', 'EL': 'Unisex', 'AR': 'Niche' };
-                tableBody.innerHTML = data.map(p => `
-                    <tr class="bg-white even:bg-gray-50 hover:bg-blue-50 transition-colors duration-200">
-                        <td class="px-6 py-4 font-medium text-gray-900">${p.brand}</td>
-                        <td class="px-6 py-4">${typeMap[p.category] || p.category}</td>
-                        <td class="px-6 py-4 font-semibold">${p.inspiredBy}</td>
-                        <td class="px-6 py-4 text-gray-600 text-xs">${p.description}</td>
-                        <td class="px-6 py-4 text-xs">${p.scentType}</td>
-                        <td class="px-6 py-4 text-xs">${p.notes}</td>
-                        <td class="px-6 py-4">
-                            <div class="flex flex-col space-y-2">
-                                <button onclick="toggleWishlist('${p.code}')" class="${wishlist.includes(p.code) ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-white text-xs font-semibold py-1 px-2 rounded-md transition">${wishlist.includes(p.code) ? 'Remove' : 'Add to Wishlist'}</button>
-                                <a href="https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${p.code}" target="_blank" class="text-center py-1 px-2 bg-blue-600 text-white text-xs font-semibold rounded-md hover:bg-blue-700">Shop</a>
-                                <a href="${p.fragrantica}" target="_blank" class="text-center py-1 px-2 bg-purple-600 text-white text-xs font-semibold rounded-md hover:bg-purple-700">Fragrantica</a>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
-            }
-
-            function populateCards(data) {
-                const typeMap = { 'MP': 'Male', 'WP': 'Female', 'EL': 'Unisex', 'AR': 'Niche' };
-                cardsContainer.innerHTML = data.map(p => `
-                    <div class="bg-white p-4 rounded-lg shadow border border-gray-200">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-bold text-lg">${p.inspiredBy}</h3>
-                                <p class="text-sm text-gray-500">${p.brand}</p>
-                                <span class="text-xs font-mono bg-gray-200 px-2 py-0.5 rounded">${typeMap[p.category] || p.category}</span>
-                            </div>
-                            <button onclick="toggleWishlist('${p.code}')" class="${wishlist.includes(p.code) ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-white text-xs font-semibold py-1 px-3 rounded-md transition">${wishlist.includes(p.code) ? 'Remove' : 'Add'}</button>
-                        </div>
-                        <div class="mt-4 pt-4 border-t">
-                            <p class="text-sm text-gray-600 mb-2">${p.description}</p>
-                            <p class="text-sm"><b class="font-semibold">Scent Type:</b> ${p.scentType}</p>
-                            <div class="text-xs mt-2">${p.notes}</div>
-                        </div>
-                        <div class="flex space-x-2 mt-4">
-                            <a href="https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${p.code}" target="_blank" class="flex-1 text-center py-2 px-2 bg-blue-600 text-white text-sm font-semibold rounded-md hover:bg-blue-700">Shop</a>
-                            <a href="${p.fragrantica}" target="_blank" class="flex-1 text-center py-2 px-2 bg-purple-600 text-white text-sm font-semibold rounded-md hover:bg-purple-700">Fragrantica</a>
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            // --- EVENT LISTENERS ---
-            document.getElementById('inspiredByFilter').addEventListener('input', applyFiltersAndSort);
-            
-            sortHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const column = header.dataset.sort;
-                    if (sortState.column === column) {
-                        sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
-                    } else {
-                        sortState.column = column;
-                        sortState.direction = 'asc';
-                    }
-                    applyFiltersAndSort();
-                });
-            });
-
-            wishlistBtn.addEventListener('click', () => {
-                renderWishlistModal();
-                wishlistModal.classList.remove('hidden');
-            });
-
-            closeModalBtn.addEventListener('click', () => wishlistModal.classList.add('hidden'));
-            
-            copyWishlistBtn.addEventListener('click', () => {
-                const wishlistItems = allPerfumeData.filter(p => wishlist.includes(p.code));
-                const textToCopy = wishlistItems.map(p => `- ${p.inspiredBy} (${p.brand}) - Code: ${p.code}`).join('\n');
-                
-                const textArea = document.createElement("textarea");
-                textArea.value = textToCopy;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    copyWishlistBtn.textContent = 'Copied!';
-                } catch (err) {
-                    console.error('Fallback: Oops, unable to copy', err);
-                    copyWishlistBtn.textContent = 'Error';
-                }
-                document.body.removeChild(textArea);
-
-                setTimeout(() => { copyWishlistBtn.textContent = 'Copy to Clipboard'; }, 2000);
-            });
-
-            // --- KICKSTART THE APP ---
-            loadPerfumeData();
+            reader.readAsText(file);
         });
+
+        // Filtrering og sortering
+        function getFilteredList() {
+            let list = flatList;
+            const brand = document.getElementById('brandFilter').value;
+            const cat = document.getElementById('catFilter').value;
+            const type = document.getElementById('typeFilter').value;
+            const conf = document.getElementById('confFilter').value;
+            const search = document.getElementById('searchInput').value.trim().toLowerCase();
+
+            if (brand) list = list.filter(p => p.brand === brand);
+            if (cat) list = list.filter(p => p.cat === cat);
+            if (type) list = list.filter(p => (p.scentType||'').toLowerCase() === type.toLowerCase());
+            if (conf) list = list.filter(p => (p.confidence||'').toLowerCase() === conf.toLowerCase());
+            if (search) {
+                list = list.filter(p =>
+                    [p.brand, p.cat, p["INSPIRED BY"], p.CODE, p.scentType, p.notes, p.shortDesc]
+                    .map(x => (x||'').toLowerCase()).some(x => x.includes(search))
+                );
+            }
+            if (showOnlyFavs) list = list.filter(p => favorites.includes(p.CODE));
+            return list;
+        }
+
+        // Opdater filter-dropdowns
+        function updateFilters() {
+            const brands = uniq(flatList.map(p => p.brand));
+            const cats = uniq(flatList.map(p => p.cat));
+            const types = uniq(flatList.map(p => p.scentType));
+            const confs = uniq(flatList.map(p => p.confidence));
+            const setOpts = (el, arr, label) => {
+                el.innerHTML = `<option value="">${label}</option>` + arr.map(x => `<option value="${x}">${x}</option>`).join('');
+            };
+            setOpts(document.getElementById('brandFilter'), brands, 'Brand');
+            setOpts(document.getElementById('catFilter'), cats, 'Kategori');
+            setOpts(document.getElementById('typeFilter'), types, 'Duftfamilie');
+            setOpts(document.getElementById('confFilter'), confs, 'Sikkerhed');
+        }
+
+        // Render parfumer
+        function render(sortKey = null, sortDir = 1) {
+            let list = getFilteredList();
+            if (sortKey) list = list.sort((a, b) => (a[sortKey]||'').localeCompare(b[sortKey]||'') * sortDir);
+            const results = document.getElementById('results');
+            if (!list.length) { results.innerHTML = "<i>Ingen resultater.</i>"; return; }
+            results.innerHTML = list.map(p => `
+                <div class="parfume">
+                    <div class="row">
+                        <span class="brand">${p.brand} (${p.cat})</span>
+                        <button class="fav-btn${favorites.includes(p.CODE) ? ' fav' : ''}" title="Favorit" onclick="toggleFav('${p.CODE}')">
+                            ${favorites.includes(p.CODE) ? '★' : '☆'}
+                        </button>
+                    </div>
+                    <div><b>Inspired by:</b> ${p["INSPIRED BY"]}</div>
+                    <div><b>CODE:</b> https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${encodeURIComponent(p.CODE)}</div>
+                    <div><b>Type:</b> ${p.scentType}</div>
+                    <div><b>Noter:</b> ${p.notes}</div>
+                    <div><b>Kilde:</b> ${p.notesSource}</div>
+                    <div><b>Sikkerhed:</b> ${p.confidence}</div>
+                    <div><b>Beskrivelse:</b> ${p.shortDesc}</div>
+                    <div class="links">
+                        <a href="https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${encodeURIComponent(p.CODE)}" target        <a href="https://shobi.dk/search?q=${encodeURIComponent(p['INSPIRED BY'])}" target="_blank">
+                </div>
+            `).join('');
+        }
+
+        // Favorit-funktion
+        window.toggleFav = function(code) {
+            if (favorites.includes(code)) favorites = favorites.filter(c => c !== code);
+            else favorites.push(code);
+            localStorage.setItem('parfumeFavs', JSON.stringify(favorites));
+            render();
+        };
+
+        // Vis kun favoritter
+        document.getElementById('showFavsBtn').onclick = function() {
+            showOnlyFavs = !showOnlyFavs;
+            this.textContent = showOnlyFavs ? "Vis alle" : "Vis kun favoritter";
+            render();
+        };
+
+        // Nulstil favoritter
+        document.getElementById('resetFavsBtn').onclick = function() {
+            if (confirm("Vil du fjerne alle favoritter?")) {
+                favorites = [];
+                localStorage.setItem('parfumeFavs', '[]');
+                render();
+            }
+        };
+
+        // Filtre og søgning
+        ['brandFilter','catFilter','typeFilter','confFilter','searchInput'].forEach(id => {
+            document.getElementById(id).oninput = () => render();
+        });
+
+        // Sortering (klik på label for at sortere)
+        // Kan udvides med sorteringsknapper hvis ønsket
+
+        // Automatisk load hvis filen ligger på serveren
+        fetch('Parfumer_beriget_AI.json').then(r => r.ok ? r.json() : null).then(data => {
+            if (data) {
+                parfumeData = data;
+                flatList = flattenData(parfumeData);
+                updateFilters();
+                render();
+            }
+        }).catch(()=>{});
+
     </script>
 </body>
 </html>
