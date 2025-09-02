@@ -10,8 +10,7 @@
     <script src="https://unpkg.com/slim-select@1.27.1/dist/slimselect.min.js"></script>
     <link href="https://unpkg.com/slim-select@1.27.1/dist/slimselect.min.css" rel="stylesheet"></link>
     <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
-    <!-- FIX: Removed mermaid.min.css to allow full custom theming of the table -->
-
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -56,7 +55,6 @@
         .stat-fade-out { opacity: 0; transform: translateY(-5px); }
 
         /* --- Library overrides for theming --- */
-        /* FIX: Added more specific theme rules for slim-select */
         :root { --ss-bg-color: var(--bg-tertiary); --ss-border-color: var(--border-color); --ss-main-color: var(--accent-primary); --ss-font-color: var(--text-primary); --ss-bg-color-hover: var(--bg-secondary); --ss-font-color-hover: var(--text-primary); --ss-highlight-color: var(--accent-secondary); }
         .ss-main { background-color: var(--ss-bg-color); border-color: var(--ss-border-color); }
         .ss-main .ss-single-selected, .ss-main .ss-multi-selected .ss-values .ss-value { background-color: var(--accent-primary); color: var(--bg-primary); }
@@ -66,14 +64,15 @@
         .ss-main .ss-content .ss-list .ss-option.ss-highlighted, .ss-main .ss-content .ss-list .ss-option:hover { background-color: var(--ss-bg-color-hover); color: var(--ss-highlight-color); }
         .ss-main .ss-content .ss-list .ss-option.ss-selected { background-color: var(--ss-bg-color-hover); color: var(--ss-highlight-color);}
 
-        
-        /* FIX: Enhanced Grid.js styling for dynamic theming */
         .gridjs-container, .gridjs-head, .gridjs-footer { background-color: var(--bg-secondary) !important; color: var(--text-primary) !important; border-color: var(--border-color) !important; }
         .gridjs-table, .gridjs-th, .gridjs-td { background-color: var(--bg-secondary) !important; color: var(--text-primary) !important; border-color: var(--border-color) !important; }
         .gridjs-search-input { background-color: var(--bg-tertiary) !important; color: var(--text-primary) !important; border-color: var(--border-color) !important; }
         .gridjs-tr:hover .gridjs-td, .gridjs-th-sort:hover { background-color: var(--bg-primary) !important; }
-        .gridjs-pagination .gridjs-pages button:hover { background-color: var(--bg-primary) !important; }
-        .gridjs-pagination .gridjs-pages button.gridjs-currentPage { background-color: var(--accent-primary) !important; color: var(--bg-primary) !important; }
+        /* FIX: Enhanced pagination styling */
+        .gridjs-summary { color: var(--text-secondary) !important; }
+        .gridjs-pagination .gridjs-pages button { background-color: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-primary); padding: 0.5rem 0.75rem; border-radius: 0.375rem; margin: 0 0.25rem; }
+        .gridjs-pagination .gridjs-pages button:hover { background-color: var(--bg-primary) !important; border-color: var(--accent-secondary); }
+        .gridjs-pagination .gridjs-pages button.gridjs-currentPage { background-color: var(--accent-primary) !important; color: var(--bg-primary) !important; border-color: var(--accent-primary) !important; }
     </style>
 </head>
 <body class="antialiased">
@@ -243,14 +242,19 @@
                 const brands = [...new Set(allPerfumes.map(p => p.brand))].sort();
                 brands.forEach(brand => dom.brandFilter.add(new Option(formatBrandName(brand), brand)));
                 const allNotes = [...new Set(allPerfumes.flatMap(p => p.notesArray))].sort();
-                notesSelect = new SlimSelect({ select: '#notes-filter', data: allNotes.map(note => ({ text: note, value: note })), settings: { placeholderText: 'Select notes...', searchText: 'No results' } });
+                 // FIX: Moved onChange into initialization config
+                notesSelect = new SlimSelect({ 
+                    select: '#notes-filter', 
+                    data: allNotes.map(note => ({ text: note, value: note })), 
+                    settings: { placeholderText: 'Select notes...', searchText: 'No results' },
+                    onChange: () => applyFilters()
+                });
             }
 
             function applyFilters() {
                 const searchTerm = dom.searchInput.value.toLowerCase();
                 const selectedBrand = dom.brandFilter.value;
                 const selectedType = dom.typeFilter.value;
-                // FIX: Correct method is .selected() not .getSelected()
                 const selectedNotes = notesSelect.selected(); 
                 const showFavoritesOnly = dom.favoritesToggle.checked;
                 
@@ -328,7 +332,7 @@
                 dom.brandFilter.addEventListener('change', applyFilters);
                 dom.typeFilter.addEventListener('change', applyFilters);
                 dom.favoritesToggle.addEventListener('change', applyFilters);
-                notesSelect.slim.onChange = () => applyFilters();
+                // The onChange is now handled in the SlimSelect constructor
                 
                 dom.viewToggleCard.addEventListener('click', () => switchView('card')); 
                 dom.viewToggleTable.addEventListener('click', () => switchView('table'));
@@ -436,6 +440,4 @@
     </script>
 </body>
 </html>
-
-
 
