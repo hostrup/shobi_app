@@ -1,229 +1,290 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="da" class="scroll-smooth" data-theme="solarized-dark">
 <head>
     <meta charset="UTF-8">
-    <title>Parfume Klon Finder</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parfume Inspiration & Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+    <link href="https://unpkg.com/slim-select@latest/dist/slimselect.min.css" rel="stylesheet"></link>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #0077cc;
-            --bg: #f7f7f7;
-            --card: #fff;
-            --text: #222;
-            --accent: #eab308;
-            --shadow: 0 2px 8px #0001;
+        /* --- THEME DEFINITIONS --- */
+        :root, html[data-theme='solarized-dark'] {
+            --bg-primary: #002b36; --bg-secondary: #073642; --bg-tertiary: #002b36;
+            --text-primary: #839496; --text-secondary: #93a1a1; --text-header: #eee8d5;
+            --border-color: #586e75;
+            --accent-primary: #2aa198; --accent-secondary: #268bd2; --accent-danger: #dc322f; --accent-love: #d33682;
+            --chart-bg: #268bd2;
+            --chart-doughnut-bg: '#268bd2', '#6c71c4', '#d33682', '#dc322f', '#cb4b16', '#b58900';
         }
-        [data-theme="dark"] {
-            --primary: #60a5fa;
-            --bg: #18181b;
-            --card: #23232b;
-            --text: #f3f3f3;
-            --accent: #facc15;
-            --shadow: 0 2px 8px #0005;
+        html[data-theme='dracula'] {
+            --bg-primary: #282a36; --bg-secondary: #44475a; --bg-tertiary: #21222C;
+            --text-primary: #f8f8f2; --text-secondary: #bd93f9; --text-header: #f8f8f2;
+            --border-color: #6272a4;
+            --accent-primary: #50fa7b; --accent-secondary: #8be9fd; --accent-danger: #ff5555; --accent-love: #ff79c6;
+            --chart-bg: #bd93f9;
+            --chart-doughnut-bg: '#ff79c6', '#bd93f9', '#50fa7b', '#ffb86c', '#8be9fd', '#f1fa8c';
         }
-        html, body { height: 100%; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); min-height: 100vh; }
-        header { background: var(--primary); color: #fff; padding: 1.2em 0 1em 0; text-align: center; box-shadow: var(--shadow);}
-        .container { max-width: 900px; margin: auto; padding: 1em; }
-        .filters, .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-bottom: 1em; }
-        .filters > * { flex: 1 1 120px; min-width: 120px; }
-        .actions { justify-content: flex-end; align-items: center; }
-        input, select, button { padding: 0.5em; border-radius: 5px; border: 1px solid #ccc; font-size: 1em; }
-        button { background: var(--primary); color: #fff; border: none; cursor: pointer; transition: background 0.2s; }
-        button:active { background: #005fa3; }
-        .theme-toggle { background: none; border: none; font-size: 1.5em; margin-left: 1em; color: var(--accent); cursor: pointer; }
-        .parfume-list { display: flex; flex-direction: column; gap: 1em; }
-        .parfume { background: var(--card); border-radius: 12px; box-shadow: var(--shadow); padding: 1em; display: flex; flex-direction: column; gap: 0.5em; transition: box-shadow 0.2s; }
-        .parfume:hover { box-shadow: 0 4px 16px #0002; }
-        .parfume .row { display: flex; flex-wrap: wrap; gap: 1em; align-items: center; }
-        .brand { font-weight: bold; font-size: 1.1em; letter-spacing: 0.5px; }
-        .fav-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--accent); }
-        .fav-btn.fav { color: var(--accent); }
-        .fav-btn:not(.fav) { color: #bbb; }
-        .links a { margin-right: 1em; color: var(--primary); text-decoration: none; font-weight: 500; }
-        .links a:hover { text-decoration: underline; }
-        .sort-btn { background: none; border: none; color: var(--primary); font-size: 1em; cursor: pointer; margin-left: 0.2em; }
-        .sort-btn.active { font-weight: bold; }
-        @media (max-width: 600px) {
-            .filters, .actions { flex-direction: column; }
-            .parfume .row { flex-direction: column; align-items: flex-start; }
-            .container { padding: 0.5em; }
+        html[data-theme='nord'] {
+            --bg-primary: #2e3440; --bg-secondary: #3b4252; --bg-tertiary: #292e39;
+            --text-primary: #d8dee9; --text-secondary: #e5e9f0; --text-header: #eceff4;
+            --border-color: #4c566a;
+            --accent-primary: #88c0d0; --accent-secondary: #81a1c1; --accent-danger: #bf616a; --accent-love: #b48ead;
+            --chart-bg: #5e81ac;
+            --chart-doughnut-bg: '#8fbcbb', '#88c0d0', '#81a1c1', '#b48ead', '#a3be8c', '#d08770';
         }
+        html[data-theme='gruvbox-light'] {
+            --bg-primary: #fbf1c7; --bg-secondary: #ebdbb2; --bg-tertiary: #f9f5d7;
+            --text-primary: #3c3836; --text-secondary: #504945; --text-header: #282828;
+            --border-color: #d5c4a1;
+            --accent-primary: #458588; --accent-secondary: #076678; --accent-danger: #9d0006; --accent-love: #b16286;
+            --chart-bg: #458588;
+            --chart-doughnut-bg: '#b16286', '#689d6a', '#458588', '#d79921', '#98971a', '#d65d0e';
+        }
+        
+        /* --- Base Styles using CSS Variables --- */
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-primary); color: var(--text-primary); transition: background-color 0.3s, color 0.3s; }
+        .chart-container { position: relative; height: 40vh; width: 100%; }
+        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: var(--bg-secondary); } ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; } ::-webkit-scrollbar-thumb:hover { background: var(--text-primary); }
+        .glass-effect { background: color-mix(in srgb, var(--bg-secondary), transparent 20%); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid color-mix(in srgb, var(--border-color), transparent 70%); }
+        .favorite-btn .heart-outline { display: block; } .favorite-btn .heart-solid { display: none; } .favorite-btn.favorited .heart-outline { display: none; } .favorite-btn.favorited .heart-solid { display: block; }
+
+        /* --- Library Overrides for Theming --- */
+        /* Slim Select */
+        :root { --ss-bg-color: var(--bg-tertiary); --ss-border-color: var(--border-color); --ss-main-color: var(--accent-primary); --ss-font-color: var(--text-primary); --ss-bg-color-hover: var(--bg-secondary); --ss-font-color-hover: var(--text-secondary); --ss-highlight-color: var(--accent-secondary); }
+        .ss-main .ss-single-selected, .ss-main .ss-multi-selected .ss-values .ss-value { background-color: var(--ss-bg-color-hover); color: var(--ss-highlight-color); }
+        .ss-main .ss-content .ss-list .ss-option.ss-highlighted, .ss-main .ss-content .ss-list .ss-option:hover { background-color: var(--ss-bg-color-hover); color: var(--ss-highlight-color); }
+        
+        /* Grid.js */
+        .gridjs-table, .gridjs-head .gridjs-th, .gridjs-footer { background-color: var(--bg-secondary); color: var(--text-primary); border-color: var(--border-color); }
+        .gridjs-tr:hover .gridjs-td, .gridjs-th-sort:hover { background-color: var(--bg-primary); }
+        .gridjs-pagination .gridjs-pages button:hover { background-color: var(--bg-primary); }
+        .gridjs-pagination .gridjs-pages button.gridjs-currentPage { background-color: var(--accent-primary); color: var(--bg-primary); }
     </style>
 </head>
-<body>
-    <header>
-        <h1>Parfume Klon Finder</h1>
-        <small>Find kloner, filtrér, sorter og gem favoritter – mobilvenlig!</small>
-        <button class="theme-toggle" id="themeToggle" title="Skift lys/mørk">🌙</button>
-    </header>
-    <div class="container">
-        <div class="actions">
-            <button id="showFavsBtn">Vis kun favoritter</button>
-            <button id="resetFavsBtn">Nulstil favoritter</button>
-        </div>
-        <div class="filters">
-            <select id="brandFilter"><option value="">Brand</option></select>
-            <select id="catFilter"><option value="">Kategori</option></select>
-            <select id="typeFilter"><option value="">Duftfamilie</option></select>
-            <select id="confFilter"><option value="">Sikkerhed</option></select>
-            <input type="text" id="searchInput" placeholder="Fritekstsøgning...">
-        </div>
-        <div class="actions" style="justify-content: flex-start; margin-bottom: 0;">
-            <span>Sortér efter:</span>
-            <button class="sort-btn" data-sort="brand">Brand</button>
-            <button class="sort-btn" data-sort="cat">Kategori</button>
-            <button class="sort-btn" data-sort="scentType">Duftfamilie</button>
-            <button class="sort-btn" data-sort="confidence">Sikkerhed</button>
-            <button class="sort-btn" data-sort="INSPIRED BY">Navn</button>
-        </div>
-        <div class="parfume-list" id="results"></div>
-    </div>
-    <script>
-        let parfumeData = {};
-        let flatList = [];
-        let favorites = JSON.parse(localStorage.getItem('parfumeFavs') || '[]');
-        let showOnlyFavs = false;
-        let sortKey = null, sortDir = 1;
+<body class="antialiased">
 
-        // Lys/mørk mode
-        function setTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
-        }
-        document.getElementById('themeToggle').onclick = function() {
-            setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-        };
-        // Init theme
-        setTheme(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
-
-        // Utility: Flatter JSON til liste
-        function flattenData(data) {
-            let arr = [];
-            Object.entries(data).forEach(([brand, cats]) => {
-                Object.entries(cats).forEach(([cat, parfumes]) => {
-                    parfumes.forEach(p => arr.push({...p, brand, cat}));
-                });
-            });
-            return arr;
-        }
-        function uniq(arr) { return [...new Set(arr)].sort(); }
-
-        // Filtrering og sortering
-        function getFilteredList() {
-            let list = flatList;
-            const brand = document.getElementById('brandFilter').value;
-            const cat = document.getElementById('catFilter').value;
-            const type = document.getElementById('typeFilter').value;
-            const conf = document.getElementById('confFilter').value;
-            const search = document.getElementById('searchInput').value.trim().toLowerCase();
-
-            if (brand) list = list.filter(p => p.brand === brand);
-            if (cat) list = list.filter(p => p.cat === cat);
-            if (type) list = list.filter(p => (p.scentType||'').toLowerCase() === type.toLowerCase());
-            if (conf) list = list.filter(p => (p.confidence||'').toLowerCase() === conf.toLowerCase());
-            if (search) {
-                list = list.filter(p =>
-                    [p.brand, p.cat, p["INSPIRED BY"], p.CODE, p.scentType, p.notes, p.shortDesc]
-                    .map(x => (x||'').toLowerCase()).some(x => x.includes(search))
-                );
-            }
-            if (showOnlyFavs) list = list.filter(p => favorites.includes(p.CODE));
-            if (sortKey) list = list.sort((a, b) => (a[sortKey]||'').localeCompare(b[sortKey]||'') * sortDir);
-            return list;
-        }
-
-        // Opdater filter-dropdowns
-        function updateFilters() {
-            const brands = uniq(flatList.map(p => p.brand));
-            const cats = uniq(flatList.map(p => p.cat));
-            const types = uniq(flatList.map(p => p.scentType));
-            const confs = uniq(flatList.map(p => p.confidence));
-            const setOpts = (el, arr, label) => {
-                el.innerHTML = `<option value="">${label}</option>` + arr.map(x => `<option value="${x}">${x}</option>`).join('');
-            };
-            setOpts(document.getElementById('brandFilter'), brands, 'Brand');
-            setOpts(document.getElementById('catFilter'), cats, 'Kategori');
-            setOpts(document.getElementById('typeFilter'), types, 'Duftfamilie');
-            setOpts(document.getElementById('confFilter'), confs, 'Sikkerhed');
-        }
-
-        // Render parfumer
-        function render() {
-            let list = getFilteredList();
-            const results = document.getElementById('results');
-            if (!list.length) { results.innerHTML = "<i>Ingen resultater.</i>"; return; }
-            results.innerHTML = list.map(p => `
-                <div class="parfume">
-                    <div class="row">
-                        <span class="brand">${p.brand} (${p.cat})</span>
-                        <button class="fav-btn${favorites.includes(p.CODE) ? ' fav' : ''}" title="Favorit" onclick="toggleFav('${p.CODE}')">
-                            ${favorites.includes(p.CODE) ? '★' : '☆'}
-                        </button>
-                    </div>
-                    <div><b>Inspired by:</b> ${p["INSPIRED BY"]}</div>
-                    <div><b>CODE:</b> https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${encodeURIComponent(p.CODE)}</div>
-                    <div><b>Type:</b> ${p.scentType}</div>
-                    <div><b>Noter:</b> ${p.notes}</div>
-                    <div><b>Kilde:</b> ${p.notesSource}</div>
-                    <div><b>Sikkerhed:</b> ${p.confidence}</div>
-                    <div><b>Beskrivelse:</b> ${p.shortDesc}</div>
-                    <div class="links">
-                        https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${encodeURIComponent(p.CODE)}
-                        https://shobi.dk/search?q=${encodeURIComponent(p['INSPIRED BY'])}
+    <!-- Header Section -->
+    <header class="bg-[var(--bg-secondary)] shadow-lg sticky top-0 z-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-2xl sm:text-3xl font-bold text-[var(--text-header)] tracking-tight">Parfume Finder</h1>
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <!-- Theme Switcher -->
+                <div class="relative" id="theme-switcher">
+                    <button id="theme-toggle-btn" class="p-2 rounded-full hover:bg-[var(--bg-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]" title="Skift tema">
+                        <svg class="w-6 h-6 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                    </button>
+                    <div id="theme-menu" class="absolute right-0 mt-2 w-48 bg-[var(--bg-secondary)] rounded-md shadow-lg py-1 z-50 hidden ring-1 ring-[var(--border-color)]">
+                        <a href="#" class="block px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--bg-primary)]" data-theme="solarized-dark">Solarized Dark</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--bg-primary)]" data-theme="dracula">Dracula</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--bg-primary)]" data-theme="nord">Nord</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--bg-primary)]" data-theme="gruvbox-light">Gruvbox Light</a>
                     </div>
                 </div>
-            `).join('');
-        }
+                <button id="dashboard-toggle" class="p-2 rounded-full hover:bg-[var(--bg-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]" title="Vis dashboard">
+                    <svg class="w-6 h-6 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                </button>
+                <button id="cart-toggle" class="relative p-2 rounded-full hover:bg-[var(--bg-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]" title="Vis indkøbskurv">
+                    <svg class="w-6 h-6 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span id="cart-count" class="absolute top-0 right-0 bg-[var(--accent-secondary)] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center transform translate-x-1/2 -translate-y-1/2">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
 
-        // Favorit-funktion
-        window.toggleFav = function(code) {
-            if (favorites.includes(code)) favorites = favorites.filter(c => c !== code);
-            else favorites.push(code);
-            localStorage.setItem('parfumeFavs', JSON.stringify(favorites));
-            render();
-        };
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="bg-[var(--bg-secondary)] p-4 rounded-xl shadow-md mb-8 space-y-4">
+            <div class="relative rounded-md shadow-sm">
+                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-[var(--border-color)]" xmlns="http://www.w.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
+                 </div>
+                 <input type="text" id="search" placeholder="Søg bredt på navn, mærke, noter, type..." class="bg-[var(--bg-tertiary)] text-[var(--text-primary)] border-[var(--border-color)] focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] block w-full pl-10 sm:text-sm rounded-md py-2">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+                <div>
+                    <label for="brand-filter" class="block text-sm font-medium text-[var(--text-secondary)]">Mærke</label>
+                    <select id="brand-filter" class="mt-1 block w-full pl-3 pr-10 py-2 text-base bg-[var(--bg-tertiary)] text-[var(--text-primary)] border-[var(--border-color)] focus:outline-none focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] sm:text-sm rounded-md"><option value="">Alle Mærker</option></select>
+                </div>
+                <div>
+                     <label for="type-filter" class="block text-sm font-medium text-[var(--text-secondary)]">Type</label>
+                    <select id="type-filter" class="mt-1 block w-full pl-3 pr-10 py-2 text-base bg-[var(--bg-tertiary)] text-[var(--text-primary)] border-[var(--border-color)] focus:outline-none focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] sm:text-sm rounded-md">
+                        <option value="">Alle Typer</option><option value="WP">Kvinde</option><option value="MP">Mand</option><option value="EL">Unisex</option><option value="AR">Niche</option>
+                    </select>
+                </div>
+                <div class="lg:col-span-2">
+                     <label for="notes-filter" class="block text-sm font-medium text-[var(--text-secondary)]">Duftnoter</label>
+                     <select id="notes-filter" multiple class="mt-1"></select>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center justify-between pt-2 border-t border-[var(--border-color)]/50">
+                <div class="flex items-center space-x-2">
+                    <button id="view-toggle-card" class="p-2 rounded-md bg-[var(--accent-primary)] text-[var(--bg-primary)]" title="Vis som kort">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+                    </button>
+                    <button id="view-toggle-table" class="p-2 rounded-md hover:bg-[var(--border-color)]" title="Vis som tabel">
+                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    </button>
+                </div>
+                <label for="favorites-toggle" class="flex items-center cursor-pointer">
+                    <span class="mr-3 text-sm font-medium text-[var(--text-secondary)]">Kun favoritter</span>
+                    <input type="checkbox" id="favorites-toggle" class="sr-only peer">
+                    <div class="relative w-11 h-6 bg-[var(--border-color)] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--accent-primary)]"></div>
+                </label>
+            </div>
+        </div>
+        <div id="stats-banner" class="bg-[var(--bg-secondary)] p-6 rounded-xl shadow-md mb-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+             <div><h4 class="text-sm font-bold uppercase text-[var(--text-secondary)] tracking-wider">Mest Populære Note</h4><p id="popular-note" class="text-2xl font-bold text-[var(--accent-primary)] mt-1">-</p></div>
+             <div><h4 class="text-sm font-bold uppercase text-[var(--text-secondary)] tracking-wider">Mærke med Flest Niche Dufte</h4><p id="top-niche-brand" class="text-2xl font-bold text-[var(--accent-primary)] mt-1">-</p></div>
+             <div><h4 class="text-sm font-bold uppercase text-[var(--text-secondary)] tracking-wider">Procentdel Frugtige Dufte</h4><p id="fruity-percentage" class="text-2xl font-bold text-[var(--accent-primary)] mt-1">-</p></div>
+        </div>
+        <div id="perfume-count" class="mb-4 text-[var(--text-secondary)]"></div>
+        <div id="card-view" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+        <div id="table-view" class="hidden"></div>
+        <div id="no-results" class="hidden text-center py-16">
+            <h3 class="text-xl font-semibold text-[var(--text-secondary)]">Ingen resultater fundet</h3>
+            <p class="text-[var(--text-primary)] mt-2">Prøv at justere dine søge- eller filterkriterier.</p>
+        </div>
+        <div id="load-more-container" class="text-center mt-8">
+            <button id="load-more-btn" class="bg-[var(--accent-primary)] text-[var(--bg-primary)] font-bold py-2 px-6 rounded-lg hover:bg-[var(--accent-secondary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--bg-primary)] focus:ring-[var(--accent-primary)] transition">Vis Flere</button>
+        </div>
+    </main>
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-96 transform translate-x-full transition-transform duration-300 ease-in-out z-40"><div class="h-full flex flex-col glass-effect shadow-2xl"><div class="p-6 flex justify-between items-center border-b border-[var(--border-color)]"><h2 class="text-2xl font-bold text-[var(--text-header)]">Din Kurv</h2><button id="close-cart" class="p-2 rounded-full hover:bg-[var(--bg-secondary)]"><svg class="w-6 h-6 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div id="cart-items" class="flex-grow p-6 overflow-y-auto space-y-4"><p id="empty-cart-message" class="text-[var(--text-primary)]">Din kurv er tom.</p></div><div class="p-6 border-t border-[var(--border-color)]"><button id="copy-codes" class="w-full bg-[var(--accent-secondary)] text-white font-bold py-3 px-4 rounded-lg hover:bg-[var(--accent-primary)] transition disabled:opacity-50" disabled>Kopier Koder</button></div></div></div>
+    <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-30 hidden"></div>
+    <div id="dashboard-modal" class="fixed inset-0 bg-black bg-opacity-70 z-30 hidden flex items-center justify-center p-4"><div class="bg-[var(--bg-secondary)] rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col"><div class="p-6 flex justify-between items-center border-b border-[var(--border-color)]"><h2 class="text-2xl font-bold text-[var(--text-header)]">Dashboard & Statistik</h2><button id="close-dashboard" class="p-2 rounded-full hover:bg-[var(--bg-primary)]"><svg class="w-6 h-6 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><div class="p-6 overflow-y-auto"><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div class="bg-[var(--bg-tertiary)] p-6 rounded-xl"><h3 class="text-lg font-semibold mb-4 text-center text-[var(--text-secondary)]">Parfumer pr. Mærke</h3><div class="chart-container"><canvas id="brandChart"></canvas></div></div><div class="bg-[var(--bg-tertiary)] p-6 rounded-xl"><h3 class="text-lg font-semibold mb-4 text-center text-[var(--text-secondary)]">Fordeling af Dufttype</h3><div class="chart-container"><canvas id="scentTypeChart"></canvas></div></div></div><div class="mt-8 bg-[var(--bg-tertiary)] p-6 rounded-xl"><h3 class="text-lg font-semibold mb-4 text-[var(--text-secondary)]">Sjove Fakta & Inspiration</h3><div class="space-y-3 text-[var(--text-primary)]"><p>❄️ <span class="font-semibold text-[var(--text-secondary)]">Til de kolde måneder?</span> Prøv at søge efter noter som 'vanilje', 'ceder', eller 'krydderi'.</p><p>🏢 <span class="font-semibold text-[var(--text-secondary)]">Til kontoret?</span> 'Aromatic' og 'citrus' dufte er ofte friske og professionelle.</p><p>✨ <span class="font-semibold text-[var(--text-secondary)]">Vidste du at...</span> der er <span id="brand-count" class="font-bold text-[var(--accent-primary)]">0</span> mærker og <span id="perfume-total-count" class="font-bold text-[var(--accent-primary)]">0</span> dufte i denne samling?</p></div></div></div></div></div>
+    <div id="notification" class="fixed bottom-5 right-5 bg-[var(--text-header)] text-[var(--bg-primary)] py-2 px-5 rounded-lg shadow-lg opacity-0 transform translate-y-2 transition-all duration-300">Koder kopieret!</div>
 
-        // Vis kun favoritter
-        document.getElementById('showFavsBtn').onclick = function() {
-            showOnlyFavs = !showOnlyFavs;
-            this.textContent = showOnlyFavs ? "Vis alle" : "Vis kun favoritter";
-            render();
-        };
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const perfumeData={"ACQUA DI PARMA":{WP:[{INSPIRED:"BLU MEDITERRANEO ARANCIA DI CAPRI",CODE:"2417-ACQ",scentType:"Aromatic Aquatic",notes:"Top: Marine, bergamot/citron | Heart: Lavendel, rosmarin | Base: Ceder, vetiver, musk"},{INSPIRED:"BLU MEDITERRANEO BERGAMOTTO DI CALABRIA",CODE:"2416-ACQ",scentType:"Aromatic",notes:"Top: Bergamot, citron | Heart: Ingefær, blomster | Base: Vetiver, musk"}]},"AGENT PROVOCATEUR":{WP:[{INSPIRED:"AGENT PROVOCATEUR",CODE:"119-AGE",scentType:"Floral Woody Musk",notes:"Top: Safran, magnolia | Heart: Gardenia, vetiver, rose | Base: Amber, musk, ceder"}]},"ARMANI":{MP:[{INSPIRED:"ACQUA DI GIO",CODE:"94-ARM",scentType:"Aromatic Aquatic",notes:"Top: lime, citron | Heart: marine, jasmin | Base: ceder, musk"}],WP:[{INSPIRED:"MY WAY",CODE:"1952-ARM",scentType:"Floral",notes:"Top: appelsinblomst, bergamot | Heart: tuberose, jasmin | Base: vanilje, hvid musk, ceder"}],AR:[]},"YVES SAINT LAURENT":{MP:[{INSPIRED:"Y",CODE:"1517-YSL",scentType:"Aromatic Fougère",notes:"Top: aldehyder, bergamot, ingefær | Heart: salvie, geranium | Base: ambergris, røgelse, ceder"}],WP:[{INSPIRED:"BLACK OPIUM",CODE:"1134-YSL",scentType:"Amber Vanilla",notes:"Top: pære, pink peber | Heart: kaffe, jasmin | Base: vanilje, patchouli, ceder"}]}};
+            
+            let allPerfumes = [], cart = [], favorites = [];
+            let currentView = 'card', currentPage = 1, currentFilteredPerfumes = [];
+            const ITEMS_PER_PAGE = 20;
+            let notesSelect, grid, brandChartInstance, scentTypeChartInstance;
 
-        // Nulstil favoritter
-        document.getElementById('resetFavsBtn').onclick = function() {
-            if (confirm("Vil du fjerne alle favoritter?")) {
-                favorites = [];
-                localStorage.setItem('parfumeFavs', '[]');
-                render();
+            const dom = { cardView: document.getElementById('card-view'), tableView: document.getElementById('table-view'), perfumeCount: document.getElementById('perfume-count'), noResults: document.getElementById('no-results'), loadMoreBtn: document.getElementById('load-more-btn'), loadMoreContainer: document.getElementById('load-more-container'), searchInput: document.getElementById('search'), brandFilter: document.getElementById('brand-filter'), typeFilter: document.getElementById('type-filter'), notesFilter: document.getElementById('notes-filter'), favoritesToggle: document.getElementById('favorites-toggle'), viewToggleCard: document.getElementById('view-toggle-card'), viewToggleTable: document.getElementById('view-toggle-table'), cart: { toggle: document.getElementById('cart-toggle'), sidebar: document.getElementById('cart-sidebar'), overlay: document.getElementById('cart-overlay'), closeBtn: document.getElementById('close-cart'), itemsContainer: document.getElementById('cart-items'), count: document.getElementById('cart-count'), copyBtn: document.getElementById('copy-codes'), emptyMsg: document.getElementById('empty-cart-message') }, dashboard: { toggle: document.getElementById('dashboard-toggle'), modal: document.getElementById('dashboard-modal'), closeBtn: document.getElementById('close-dashboard'), brandCount: document.getElementById('brand-count'), perfumeTotalCount: document.getElementById('perfume-total-count') }, stats: { popularNote: document.getElementById('popular-note'), topNicheBrand: document.getElementById('top-niche-brand'), fruityPercentage: document.getElementById('fruity-percentage') }, notification: document.getElementById('notification'), theme: { switcher: document.getElementById('theme-switcher'), toggleBtn: document.getElementById('theme-toggle-btn'), menu: document.getElementById('theme-menu') } };
+            const typeMap = { 'WP': 'Kvinde', 'MP': 'Mand', 'EL': 'Unisex', 'AR': 'Niche' };
+
+            // --- CORE ---
+            function init() {
+                loadState();
+                allPerfumes = Object.keys(perfumeData).flatMap(brand => Object.keys(perfumeData[brand]).flatMap(type => (perfumeData[brand][type] || []).map(perfume => { const notesArray = perfume.notes.split(/[:|]/).slice(1).flatMap(part => part.split(',')).map(n => formatBrandName(n.trim())).filter(Boolean); return { ...perfume, brand, type, notesArray }; })));
+                currentFilteredPerfumes = [...allPerfumes];
+                populateFilters();
+                initTableView();
+                render(true);
+                updateDashboardStats();
+                calculateAndRenderStats();
+                setupEventListeners();
             }
-        };
+            
+            // --- DATA & STATE ---
+            function loadState() {
+                favorites = JSON.parse(localStorage.getItem('perfumeFavorites')) || [];
+                const savedTheme = localStorage.getItem('perfumeTheme') || 'solarized-dark';
+                applyTheme(savedTheme);
+            }
+            function saveFavorites() { localStorage.setItem('perfumeFavorites', JSON.stringify(favorites)); }
+            
+            // --- THEME ---
+            function applyTheme(themeName) {
+                document.documentElement.setAttribute('data-theme', themeName);
+                localStorage.setItem('perfumeTheme', themeName);
+                if (brandChartInstance) { createCharts(); } // Redraw charts on theme change
+            }
 
-        // Filtre og søgning
-        ['brandFilter','catFilter','typeFilter','confFilter','searchInput'].forEach(id => {
-            document.getElementById(id).oninput = () => render();
+            // --- FILTERS & RENDERING ---
+            function populateFilters() {
+                const brands = [...new Set(allPerfumes.map(p => p.brand))].sort();
+                brands.forEach(brand => dom.brandFilter.add(new Option(formatBrandName(brand), brand)));
+                const allNotes = [...new Set(allPerfumes.flatMap(p => p.notesArray))].sort();
+                allNotes.forEach(note => dom.notesFilter.add(new Option(note, note)));
+                notesSelect = new SlimSelect({ select: '#notes-filter', settings: { placeholderText: 'Vælg noter...', searchText: 'Ingen resultater' } });
+            }
+            function applyFilters() {
+                const searchTerm = dom.searchInput.value.toLowerCase(), selectedBrand = dom.brandFilter.value, selectedType = dom.typeFilter.value, selectedNotes = notesSelect.getSelected(), showFavoritesOnly = dom.favoritesToggle.checked;
+                currentFilteredPerfumes = allPerfumes.filter(p => {
+                    if (showFavoritesOnly && !favorites.includes(p.CODE)) return false;
+                    if (selectedBrand && p.brand !== selectedBrand) return false;
+                    if (selectedType && p.type !== selectedType) return false;
+                    if (selectedNotes.length > 0 && !selectedNotes.every(note => p.notesArray.includes(note))) return false;
+                    if (searchTerm) { return (p.brand.toLowerCase().includes(searchTerm) || p['INSPIRED BY'].toLowerCase().includes(searchTerm) || p.notes.toLowerCase().includes(searchTerm) || typeMap[p.type].toLowerCase().includes(searchTerm)); }
+                    return true;
+                });
+                render(true);
+            }
+            function render(isNewFilter) {
+                if (isNewFilter) currentPage = 1;
+                const perfumesToRender = currentFilteredPerfumes.slice(0, currentPage * ITEMS_PER_PAGE);
+                dom.perfumeCount.textContent = `Viser ${perfumesToRender.length} ud af ${currentFilteredPerfumes.length} dufte.`;
+                dom.noResults.classList.toggle('hidden', currentFilteredPerfumes.length > 0);
+                dom.loadMoreContainer.style.display = perfumesToRender.length < currentFilteredPerfumes.length && currentView === 'card' ? 'block' : 'none';
+                if (currentView === 'card') renderCardView(perfumesToRender, isNewFilter);
+                else renderTableView(currentFilteredPerfumes); // Table view gets all data
+            }
+            function renderCardView(perfumes, isNewFilter) {
+                if (isNewFilter) dom.cardView.innerHTML = '';
+                const fragment = document.createDocumentFragment();
+                const startIndex = isNewFilter ? 0 : (currentPage - 1) * ITEMS_PER_PAGE;
+                for (let i = startIndex; i < perfumes.length; i++) {
+                    const p = perfumes[i], isFavorited = favorites.includes(p.CODE), card = document.createElement('div');
+                    card.className = "bg-[var(--bg-secondary)] rounded-xl shadow-md overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 flex flex-col";
+                    card.innerHTML = `<div class="p-6 flex-grow"><div class="flex justify-between items-start"><div class="uppercase tracking-wide text-sm text-[var(--accent-primary)] font-semibold">${formatBrandName(p.brand)}</div><button data-code="${p.CODE}" class="favorite-btn ${isFavorited?'favorited':''}" title="Favorit"><svg class="w-6 h-6 text-[var(--accent-love)] heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.5l1.318-1.182a4.5 4.5 0 116.364 6.364L12 21l-7.682-7.682a4.5 4.5 0 010-6.364z"></path></svg><svg class="w-6 h-6 text-[var(--accent-love)] heart-solid" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg></button></div><p class="block mt-1 text-lg leading-tight font-bold text-[var(--text-header)]">${formatInspiredByName(p['INSPIRED BY'])}</p><div class="mt-2 text-[var(--text-primary)]"><span class="font-semibold">${typeMap[p.type]}</span> &bull; <span class="italic">${p.scentType}</span></div><p class="mt-4 text-sm text-[var(--text-primary)]">${p.notes}</p></div><div class="p-6 bg-[var(--bg-tertiary)] flex items-center justify-between"><a href="https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${p.CODE}" target="_blank" class="text-sm font-medium text-[var(--accent-secondary)] hover:text-[var(--accent-primary)]" title="Søg">Kode: ${p.CODE}</a><button data-code="${p.CODE}" class="add-to-cart-btn bg-[var(--border-color)] text-[var(--bg-primary)] p-2 rounded-full hover:bg-[var(--text-primary)]"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button></div>`;
+                    fragment.appendChild(card);
+                }
+                dom.cardView.appendChild(fragment);
+            }
+            function initTableView() {
+                grid = new gridjs.Grid({ columns: [{ name: 'Mærke' }, { name: 'Inspireret Af' }, { name: 'Type', width: '100px' }, { name: 'Kode', width: '120px' }, { name: 'Handlinger', width: '120px', sort: false, formatter: (cell, row) => { const code = row.cells[3].data; return gridjs.html(`<div class="flex items-center justify-center space-x-2"><button data-code="${code}" class="add-to-cart-btn bg-[var(--border-color)] text-[var(--bg-primary)] p-2 rounded-full hover:bg-[var(--text-primary)]"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button><button data-code="${code}" class="favorite-btn ${favorites.includes(code)?'favorited':''}" title="Favorit"><svg class="w-5 h-5 text-[var(--accent-love)] heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.5l1.318-1.182a4.5 4.5 0 116.364 6.364L12 21l-7.682-7.682a4.5 4.5 0 010-6.364z"></path></svg><svg class="w-5 h-5 text-[var(--accent-love)] heart-solid" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg></button></div>`); } } ], data: [], sort: true, pagination: { enabled: true, limit: 15 }, style: { table: { 'white-space': 'nowrap' } } }).render(dom.tableView);
+            }
+            function renderTableView(perfumes) { grid.updateConfig({ data: perfumes.map(p => [formatBrandName(p.brand), formatInspiredByName(p['INSPIRED BY']), typeMap[p.type], p.CODE, null]) }).forceRender(); }
+            function switchView(view) { if(view === currentView) return; currentView = view; dom.cardView.classList.toggle('hidden', view !== 'card'); dom.tableView.classList.toggle('hidden', view !== 'table'); dom.viewToggleCard.classList.toggle('bg-[var(--accent-primary)]'); dom.viewToggleCard.classList.toggle('text-[var(--bg-primary)]'); dom.viewToggleTable.classList.toggle('bg-[var(--accent-primary)]'); dom.viewToggleTable.classList.toggle('text-[var(--bg-primary)]'); render(true); }
+
+            // --- EVENT LISTENERS & ACTIONS ---
+            function setupEventListeners() {
+                dom.searchInput.addEventListener('input', applyFilters); dom.brandFilter.addEventListener('change', applyFilters); dom.typeFilter.addEventListener('change', applyFilters); dom.favoritesToggle.addEventListener('change', applyFilters); dom.notesFilter.addEventListener('change', applyFilters);
+                dom.viewToggleCard.addEventListener('click', () => switchView('card')); dom.viewToggleTable.addEventListener('click', () => switchView('table'));
+                dom.loadMoreBtn.addEventListener('click', () => { currentPage++; render(false); });
+                document.body.addEventListener('click', (e) => {
+                    const addToCartBtn = e.target.closest('.add-to-cart-btn'); const favBtn = e.target.closest('.favorite-btn'); const removeFromCartBtn = e.target.closest('.remove-from-cart-btn');
+                    if (addToCartBtn) addToCart(addToCartBtn.dataset.code); if (favBtn) toggleFavorite(favBtn.dataset.code, favBtn); if (removeFromCartBtn) removeFromCart(removeFromCartBtn.dataset.code);
+                    if (!dom.theme.switcher.contains(e.target)) dom.theme.menu.classList.add('hidden');
+                });
+                dom.cart.toggle.addEventListener('click', toggleCart); dom.cart.closeBtn.addEventListener('click', toggleCart); dom.cart.overlay.addEventListener('click', toggleCart); dom.cart.copyBtn.addEventListener('click', copyCartCodes);
+                dom.dashboard.toggle.addEventListener('click', toggleDashboard); dom.dashboard.closeBtn.addEventListener('click', toggleDashboard);
+                dom.theme.toggleBtn.addEventListener('click', () => dom.theme.menu.classList.toggle('hidden'));
+                dom.theme.menu.addEventListener('click', (e) => { if(e.target.matches('a[data-theme]')) { e.preventDefault(); applyTheme(e.target.dataset.theme); dom.theme.menu.classList.add('hidden'); } });
+            }
+            function toggleFavorite(code, buttonEl) { const index=favorites.indexOf(code); if(index > -1){favorites.splice(index,1)}else{favorites.push(code)} saveFavorites(); if(dom.favoritesToggle.checked)applyFilters(); document.querySelectorAll(`.favorite-btn[data-code="${code}"]`).forEach(btn=>btn.classList.toggle('favorited',favorites.includes(code))); }
+            function addToCart(code) { if (!cart.includes(code)) { cart.push(code); updateCart(); } }
+            function removeFromCart(code) { cart = cart.filter(c => c !== code); updateCart(); }
+            function updateCart() { dom.cart.count.textContent = cart.length; dom.cart.itemsContainer.innerHTML = ''; dom.cart.emptyMsg.classList.toggle('hidden', cart.length > 0); dom.cart.copyBtn.disabled = cart.length === 0; cart.forEach(code => { const p = allPerfumes.find(p => p.CODE === code); if (p) { const itemEl = document.createElement('div'); itemEl.className = 'flex items-center justify-between bg-[var(--bg-tertiary)] p-3 rounded-lg shadow-sm'; itemEl.innerHTML = `<div><p class="font-semibold text-[var(--text-secondary)]">${formatInspiredByName(p['INSPIRED BY'])}</p><p class="text-sm text-[var(--text-primary)]">${p.CODE}</p></div><button data-code="${code}" class="remove-from-cart-btn text-[var(--accent-danger)] p-2 rounded-full hover:bg-[var(--bg-secondary)]"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>`; dom.cart.itemsContainer.appendChild(itemEl); } }); }
+            function toggleCart() { dom.cart.sidebar.classList.toggle('translate-x-full'); dom.cart.overlay.classList.toggle('hidden'); }
+            function copyCartCodes() { navigator.clipboard.writeText(cart.join('\n')).then(() => { dom.notification.classList.remove('opacity-0','translate-y-2'); setTimeout(() => dom.notification.classList.add('opacity-0','translate-y-2'), 2000); }); }
+            function toggleDashboard() { dom.dashboard.modal.classList.toggle('hidden'); if (!dom.dashboard.modal.classList.contains('hidden')) createCharts(); }
+            function updateDashboardStats() { dom.dashboard.brandCount.textContent = Object.keys(perfumeData).length; dom.dashboard.perfumeTotalCount.textContent = allPerfumes.length; }
+            function calculateAndRenderStats() { const noteCounts = allPerfumes.flatMap(p=>p.notesArray).reduce((a,n)=>{a[n]=(a[n]||0)+1;return a},{}); const topNote = Object.entries(noteCounts).sort(([,a],[,b])=>b-a)[0]; dom.stats.popularNote.textContent=topNote?formatBrandName(topNote[0]):'-'; const nicheCounts = allPerfumes.filter(p=>p.type==='AR').reduce((a,p)=>{a[p.brand]=(a[p.brand]||0)+1;return a},{}); const topNiche=Object.entries(nicheCounts).sort(([,a],[,b])=>b-a)[0]; dom.stats.topNicheBrand.textContent=topNiche?formatBrandName(topNiche[0]):'Ingen'; const fruityCount = allPerfumes.filter(p=>p.scentType.toLowerCase().includes('fruity')).length; const fruityPercentage = allPerfumes.length>0?((fruityCount/allPerfumes.length)*100).toFixed(0):0; dom.stats.fruityPercentage.textContent=`${fruityPercentage}%`; }
+            function getThemeColor(varName) { return getComputedStyle(document.documentElement).getPropertyValue(varName).trim(); }
+            function createCharts() {
+                const textColor = getThemeColor('--text-primary');
+                const chartOptions = { color: textColor, font: { family: 'Inter' } };
+                const brandData = allPerfumes.reduce((acc,p)=>{acc[p.brand]=(acc[p.brand]||0)+1;return acc},{}); const sortedBrands = Object.entries(brandData).sort(([,a],[,b])=>b-a).slice(0,10);
+                if (brandChartInstance) brandChartInstance.destroy();
+                brandChartInstance = new Chart(document.getElementById('brandChart'),{type:'bar',data:{labels:sortedBrands.map(i=>formatBrandName(i[0])),datasets:[{label:'Antal Parfumer',data:sortedBrands.map(i=>i[1]),backgroundColor:getThemeColor('--chart-bg')}]},options:{maintainAspectRatio:false,indexAxis:'y',scales:{y:{ticks:chartOptions},x:{ticks:chartOptions}},plugins:{legend:{labels:chartOptions}}}});
+                const scentTypeData=allPerfumes.reduce((acc,p)=>{acc[p.scentType]=(acc[p.scentType]||0)+1;return acc},{}); const sortedScentTypes=Object.entries(scentTypeData).sort(([,a],[,b])=>b-a).slice(0,10);
+                if (scentTypeChartInstance) scentTypeChartInstance.destroy();
+                scentTypeChartInstance = new Chart(document.getElementById('scentTypeChart'),{type:'doughnut',data:{labels:sortedScentTypes.map(i=>i[0]),datasets:[{data:sortedScentTypes.map(i=>i[1]),backgroundColor:getThemeColor('--chart-doughnut-bg').split(',').map(c=>c.trim().replace(/'/g,'')),borderWidth:0}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'right',labels:chartOptions}}}});
+            }
+            const formatBrandName = (name) => name ? name.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ') : '';
+            const formatInspiredByName = (name) => name ? name.split(' ').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ') : '';
+            init();
         });
-
-        // Sortering
-        document.querySelectorAll('.sort-btn').forEach(btn => {
-            btn.onclick = function() {
-                if (sortKey === this.dataset.sort) sortDir *= -1;
-                else { sortKey = this.dataset.sort; sortDir = 1; }
-                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                render();
-            };
-        });
-
-        // Automatisk load fra server
-        fetch('parfumer_beriget_ai.json').then(r => r.json()).then(data => {
-            parfumeData = data;
-            flatList = flattenData(parfumeData);
-            updateFilters();
-            render();
-        }).catch(()=>{document.getElementById('results').innerHTML = "<b>Kunne ikke loade parfume-data.</b>";});
     </script>
 </body>
 </html>
