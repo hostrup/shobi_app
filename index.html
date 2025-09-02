@@ -10,8 +10,7 @@
     <script src="https://unpkg.com/slim-select@1.27.1/dist/slimselect.min.js"></script>
     <link href="https://unpkg.com/slim-select@1.27.1/dist/slimselect.min.css" rel="stylesheet"></link>
     <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
-    <!-- Removed Mermaid theme to allow full custom styling -->
-    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+    <!-- FIX: Removed mermaid.min.css to allow full custom theming of the table -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,12 +56,21 @@
         .stat-fade-out { opacity: 0; transform: translateY(-5px); }
 
         /* --- Library overrides for theming --- */
-        :root { --ss-bg-color: var(--bg-tertiary); --ss-border-color: var(--border-color); --ss-main-color: var(--accent-primary); --ss-font-color: var(--text-primary); --ss-bg-color-hover: var(--bg-secondary); --ss-font-color-hover: var(--text-secondary); --ss-highlight-color: var(--accent-secondary); }
-        .ss-main .ss-single-selected, .ss-main .ss-multi-selected .ss-values .ss-value { background-color: var(--ss-bg-color-hover); color: var(--ss-highlight-color); }
+        /* FIX: Added more specific theme rules for slim-select */
+        :root { --ss-bg-color: var(--bg-tertiary); --ss-border-color: var(--border-color); --ss-main-color: var(--accent-primary); --ss-font-color: var(--text-primary); --ss-bg-color-hover: var(--bg-secondary); --ss-font-color-hover: var(--text-primary); --ss-highlight-color: var(--accent-secondary); }
+        .ss-main { background-color: var(--ss-bg-color); border-color: var(--ss-border-color); }
+        .ss-main .ss-single-selected, .ss-main .ss-multi-selected .ss-values .ss-value { background-color: var(--accent-primary); color: var(--bg-primary); }
+        .ss-main .ss-multi-selected .ss-add { color: var(--ss-font-color); }
+        .ss-main .ss-content { background-color: var(--ss-bg-color); border-color: var(--ss-border-color); }
+        .ss-main .ss-content .ss-search input { color: var(--ss-font-color); }
         .ss-main .ss-content .ss-list .ss-option.ss-highlighted, .ss-main .ss-content .ss-list .ss-option:hover { background-color: var(--ss-bg-color-hover); color: var(--ss-highlight-color); }
+        .ss-main .ss-content .ss-list .ss-option.ss-selected { background-color: var(--ss-bg-color-hover); color: var(--ss-highlight-color);}
+
         
         /* FIX: Enhanced Grid.js styling for dynamic theming */
-        .gridjs-container, .gridjs-table, .gridjs-head .gridjs-th, .gridjs-footer, .gridjs-search-input { background-color: var(--bg-secondary) !important; color: var(--text-primary) !important; border-color: var(--border-color) !important; }
+        .gridjs-container, .gridjs-head, .gridjs-footer { background-color: var(--bg-secondary) !important; color: var(--text-primary) !important; border-color: var(--border-color) !important; }
+        .gridjs-table, .gridjs-th, .gridjs-td { background-color: var(--bg-secondary) !important; color: var(--text-primary) !important; border-color: var(--border-color) !important; }
+        .gridjs-search-input { background-color: var(--bg-tertiary) !important; color: var(--text-primary) !important; border-color: var(--border-color) !important; }
         .gridjs-tr:hover .gridjs-td, .gridjs-th-sort:hover { background-color: var(--bg-primary) !important; }
         .gridjs-pagination .gridjs-pages button:hover { background-color: var(--bg-primary) !important; }
         .gridjs-pagination .gridjs-pages button.gridjs-currentPage { background-color: var(--accent-primary) !important; color: var(--bg-primary) !important; }
@@ -120,7 +128,7 @@
                      <select id="notes-filter" multiple class="mt-1"></select>
                 </div>
             </div>
-            <div class="flex flex-wrap items-center justify-between pt-2 border-t border-[var(--border-color)]/50">
+            <div class="flex flex-wrap items-center justify-between pt-2 border-t border-[var(--border-color)]/50 gap-4">
                 <div class="flex items-center space-x-2">
                     <button id="view-toggle-card" class="p-2 rounded-md bg-[var(--accent-primary)] text-[var(--bg-primary)]" title="Card view">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
@@ -134,6 +142,11 @@
                     <input type="checkbox" id="favorites-toggle" class="sr-only peer">
                     <div class="relative w-11 h-6 bg-[var(--border-color)] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--accent-primary)]"></div>
                 </label>
+                 <!-- ADD: Reset button -->
+                <button id="reset-filters-btn" class="text-sm font-medium text-[var(--accent-secondary)] hover:text-[var(--accent-primary)] flex items-center space-x-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h5M20 20v-5h-5"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 9a9 9 0 0114.13-5.13M20 15a9 9 0 01-14.13 5.13"></path></svg>
+                    <span>Reset Filters</span>
+                </button>
             </div>
         </div>
         <div id="stats-banner" class="bg-[var(--bg-secondary)] p-6 rounded-xl shadow-md mb-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
@@ -174,6 +187,7 @@
                 searchInput: document.getElementById('search'), brandFilter: document.getElementById('brand-filter'), typeFilter: document.getElementById('type-filter'),
                 notesFilter: document.getElementById('notes-filter'), favoritesToggle: document.getElementById('favorites-toggle'), viewToggleCard: document.getElementById('view-toggle-card'),
                 viewToggleTable: document.getElementById('view-toggle-table'),
+                resetFiltersBtn: document.getElementById('reset-filters-btn'),
                 cart: { toggle: document.getElementById('cart-toggle'), sidebar: document.getElementById('cart-sidebar'), overlay: document.getElementById('cart-overlay'), closeBtn: document.getElementById('close-cart'), itemsContainer: document.getElementById('cart-items'), count: document.getElementById('cart-count'), copyBtn: document.getElementById('copy-codes'), emptyMsg: document.getElementById('empty-cart-message') },
                 dashboard: { toggle: document.getElementById('dashboard-toggle'), modal: document.getElementById('dashboard-modal'), closeBtn: document.getElementById('close-dashboard'), brandCount: document.getElementById('brand-count'), perfumeTotalCount: document.getElementById('perfume-total-count') },
                 stats: { popularNote: document.getElementById('popular-note'), topNicheBrand: document.getElementById('top-niche-brand'), fruityPercentage: document.getElementById('fruity-percentage') },
@@ -222,7 +236,6 @@
                 document.documentElement.setAttribute('data-theme', themeName);
                 localStorage.setItem('perfumeTheme', themeName);
                 if (brandChartInstance) createCharts();
-                // FIX: Force re-render of the grid to apply new theme styles
                 if (grid) grid.forceRender();
             }
 
@@ -234,18 +247,40 @@
             }
 
             function applyFilters() {
-                // FIX: Changed notesSelect.getSelected() to notesSelect.selected()
-                const searchTerm = dom.searchInput.value.toLowerCase(), selectedBrand = dom.brandFilter.value, selectedType = dom.typeFilter.value, selectedNotes = notesSelect.selected(), showFavoritesOnly = dom.favoritesToggle.checked;
+                const searchTerm = dom.searchInput.value.toLowerCase();
+                const selectedBrand = dom.brandFilter.value;
+                const selectedType = dom.typeFilter.value;
+                // FIX: Correct method is .selected() not .getSelected()
+                const selectedNotes = notesSelect.selected(); 
+                const showFavoritesOnly = dom.favoritesToggle.checked;
+                
                 currentFilteredPerfumes = allPerfumes.filter(p => {
                     if (showFavoritesOnly && !favorites.includes(p.CODE)) return false;
                     if (selectedBrand && p.brand !== selectedBrand) return false;
                     if (selectedType && p.type !== selectedType) return false;
                     if (selectedNotes.length > 0 && !selectedNotes.every(note => p.notesArray.includes(note))) return false;
+                    
                     const typeName = typeMap[p.type] || '';
-                    if (searchTerm) { return (p.brand.toLowerCase().includes(searchTerm) || String(p['INSPIRED BY']).toLowerCase().includes(searchTerm) || p.notes.toLowerCase().includes(searchTerm) || typeName.toLowerCase().includes(searchTerm)); }
+                    if (searchTerm) { 
+                        return (
+                            p.brand.toLowerCase().includes(searchTerm) || 
+                            String(p['INSPIRED BY']).toLowerCase().includes(searchTerm) || 
+                            p.notes.toLowerCase().includes(searchTerm) || 
+                            typeName.toLowerCase().includes(searchTerm)
+                        ); 
+                    }
                     return true;
                 });
                 render(true);
+            }
+            
+            function resetFilters() {
+                dom.searchInput.value = '';
+                dom.brandFilter.value = '';
+                dom.typeFilter.value = '';
+                notesSelect.setSelected([]);
+                dom.favoritesToggle.checked = false;
+                applyFilters();
             }
 
             function render(isNewFilter) {
@@ -261,15 +296,25 @@
             function renderCardView(perfumes, isNewFilter) {
                 const container = dom.cardView;
                 if (isNewFilter) container.innerHTML = '';
+                else if(currentPage === 1) container.innerHTML = ''; // Ensure clean slate on first page after reset
                 const fragment = document.createDocumentFragment();
                 const startIndex = isNewFilter ? 0 : (currentPage - 1) * ITEMS_PER_PAGE;
-                for (let i = startIndex; i < perfumes.length; i++) {
-                    const p = perfumes[i], isFavorited = favorites.includes(p.CODE), card = document.createElement('div');
+                const endIndex = startIndex + ITEMS_PER_PAGE;
+                
+                const perfumesForPage = perfumes.slice(startIndex, endIndex);
+
+                for (let i = 0; i < perfumesForPage.length; i++) {
+                    const p = perfumesForPage[i], isFavorited = favorites.includes(p.CODE), card = document.createElement('div');
                     card.className = "bg-[var(--bg-secondary)] rounded-xl shadow-md overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 flex flex-col";
                     card.innerHTML = `<div class="p-6 flex-grow"><div class="flex justify-between items-start"><div class="uppercase tracking-wide text-sm text-[var(--accent-primary)] font-semibold">${formatBrandName(p.brand)}</div><button data-code="${p.CODE}" class="favorite-btn ${isFavorited?'favorited':''}" title="Favorite"><svg class="w-6 h-6 text-[var(--accent-love)] heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.5l1.318-1.182a4.5 4.5 0 116.364 6.364L12 21l-7.682-7.682a4.5 4.5 0 010-6.364z"></path></svg><svg class="w-6 h-6 text-[var(--accent-love)] heart-solid" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg></button></div><p class="block mt-1 text-lg leading-tight font-bold text-[var(--text-header)]">${formatInspiredByName(String(p['INSPIRED BY']))}</p><div class="mt-2 text-[var(--text-primary)]"><span class="font-semibold">${typeMap[p.type]}</span> &bull; <span class="italic">${p.scentType}</span></div><p class="mt-4 text-sm text-[var(--text-primary)]">${p.notes}</p></div><div class="p-6 bg-[var(--bg-tertiary)] flex items-center justify-between"><a href="https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${p.CODE}" target="_blank" class="text-sm font-medium text-[var(--accent-secondary)] hover:text-[var(--accent-primary)]" title="Search">Code: ${p.CODE}</a><button data-code="${p.CODE}" class="add-to-cart-btn bg-[var(--border-color)] text-[var(--bg-primary)] p-2 rounded-full hover:bg-[var(--text-primary)]"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button></div>`;
                     fragment.appendChild(card);
                 }
-                container.appendChild(fragment);
+                if(isNewFilter) {
+                    container.innerHTML = '';
+                    container.appendChild(fragment);
+                } else {
+                    container.appendChild(fragment);
+                }
             }
 
             function initTableView() {
@@ -285,8 +330,11 @@
                 dom.favoritesToggle.addEventListener('change', applyFilters);
                 notesSelect.slim.onChange = () => applyFilters();
                 
-                dom.viewToggleCard.addEventListener('click', () => switchView('card')); dom.viewToggleTable.addEventListener('click', () => switchView('table'));
+                dom.viewToggleCard.addEventListener('click', () => switchView('card')); 
+                dom.viewToggleTable.addEventListener('click', () => switchView('table'));
                 dom.loadMoreBtn.addEventListener('click', () => { currentPage++; render(false); });
+                dom.resetFiltersBtn.addEventListener('click', resetFilters);
+
                 document.body.addEventListener('click', (e) => {
                     const addToCartBtn = e.target.closest('.add-to-cart-btn'); const favBtn = e.target.closest('.favorite-btn'); const removeFromCartBtn = e.target.closest('.remove-from-cart-btn');
                     if (addToCartBtn) addToCart(addToCartBtn.dataset.code); if (favBtn) toggleFavorite(favBtn.dataset.code); if (removeFromCartBtn) removeFromCart(removeFromCartBtn.dataset.code);
@@ -388,4 +436,8 @@
     </script>
 </body>
 </html>
+" in the document, and I'm asking you to make some changes to it. My changes are: "tak. Fejl: 
+Scent notes filtrering slår ikke igennem med det samme. når man fx. vælger nogle fra listen. 
+Scent notes feltet ligner at det ikke fungerr med temaer. 
+når man skifter til tabel-visning er det stadig helt hvid bagrund og meget svært at læse.  Der mangler en "nulstil" eller reset knap så man kommer tilbage til standard. Udfør fejlfinding og send mig den komplette opdaterede HTML kode."
 
