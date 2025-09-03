@@ -217,8 +217,8 @@
                     render(true);
                     updateDashboardStats();
                     calculateAllStats();
-                    updateStatsBanner(); // Initial render of stats
-                    startStatsRotation(); // Start the rotation
+                    updateStatsBanner();
+                    startStatsRotation();
                     setupEventListeners();
                 } catch (error) {
                     console.error("Could not load and initialize the application:", error);
@@ -262,13 +262,15 @@
                     if (selectedNotes.length > 0 && !selectedNotes.every(note => p.notesArray.includes(note))) return false;
                     
                     const typeName = typeMap[p.type] || '';
+                    const scentTypeName = (p.scentType || '').toLowerCase();
                     if (searchTerm) { 
                         return (
                             p.brand.toLowerCase().includes(searchTerm) || 
                             String(p['INSPIRED BY']).toLowerCase().includes(searchTerm) || 
                             p.notes.toLowerCase().includes(searchTerm) || 
                             typeName.toLowerCase().includes(searchTerm) ||
-                            p.CODE.toLowerCase().includes(searchTerm)
+                            (p.CODE || '').toLowerCase().includes(searchTerm) ||
+                            scentTypeName.includes(searchTerm)
                         ); 
                     }
                     return true;
@@ -291,40 +293,114 @@
                 dom.perfumeCount.textContent = `Showing ${perfumesToRender.length} of ${currentFilteredPerfumes.length} perfumes.`;
                 dom.noResults.classList.toggle('hidden', currentFilteredPerfumes.length > 0);
                 dom.loadMoreContainer.style.display = perfumesToRender.length < currentFilteredPerfumes.length && currentView === 'card' ? 'block' : 'none';
-                if (currentView === 'card') renderCardView(perfumesToRender, isNewFilter);
+                if (currentView === 'card') renderCardView(isNewFilter);
                 else renderTableView(currentFilteredPerfumes);
             }
 
-            function renderCardView(perfumes, isNewFilter) {
+            function renderCardView(isNewFilter) {
                 const container = dom.cardView;
-                if (isNewFilter) container.innerHTML = '';
-                else if(currentPage === 1) container.innerHTML = ''; // Ensure clean slate on first page after reset
-                const fragment = document.createDocumentFragment();
-                const startIndex = isNewFilter ? 0 : (currentPage - 1) * ITEMS_PER_PAGE;
-                const endIndex = startIndex + ITEMS_PER_PAGE;
+                const perfumesToRender = currentFilteredPerfumes.slice(0, currentPage * ITEMS_PER_PAGE);
                 
-                const perfumesForPage = perfumes.slice(startIndex, endIndex);
+                if (isNewFilter) {
+                    container.innerHTML = '';
+                }
+                
+                const fragment = document.createDocumentFragment();
+                const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
 
-                for (let i = 0; i < perfumesForPage.length; i++) {
-                    const p = perfumesForPage[i], isFavorited = favorites.includes(p.CODE), card = document.createElement('div');
+                for (let i = startIndex; i < perfumesToRender.length; i++) {
+                    const p = perfumesToRender[i];
+                    if(!p) continue;
+                    const isFavorited = favorites.includes(p.CODE);
+                    const card = document.createElement('div');
                     card.className = "bg-[var(--bg-secondary)] rounded-xl shadow-md overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 flex flex-col";
-                    card.innerHTML = `<div class="p-6 flex-grow"><div class="flex justify-between items-start"><div class="uppercase tracking-wide text-sm text-[var(--accent-primary)] font-semibold">${formatBrandName(p.brand)}</div><button data-code="${p.CODE}" class="favorite-btn ${isFavorited?'favorited':''}" title="Favorite"><svg class="w-6 h-6 text-[var(--accent-love)] heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.5l1.318-1.182a4.5 4.5 0 116.364 6.364L12 21l-7.682-7.682a4.5 4.5 0 010-6.364z"></path></svg><svg class="w-6 h-6 text-[var(--accent-love)] heart-solid" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg></button></div><p class="block mt-1 text-lg leading-tight font-bold text-[var(--text-header)]">${formatInspiredByName(String(p['INSPIRED BY']))}</p><div class="mt-2 text-[var(--text-primary)]"><span class="font-semibold">${typeMap[p.type]}</span> &bull; <span class="italic">${p.scentType}</span></div><p class="mt-4 text-sm text-[var(--text-primary)]">${p.notes}</p></div><div class="p-6 bg-[var(--bg-tertiary)] flex items-center justify-between"><a href="https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${p.CODE}" target="_blank" class="text-sm font-medium text-[var(--accent-secondary)] hover:text-[var(--accent-primary)]" title="Search">Code: ${p.CODE}</a><button data-code="${p.CODE}" class="add-to-cart-btn bg-[var(--border-color)] text-[var(--bg-primary)] p-2 rounded-full hover:bg-[var(--text-primary)]"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button></div>`;
+                    card.innerHTML = `
+                        <div class="p-6 flex-grow">
+                            <div class="flex justify-between items-start">
+                                <div class="uppercase tracking-wide text-sm text-[var(--accent-primary)] font-semibold cursor-pointer hover:underline brand-link" data-brand="${p.brand}">${formatBrandName(p.brand)}</div>
+                                <button data-code="${p.CODE}" class="favorite-btn ${isFavorited ? 'favorited' : ''}" title="Favorite">
+                                    <svg class="w-6 h-6 text-[var(--accent-love)] heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.5l1.318-1.182a4.5 4.5 0 116.364 6.364L12 21l-7.682-7.682a4.5 4.5 0 010-6.364z"></path></svg>
+                                    <svg class="w-6 h-6 text-[var(--accent-love)] heart-solid" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+                                </button>
+                            </div>
+                            <p class="block mt-1 text-lg leading-tight font-bold text-[var(--text-header)]">${formatInspiredByName(String(p['INSPIRED BY']))}</p>
+                            <div class="mt-2 text-[var(--text-primary)]">
+                                <span class="font-semibold">${typeMap[p.type]}</span> &bull; 
+                                <span class="italic cursor-pointer hover:underline find-similar-btn" data-scent-type="${p.scentType}">${p.scentType}</span>
+                            </div>
+                            <p class="mt-4 text-sm text-[var(--text-primary)]">${p.notes}</p>
+                        </div>
+                        <div class="p-6 bg-[var(--bg-tertiary)] flex items-center justify-between">
+                            <a href="https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${p.CODE}" target="_blank" class="text-sm font-medium text-[var(--accent-secondary)] hover:text-[var(--accent-primary)]" title="Search">Code: ${p.CODE}</a>
+                            <button data-code="${p.CODE}" class="add-to-cart-btn bg-[var(--border-color)] text-[var(--bg-primary)] p-2 rounded-full hover:bg-[var(--text-primary)]">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                            </button>
+                        </div>`;
                     fragment.appendChild(card);
                 }
-                if(isNewFilter) {
-                    container.innerHTML = '';
-                    container.appendChild(fragment);
-                } else {
-                    container.appendChild(fragment);
-                }
+                container.appendChild(fragment);
             }
 
             function initTableView() {
-                grid = new gridjs.Grid({ columns: ['Brand', 'Inspired By', { name: 'Type', width: '100px' }, { name: 'Code', width: '120px' }, { name: 'Actions', width: '120px', sort: false, formatter: (cell, row) => { const code = row.cells[3].data; return gridjs.html(`<div class="flex items-center justify-center space-x-2"><button data-code="${code}" class="add-to-cart-btn bg-[var(--border-color)] text-[var(--bg-primary)] p-2 rounded-full hover:bg-[var(--text-primary)]"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button><button data-code="${code}" class="favorite-btn ${favorites.includes(code)?'favorited':''}" title="Favorite"><svg class="w-5 h-5 text-[var(--accent-love)] heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.5l1.318-1.182a4.5 4.5 0 116.364 6.364L12 21l-7.682-7.682a4.5 4.5 0 010-6.364z"></path></svg><svg class="w-5 h-5 text-[var(--accent-love)] heart-solid" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg></button></div>`); } } ], data: [], sort: true, pagination: { enabled: true, limit: 15 }, style: { table: { 'white-space': 'nowrap' } } }).render(dom.tableView);
+                grid = new gridjs.Grid({
+                    columns: [
+                        { name: 'Brand', formatter: (cell) => gridjs.html(`<span class="cursor-pointer hover:underline brand-link" data-brand="${cell}">${formatBrandName(cell)}</span>`) },
+                        'Inspired By',
+                        { name: 'Type', width: '100px' },
+                        { name: 'Code', width: '120px' },
+                        { name: 'Scent Type', hidden: true },
+                        {
+                            name: 'Actions',
+                            width: '150px',
+                            sort: false,
+                            formatter: (cell, row) => {
+                                const code = row.cells[3].data;
+                                const scentType = row.cells[4].data;
+                                return gridjs.html(`
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <button data-scent-type="${scentType}" class="find-similar-btn text-xs bg-[var(--accent-secondary)] text-white px-2 py-1 rounded-md hover:bg-[var(--accent-primary)]" title="Find Similar">Similar</button>
+                                        <button data-code="${code}" class="add-to-cart-btn bg-[var(--border-color)] text-[var(--bg-primary)] p-2 rounded-full hover:bg-[var(--text-primary)]"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button>
+                                        <button data-code="${code}" class="favorite-btn ${favorites.includes(code) ? 'favorited' : ''}" title="Favorite"><svg class="w-5 h-5 text-[var(--accent-love)] heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.5l1.318-1.182a4.5 4.5 0 116.364 6.364L12 21l-7.682-7.682a4.5 4.5 0 010-6.364z"></path></svg><svg class="w-5 h-5 text-[var(--accent-love)] heart-solid" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg></button>
+                                    </div>`);
+                            }
+                        }
+                    ],
+                    data: [],
+                    sort: true,
+                    pagination: { enabled: true, limit: 15 },
+                    style: { table: { 'white-space': 'nowrap' } }
+                }).render(dom.tableView);
             }
-            function renderTableView(perfumes) { grid.updateConfig({ data: perfumes.map(p => [formatBrandName(p.brand), formatInspiredByName(String(p['INSPIRED BY'])), typeMap[p.type], p.CODE, null]) }).forceRender(); }
+            function renderTableView(perfumes) {
+                grid.updateConfig({
+                    data: perfumes.map(p => [
+                        p.brand,
+                        formatInspiredByName(String(p['INSPIRED BY'])),
+                        typeMap[p.type],
+                        p.CODE,
+                        p.scentType,
+                        null
+                    ])
+                }).forceRender();
+            }
+
             function switchView(view) { if(view === currentView) return; currentView = view; dom.cardView.classList.toggle('hidden', view !== 'card'); dom.tableViewWrapper.classList.toggle('hidden', view !== 'table'); dom.viewToggleCard.classList.toggle('bg-[var(--accent-primary)]'); dom.viewToggleCard.classList.toggle('text-[var(--bg-primary)]'); dom.viewToggleTable.classList.toggle('bg-[var(--accent-primary)]'); dom.viewToggleTable.classList.toggle('text-[var(--bg-primary)]'); render(true); }
 
+            function findSimilar(scentType) {
+                if(!scentType) return;
+                resetFilters();
+                dom.searchInput.value = scentType;
+                applyFilters();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function filterByBrand(brand) {
+                resetFilters();
+                dom.brandFilter.value = brand;
+                applyFilters();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            
             function setupEventListeners() {
                 dom.searchInput.addEventListener('input', applyFilters);
                 dom.brandFilter.addEventListener('change', applyFilters);
@@ -337,8 +413,18 @@
                 dom.resetFiltersBtn.addEventListener('click', resetFilters);
 
                 document.body.addEventListener('click', (e) => {
-                    const addToCartBtn = e.target.closest('.add-to-cart-btn'); const favBtn = e.target.closest('.favorite-btn'); const removeFromCartBtn = e.target.closest('.remove-from-cart-btn');
-                    if (addToCartBtn) addToCart(addToCartBtn.dataset.code); if (favBtn) toggleFavorite(favBtn.dataset.code); if (removeFromCartBtn) removeFromCart(removeFromCartBtn.dataset.code);
+                    const addToCartBtn = e.target.closest('.add-to-cart-btn');
+                    const favBtn = e.target.closest('.favorite-btn');
+                    const removeFromCartBtn = e.target.closest('.remove-from-cart-btn');
+                    const similarBtn = e.target.closest('.find-similar-btn');
+                    const brandLink = e.target.closest('.brand-link');
+
+                    if (addToCartBtn) addToCart(addToCartBtn.dataset.code);
+                    else if (favBtn) toggleFavorite(favBtn.dataset.code);
+                    else if (removeFromCartBtn) removeFromCart(removeFromCartBtn.dataset.code);
+                    else if (similarBtn) findSimilar(similarBtn.dataset.scentType);
+                    else if (brandLink) filterByBrand(brandLink.dataset.brand);
+                    
                     if (!dom.theme.switcher.contains(e.target)) dom.theme.menu.classList.add('hidden');
                 });
                 dom.cart.toggle.addEventListener('click', toggleCart); dom.cart.closeBtn.addEventListener('click', toggleCart); dom.cart.overlay.addEventListener('click', toggleCart); dom.cart.copyBtn.addEventListener('click', copyCartCodes);
