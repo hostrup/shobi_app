@@ -286,10 +286,16 @@
 
         function applyFiltersAndRender() {
             let filtered = [...allPerfumes];
-            if (state.showingFavorites) filtered = filtered.filter(p => state.favorites.includes(p.code));
+            if (state.showingFavorites) {
+                filtered = filtered.filter(p => state.favorites.includes(p.code));
+            }
+            // IMPORTANT FIX: Search functionality
             if (state.searchQuery) {
                 const query = state.searchQuery.toLowerCase();
-                filtered = filtered.filter(p => (p.inspiredBy || '').toLowerCase().includes(query) || (p.brand || '').toLowerCase().includes(query));
+                filtered = filtered.filter(p => 
+                    (p.inspiredBy || '').toLowerCase().includes(query) || 
+                    (p.brand || '').toLowerCase().includes(query)
+                );
             }
             for (const key in state.activeFilters) {
                 const selected = state.activeFilters[key];
@@ -350,7 +356,8 @@
         }
         
         function calculateAndShowStats() {
-            const ctx = document.getElementById('topAccordsChart').getContext('2d');
+            const chartCanvas = document.getElementById('topAccordsChart');
+            const ctx = chartCanvas.getContext('2d');
             const counts = allPerfumes.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
             const top5 = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 5);
             if (topAccordsChart) topAccordsChart.destroy();
