@@ -289,7 +289,6 @@
             if (state.showingFavorites) {
                 filtered = filtered.filter(p => state.favorites.includes(p.code));
             }
-            // IMPORTANT FIX: Search functionality
             if (state.searchQuery) {
                 const query = state.searchQuery.toLowerCase();
                 filtered = filtered.filter(p => 
