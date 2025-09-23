@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shobi Perfume Inspiration - Experience</title>
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -138,15 +138,13 @@
 
     <div class="container-fluid mt-4">
         <div class="row">
-            <!-- Filter Sidebar -->
             <aside class="col-lg-3">
                 <div class="sidebar">
                     <div class="p-3 rounded bg-body-tertiary">
                         <h4>Filters</h4>
                         <hr>
                         <div class="accordion" id="filter-accordion">
-                            <!-- Accordion filter items generated here -->
-                        </div>
+                            </div>
                         <hr>
                         <div id="stats-container">
                             <h4 class="mt-4">Inspiration</h4>
@@ -156,7 +154,6 @@
                 </div>
             </aside>
 
-            <!-- Main Content -->
             <main class="col-lg-9">
                 <div id="main-view">
                     <div class="card mb-4">
@@ -207,10 +204,10 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
     <script>
-        let allPerfumes = [];
+        let database = { perfumes: [], brands: {} };
         const state = { searchQuery: '', sortKey: 'inspiredBy', activeFilters: {}, favorites: [], showingFavorites: false, viewMode: 'grid', currentView: 'main' };
         let topAccordsChart = null;
         let scentProfileChart = null;
@@ -292,7 +289,7 @@
         }
 
         function applyFiltersAndRender() {
-            let filtered = [...allPerfumes];
+            let filtered = [...database.perfumes];
             if (state.showingFavorites) {
                 filtered = filtered.filter(p => state.favorites.includes(p.code));
             }
@@ -326,14 +323,14 @@
             };
 
             const allOccasions = new Set();
-            allPerfumes.forEach(p => {
+            database.perfumes.forEach(p => {
                 (p.seasons || []).forEach(s => filters.seasons.options.add(s));
                 (p.occasions || []).forEach(o => allOccasions.add(o));
                 if (p.genderAffinity) filters.genderAffinity.options.add(p.genderAffinity);
             });
             [...allOccasions].sort().forEach(o => filters.occasions.options.add(o));
 
-            const counts = allPerfumes.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
+            const counts = database.perfumes.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
             const topAccords = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, filters.mainAccords.limit).map(e => e[0]);
             topAccords.forEach(a => filters.mainAccords.options.add(a));
             
@@ -364,7 +361,7 @@
         function calculateAndShowStats() {
             const chartCanvas = document.getElementById('topAccordsChart');
             const ctx = chartCanvas.getContext('2d');
-            const counts = allPerfumes.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
+            const counts = database.perfumes.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
             const top5 = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 5);
             if (topAccordsChart) topAccordsChart.destroy();
             topAccordsChart = new Chart(ctx, {
@@ -391,18 +388,16 @@
             });
         }
         
-        // New function to allow navigation from modal
         window.navigateToBrand = function(brandName) {
             perfumeDetailsModal.hide();
             showBrandView(brandName);
         }
 
         function showPerfumeDetails(code) {
-            const perfume = allPerfumes.find(p => p.code === code);
+            const perfume = database.perfumes.find(p => p.code === code);
             if (!perfume) return;
             const content = document.getElementById('perfume-details-content');
             
-            // New: make brand name in title clickable
             document.getElementById('perfumeDetailsLabel').innerHTML = `${perfume.inspiredBy} by <a href="#" onclick="event.preventDefault(); window.navigateToBrand('${perfume.brand}')" class="brand-link-modal">${perfume.brand}</a>`;
             
             const notesHTML = (notes, title) => notes && notes.length > 0 ? `<h6>${title}</h6><p class="text-muted">${notes.join(', ')}</p>` : '';
@@ -443,18 +438,17 @@
             state.currentView = 'brand';
             document.getElementById('main-view').classList.add('d-none');
             document.getElementById('brand-view').classList.remove('d-none');
-            const brandPerfumes = allPerfumes.filter(p => p.brand === brandName);
-            // CORRECTED: Find brand description from the master list to ensure it's found
-            const brandInfoEntry = allPerfumes.find(p => p.brand === brandName && p.brandDescription);
-            const brandDescription = brandInfoEntry ? brandInfoEntry.brandDescription : 'No brand description available.';
+            const brandPerfumes = database.perfumes.filter(p => p.brand === brandName);
+            // CORRECTED: Use the database.brands object to get brand description
+            const brandDescription = database.brands[brandName]?.description || 'No brand description available.';
             document.getElementById('brand-info').innerHTML = `<h2>${brandName}</h2><p>${brandDescription}</p>`;
             displayPerfumes(brandPerfumes, 'brand-perfume-list');
         }
 
         function findSimilarPerfumes(baseCode) {
-            const basePerfume = allPerfumes.find(p => p.code === baseCode);
+            const basePerfume = database.perfumes.find(p => p.code === baseCode);
             const baseAccords = new Set(basePerfume.mainAccords);
-            const similar = allPerfumes.filter(p => p.code !== baseCode).map(p => ({ item: p, score: (p.mainAccords || []).filter(accord => baseAccords.has(accord)).length })).sort((a, b) => b.score - a.score).slice(0, 6);
+            const similar = database.perfumes.filter(p => p.code !== baseCode).map(p => ({ item: p, score: (p.mainAccords || []).filter(accord => baseAccords.has(accord)).length })).sort((a, b) => b.score - a.score).slice(0, 6);
             perfumeDetailsModal.hide();
             resetAllFilters();
             const customTitle = `<h5>Showing perfumes similar to <strong>${basePerfume.inspiredBy}</strong></h5>`;
@@ -515,9 +509,9 @@
 
         async function init() {
             try {
-                const response = await fetch('perfumes_live.json');
+                const response = await fetch('database_complete.json');
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                allPerfumes = await response.json();
+                database = await response.json(); // Load the entire database object
             } catch (error) {
                 console.error("Could not load perfume data:", error);
                 document.getElementById('results-count').innerHTML = `<span class="text-danger">Error: Could not load perfume data. Please check the console.</span>`;
@@ -567,9 +561,9 @@
                 applyFiltersAndRender();
             });
             document.getElementById('surprise-btn').addEventListener('click', () => {
-                if(allPerfumes.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * allPerfumes.length);
-                    const randomPerfume = allPerfumes[randomIndex];
+                if(database.perfumes.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * database.perfumes.length);
+                    const randomPerfume = database.perfumes[randomIndex];
                     showPerfumeDetails(randomPerfume.code);
                 }
             });
@@ -584,4 +578,3 @@
     </script>
 </body>
 </html>
-
