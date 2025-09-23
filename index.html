@@ -142,7 +142,6 @@
                         <div class="accordion" id="filter-accordion">
                             <!-- Accordion filter items generated here -->
                         </div>
-                        <button id="reset-filters-btn" class="btn btn-sm btn-outline-secondary w-100 mt-3">Reset Filters</button>
                         <hr>
                         <div id="stats-container">
                             <h4 class="mt-4">Inspiration</h4>
@@ -159,7 +158,10 @@
                         <div class="card-body">
                             <div class="row g-2 align-items-center">
                                 <div class="col-lg-6">
-                                    <input type="text" id="search-input" class="form-control" placeholder="Search for original perfume or brand...">
+                                    <div class="input-group">
+                                        <input type="text" id="search-input" class="form-control" placeholder="Search for original perfume or brand...">
+                                        <button id="reset-filters-btn" class="btn btn-outline-secondary" title="Reset Filters"><i class="fas fa-times"></i></button>
+                                    </div>
                                 </div>
                                 <div class="col-lg-6 d-flex justify-content-end align-items-center">
                                     <div id="sort-btn-group" class="btn-group me-3">
@@ -291,7 +293,6 @@
             }
             if (state.searchQuery) {
                 const query = state.searchQuery.toLowerCase();
-                // FINAL FIX: Ensure values are strings before calling toLowerCase()
                 filtered = filtered.filter(p => 
                     String(p.inspiredBy || '').toLowerCase().includes(query) || 
                     String(p.brand || '').toLowerCase().includes(query)
@@ -429,7 +430,9 @@
             document.getElementById('main-view').classList.add('d-none');
             document.getElementById('brand-view').classList.remove('d-none');
             const brandPerfumes = allPerfumes.filter(p => p.brand === brandName);
-            document.getElementById('brand-info').innerHTML = `<h2>${brandName}</h2><p>${brandPerfumes[0].brandDescription || 'No brand description available.'}</p>`;
+            const brandInfoEntry = brandPerfumes.find(p => p.brandDescription);
+            const brandDescription = brandInfoEntry ? brandInfoEntry.brandDescription : 'No brand description available.';
+            document.getElementById('brand-info').innerHTML = `<h2>${brandName}</h2><p>${brandDescription}</p>`;
             displayPerfumes(brandPerfumes, 'brand-perfume-list');
         }
 
@@ -486,6 +489,7 @@
             document.getElementById('favorites-btn').classList.remove('active');
             state.searchQuery = ''; 
             document.getElementById('search-input').value = '';
+            applyFiltersAndRender(); // Re-render after reset
         }
 
         function setTheme(theme) {
@@ -554,7 +558,7 @@
                     showPerfumeDetails(randomPerfume.code);
                 }
             });
-            document.getElementById('reset-filters-btn').addEventListener('click', () => { resetAllFilters(); applyFiltersAndRender(); });
+            document.getElementById('reset-filters-btn').addEventListener('click', resetAllFilters);
             document.getElementById('back-to-all-btn').addEventListener('click', () => {
                 state.currentView = 'main';
                 document.getElementById('brand-view').classList.add('d-none');
