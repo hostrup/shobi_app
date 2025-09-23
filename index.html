@@ -430,7 +430,8 @@
             document.getElementById('main-view').classList.add('d-none');
             document.getElementById('brand-view').classList.remove('d-none');
             const brandPerfumes = allPerfumes.filter(p => p.brand === brandName);
-            const brandInfoEntry = brandPerfumes.find(p => p.brandDescription);
+            // CORRECTED: Find brand description from the master list to ensure it's found
+            const brandInfoEntry = allPerfumes.find(p => p.brand === brandName && p.brandDescription);
             const brandDescription = brandInfoEntry ? brandInfoEntry.brandDescription : 'No brand description available.';
             document.getElementById('brand-info').innerHTML = `<h2>${brandName}</h2><p>${brandDescription}</p>`;
             displayPerfumes(brandPerfumes, 'brand-perfume-list');
