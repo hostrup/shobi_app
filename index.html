@@ -246,7 +246,7 @@
                                 <i class="fas fa-heart favorite-btn ${isFavorite ? 'is-favorite' : ''}" data-code="${p.code}"></i>
                                 <h5 class="card-title">${p.inspiredBy}${genderIcon}</h5>
                                 <h6 class="card-subtitle mb-2 text-muted"><span class="brand-link" data-brand="${p.brand}">${p.brand}</span></h6>
-                                <p class="card-text small flex-grow-1">${(p.description || 'No description available.').substring(0, 80)}...</p>
+                                <p class="card-text small flex-grow-1">${String(p.description || 'No description available.').substring(0, 80)}...</p>
                                 <div class="mb-2">${accordsText}</div>
                                 <div class="mt-auto">
                                     <button class="btn btn-sm btn-outline-secondary" onclick="showPerfumeDetails('${p.code}')">Details</button>
@@ -262,7 +262,7 @@
                         <div class="d-flex w-100 justify-content-between align-items-start">
                             <div>
                                 <h5 class="mb-1">${p.inspiredBy}${genderIcon} <small class="text-muted">by <span class="brand-link" data-brand="${p.brand}">${p.brand}</span></small></h5>
-                                <p class="mb-1 small">${(p.description || 'No description available.').substring(0, 120)}...</p>
+                                <p class="mb-1 small">${String(p.description || 'No description available.').substring(0, 120)}...</p>
                                 <div class="mt-2">${accordsText}</div>
                             </div>
                             <div class="d-flex flex-column align-items-end ms-3 text-nowrap" style="min-width: 120px;">
@@ -291,9 +291,10 @@
             }
             if (state.searchQuery) {
                 const query = state.searchQuery.toLowerCase();
+                // FINAL FIX: Ensure values are strings before calling toLowerCase()
                 filtered = filtered.filter(p => 
-                    (p.inspiredBy || '').toLowerCase().includes(query) || 
-                    (p.brand || '').toLowerCase().includes(query)
+                    String(p.inspiredBy || '').toLowerCase().includes(query) || 
+                    String(p.brand || '').toLowerCase().includes(query)
                 );
             }
             for (const key in state.activeFilters) {
