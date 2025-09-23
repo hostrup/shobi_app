@@ -99,6 +99,7 @@
         
         .sidebar { position: sticky; top: 80px; }
         .accordion-button:not(.collapsed) { background-color: rgba(var(--bs-primary-rgb), 0.1); }
+        #topAccordsChart { cursor: pointer; }
     </style>
 </head>
 <body>
@@ -229,8 +230,7 @@
                 const isFavorite = state.favorites.includes(p.code);
                 const accordsText = (p.mainAccords || []).slice(0, 3).map(a => `<span class="badge bg-secondary me-1 accord-tag" onclick="handleAccordClick('${a}')">${a}</span>`).join('');
                 
-                const shobiCode = p.code.split('-')[0];
-                const shobiLink = `https://leparfum.com.gr/en/search?controller=search&s=${shobiCode}`;
+                const shobiLink = `https://leparfum.com.gr/en/search?controller=search&s=${p.code}`;
                 const parfumoLinkHTML = p.link ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-info ms-1">Parfumo</a>` : '';
 
                 let genderIcon = '';
@@ -280,7 +280,6 @@
 
             listElement.innerHTML = perfumesHTML;
             
-            // Re-attach event listeners after bulk DOM update
             listElement.querySelectorAll('.favorite-btn').forEach(btn => btn.addEventListener('click', toggleFavorite));
             listElement.querySelectorAll('.brand-link').forEach(link => link.addEventListener('click', e => showBrandView(e.target.dataset.brand)));
         }
@@ -320,7 +319,6 @@
                 (p.occasions || []).forEach(o => allOccasions.add(o));
                 if (p.genderAffinity) filters.genderAffinity.options.add(p.genderAffinity);
             });
-            // Sort occasions alphabetically before assigning to the filter object
             [...allOccasions].sort().forEach(o => filters.occasions.options.add(o));
 
             const counts = allPerfumes.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
@@ -366,7 +364,17 @@
                         backgroundColor: ['rgba(60, 100, 255, 0.7)', 'rgba(255, 99, 132, 0.7)', 'rgba(255, 205, 86, 0.7)', 'rgba(75, 192, 192, 0.7)', 'rgba(153, 102, 255, 0.7)'],
                     }] 
                 },
-                options: { responsive: true, plugins: { legend: { position: 'top' } } }
+                options: { 
+                    responsive: true, 
+                    plugins: { legend: { position: 'top' } },
+                    onClick: (event, elements) => {
+                        if (elements.length > 0) {
+                            const chartElement = elements[0];
+                            const label = topAccordsChart.data.labels[chartElement.index];
+                            handleAccordClick(label);
+                        }
+                    }
+                }
             });
         }
         
@@ -435,7 +443,10 @@
             const checkbox = document.querySelector(`#filter-accordion input[value="${accord}"]`);
             if (checkbox) {
                 checkbox.checked = true;
-                state.activeFilters[checkbox.dataset.filterKey].push(accord);
+                const key = checkbox.dataset.filterKey;
+                if (key) {
+                    state.activeFilters[key].push(accord);
+                }
             }
             applyFiltersAndRender();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -500,7 +511,11 @@
         document.addEventListener('DOMContentLoaded', () => {
             init();
 
-            document.getElementById('search-input').addEventListener('input', e => { state.searchQuery = e.target.value; state.showingFavorites = false; applyFiltersAndRender(); });
+            document.getElementById('search-input').addEventListener('input', e => { 
+                state.searchQuery = e.target.value; 
+                state.showingFavorites = false; 
+                applyFiltersAndRender(); 
+            });
             document.getElementById('sort-btn-group').addEventListener('click', e => {
                 if (e.target.matches('.btn')) {
                     document.querySelector('#sort-btn-group .btn.active').classList.remove('active');
