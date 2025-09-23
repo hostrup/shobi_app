@@ -272,8 +272,8 @@
                     });
                 }
             }
-            // FIX: Add check for property existence before sorting to prevent errors.
-            filtered.sort((a, b) => (a[state.sortKey] || '').localeCompare(b[state.sortKey] || ''));
+            // FIX: Explicitly convert sort key to string to handle non-string data types (e.g., numbers).
+            filtered.sort((a, b) => String(a[state.sortKey] || '').localeCompare(String(b[state.sortKey] || '')));
             displayPerfumes(filtered, 'perfume-list');
         }
 
