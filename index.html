@@ -100,6 +100,11 @@
         .sidebar { position: sticky; top: 80px; }
         .accordion-button:not(.collapsed) { background-color: rgba(var(--bs-primary-rgb), 0.1); }
         #topAccordsChart { cursor: pointer; }
+        .modal-title .brand-link-modal {
+            color: var(--bs-primary);
+            text-decoration: underline;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -386,11 +391,20 @@
             });
         }
         
+        // New function to allow navigation from modal
+        window.navigateToBrand = function(brandName) {
+            perfumeDetailsModal.hide();
+            showBrandView(brandName);
+        }
+
         function showPerfumeDetails(code) {
             const perfume = allPerfumes.find(p => p.code === code);
             if (!perfume) return;
             const content = document.getElementById('perfume-details-content');
-            document.getElementById('perfumeDetailsLabel').textContent = `${perfume.inspiredBy} by ${perfume.brand}`;
+            
+            // New: make brand name in title clickable
+            document.getElementById('perfumeDetailsLabel').innerHTML = `${perfume.inspiredBy} by <a href="#" onclick="event.preventDefault(); window.navigateToBrand('${perfume.brand}')" class="brand-link-modal">${perfume.brand}</a>`;
+            
             const notesHTML = (notes, title) => notes && notes.length > 0 ? `<h6>${title}</h6><p class="text-muted">${notes.join(', ')}</p>` : '';
             content.innerHTML = `
                 <div class="row">
