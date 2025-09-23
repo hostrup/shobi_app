@@ -261,7 +261,7 @@
             if (state.showingFavorites) filtered = filtered.filter(p => state.favorites.includes(p.code));
             if (state.searchQuery) {
                 const query = state.searchQuery.toLowerCase();
-                filtered = filtered.filter(p => p.inspiredBy.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query));
+                filtered = filtered.filter(p => (p.inspiredBy || '').toLowerCase().includes(query) || (p.brand || '').toLowerCase().includes(query));
             }
             for (const key in state.activeFilters) {
                 const selected = state.activeFilters[key];
@@ -272,7 +272,8 @@
                     });
                 }
             }
-            filtered.sort((a, b) => a[state.sortKey].localeCompare(b[state.sortKey]));
+            // FIX: Add check for property existence before sorting to prevent errors.
+            filtered.sort((a, b) => (a[state.sortKey] || '').localeCompare(b[state.sortKey] || ''));
             displayPerfumes(filtered, 'perfume-list');
         }
 
@@ -371,7 +372,7 @@
             const similar = allPerfumes
                 .filter(p => p.code !== baseCode)
                 .map(p => {
-                    const sharedAccords = p.mainAccords.filter(accord => baseAccords.has(accord));
+                    const sharedAccords = (p.mainAccords || []).filter(accord => baseAccords.has(accord));
                     return { item: p, score: sharedAccords.length };
                 })
                 .sort((a, b) => b.score - a.score)
