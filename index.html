@@ -211,7 +211,6 @@
         function displayPerfumes(perfumes, containerId, customTitle = null) {
             const listElement = document.getElementById(containerId);
             listElement.className = state.viewMode === 'grid' ? 'row g-4' : 'list-group';
-            listElement.innerHTML = '';
             
             const resultsCountEl = document.getElementById('results-count');
             if (customTitle) {
@@ -225,19 +224,22 @@
                 return;
             }
 
-            perfumes.forEach(perfume => {
+            const perfumesHTML = perfumes.map(perfume => {
                 const p = perfume.item ? perfume.item : perfume;
                 const isFavorite = state.favorites.includes(p.code);
                 const accordsText = (p.mainAccords || []).slice(0, 3).map(a => `<span class="badge bg-secondary me-1 accord-tag" onclick="handleAccordClick('${a}')">${a}</span>`).join('');
                 
+                const shobiCode = p.code.split('-')[0];
+                const shobiLink = `https://leparfum.com.gr/en/search?controller=search&s=${shobiCode}`;
+                const parfumoLinkHTML = p.link ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-info ms-1">Parfumo</a>` : '';
+
                 let genderIcon = '';
                 if (p.genderAffinity === 'Feminine') genderIcon = '<i class="fas fa-venus text-danger ms-2"></i>';
                 else if (p.genderAffinity === 'Masculine') genderIcon = '<i class="fas fa-mars text-primary ms-2"></i>';
                 else if (p.genderAffinity === 'Unisex') genderIcon = '<i class="fas fa-venus-mars text-warning ms-2"></i>';
                 
-                let itemHTML = ``;
-                if(state.viewMode === 'grid') {
-                    itemHTML = `
+                if (state.viewMode === 'grid') {
+                    return `
                     <div class="col-md-6 col-xl-4">
                         <div class="card h-100 shadow-sm perfume-card bg-body-tertiary">
                              <div class="card-body d-flex flex-column position-relative">
@@ -248,13 +250,14 @@
                                 <div class="mb-2">${accordsText}</div>
                                 <div class="mt-auto">
                                     <button class="btn btn-sm btn-outline-secondary" onclick="showPerfumeDetails('${p.code}')">Details</button>
-                                    <a href="#" target="_blank" class="btn btn-sm btn-primary ms-1">Find on Shobi</a>
+                                    <a href="${shobiLink}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary ms-1">Shobi</a>
+                                    ${parfumoLinkHTML}
                                 </div>
                             </div>
                         </div>
                     </div>`;
                 } else {
-                     itemHTML = `
+                     return `
                      <li class="list-group-item bg-body-tertiary">
                         <div class="d-flex w-100 justify-content-between align-items-start">
                             <div>
@@ -266,17 +269,20 @@
                                 <i class="fas fa-heart favorite-btn mb-auto ${isFavorite ? 'is-favorite' : ''}" data-code="${p.code}"></i>
                                 <div class="mt-2">
                                     <button class="btn btn-sm btn-outline-secondary" onclick="showPerfumeDetails('${p.code}')">Details</button>
-                                    <a href="#" target="_blank" class="btn btn-sm btn-primary ms-1">Find</a>
+                                    <a href="${shobiLink}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary ms-1">Shobi</a>
+                                    ${parfumoLinkHTML}
                                 </div>
                             </div>
                         </div>
                     </li>`;
                 }
-                listElement.innerHTML += itemHTML;
-            });
+            }).join('');
+
+            listElement.innerHTML = perfumesHTML;
             
-            document.querySelectorAll('.favorite-btn').forEach(btn => btn.addEventListener('click', toggleFavorite));
-            document.querySelectorAll('.brand-link').forEach(link => link.addEventListener('click', e => showBrandView(e.target.dataset.brand)));
+            // Re-attach event listeners after bulk DOM update
+            listElement.querySelectorAll('.favorite-btn').forEach(btn => btn.addEventListener('click', toggleFavorite));
+            listElement.querySelectorAll('.brand-link').forEach(link => link.addEventListener('click', e => showBrandView(e.target.dataset.brand)));
         }
 
         function applyFiltersAndRender() {
@@ -302,40 +308,47 @@
         function createFilters() {
             const accordion = document.getElementById('filter-accordion');
             const filters = {
-                mainAccords: { title: 'Main Accords', options: new Set(), limit: 5 },
+                mainAccords: { title: 'Main Accords', options: new Set(), limit: 10 },
                 seasons: { title: 'Season', options: new Set() },
                 occasions: { title: 'Occasion', options: new Set() },
                 genderAffinity: { title: 'Gender', options: new Set() }
             };
-            const counts = allPerfumes.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
-            const topAccords = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, filters.mainAccords.limit).map(e => e[0]);
+
+            const allOccasions = new Set();
             allPerfumes.forEach(p => {
-                topAccords.forEach(a => filters.mainAccords.options.add(a));
                 (p.seasons || []).forEach(s => filters.seasons.options.add(s));
-                (p.occasions || []).forEach(o => filters.occasions.options.add(o));
+                (p.occasions || []).forEach(o => allOccasions.add(o));
                 if (p.genderAffinity) filters.genderAffinity.options.add(p.genderAffinity);
             });
+            // Sort occasions alphabetically before assigning to the filter object
+            [...allOccasions].sort().forEach(o => filters.occasions.options.add(o));
+
+            const counts = allPerfumes.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
+            const topAccords = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, filters.mainAccords.limit).map(e => e[0]);
+            topAccords.forEach(a => filters.mainAccords.options.add(a));
+            
             let html = '';
-            let i = 0;
             for (const key in filters) {
                 state.activeFilters[key] = [];
+                const options = [...filters[key].options].sort();
+                if (options.length === 0) continue;
+
                 html += `
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading-${key}">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${key}" aria-expanded="false" aria-controls="collapse-${key}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${key}">
                             ${filters[key].title}
                         </button>
                     </h2>
                     <div id="collapse-${key}" class="accordion-collapse collapse" aria-labelledby="heading-${key}">
-                        <div class="accordion-body">`;
-                [...filters[key].options].sort().forEach(option => {
+                        <div class="accordion-body" style="max-height: 200px; overflow-y: auto;">`;
+                options.forEach(option => {
                     html += `<div class="form-check"><input class="form-check-input filter-checkbox" type="checkbox" value="${option}" id="${key}-${option}" data-filter-key="${key}"><label class="form-check-label" for="${key}-${option}">${option}</label></div>`;
                 });
                 html += `</div></div></div>`;
-                i++;
             }
             accordion.innerHTML = html;
-            document.querySelectorAll('.filter-checkbox').forEach(box => box.addEventListener('change', handleFilterChange));
+            accordion.querySelectorAll('.filter-checkbox').forEach(box => box.addEventListener('change', handleFilterChange));
         }
         
         function calculateAndShowStats() {
@@ -359,6 +372,7 @@
         
         function showPerfumeDetails(code) {
             const perfume = allPerfumes.find(p => p.code === code);
+            if (!perfume) return;
             const content = document.getElementById('perfume-details-content');
             document.getElementById('perfumeDetailsLabel').textContent = `${perfume.inspiredBy} by ${perfume.brand}`;
             const notesHTML = (notes, title) => notes && notes.length > 0 ? `<h6>${title}</h6><p class="text-muted">${notes.join(', ')}</p>` : '';
@@ -443,7 +457,8 @@
             else state.favorites.push(code);
             localStorage.setItem('shobi-favorites', JSON.stringify(state.favorites));
             document.getElementById('favorites-count').textContent = state.favorites.length;
-            applyFiltersAndRender();
+            const btn = event.target;
+            if (btn) btn.classList.toggle('is-favorite', index === -1);
         }
         
         function resetAllFilters() {
