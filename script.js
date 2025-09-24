@@ -7,6 +7,7 @@ let topAccordsChart = null;
 let scentProfileChart = null;
 let perfumeDetailsModal;
 
+// All display and helper functions remain the same as before...
 function displayPerfumes(perfumes, containerId, customTitle = null) {
     const listElement = document.getElementById(containerId);
     listElement.className = state.viewMode === 'grid' ? 'row g-4' : 'list-group';
@@ -282,7 +283,6 @@ function toggleFavorite(event) {
     localStorage.setItem('shobi-favorites', JSON.stringify(state.favorites));
     document.getElementById('favorites-count').textContent = state.favorites.length;
     event.target.classList.toggle('is-favorite', index === -1);
-     // If we are in the favorites view, re-render to remove the card
     if (state.showingFavorites) {
         applyFiltersAndRender();
     }
@@ -314,17 +314,38 @@ async function init() {
         const rawData = await response.json();
         console.log(`DEBUG: Successfully parsed JSON. Found ${rawData.length} raw entries.`);
 
-        // DATA SANITIZATION
-        allPerfumes = rawData.filter(p => p && p.code && p.inspiredBy).map(p => ({
+        // --- NEW & IMPROVED DATA HANDLING ---
+        if (rawData.length > 0 && rawData[0].perfumes && Array.isArray(rawData[0].perfumes)) {
+            console.log("DEBUG: Data structure appears to be [Brand -> perfumes]. Flattening the structure.");
+            allPerfumes = rawData.flatMap(brandObject => {
+                if (brandObject && Array.isArray(brandObject.perfumes)) {
+                    // Tilføj brand-information til hver parfume under indlæsningen
+                    return brandObject.perfumes.map(perfume => ({
+                        ...perfume,
+                        brand: brandObject.brand, // Sørg for at brand-navnet er korrekt
+                        brandDescription: brandObject.brandDescription
+                    }));
+                }
+                return []; // Returner en tom liste, hvis strukturen er uventet
+            });
+             console.log(`DEBUG: Successfully flattened data. Total perfumes found: ${allPerfumes.length}`);
+        } else {
+            console.log("DEBUG: Data structure appears to be a flat list. Processing as-is.");
+            allPerfumes = rawData;
+        }
+
+        // DATA SANITIZATION (Now on the flattened list)
+        allPerfumes = allPerfumes.filter(p => p && p.code && p.inspiredBy).map(p => ({
             ...p,
             mainAccords: Array.isArray(p.mainAccords) ? p.mainAccords : [],
             seasons: Array.isArray(p.seasons) ? p.seasons : [],
             occasions: Array.isArray(p.occasions) ? p.occasions : [],
             notes: p.notes || { top: [], heart: [], base: [] }
         }));
-        console.log(`DEBUG: Data sanitized. Total valid perfumes: ${allPerfumes.length}`);
-        if (allPerfumes.length > 0) {
-            console.log("DEBUG: First perfume object after sanitization:", allPerfumes[0]);
+        
+        console.log(`DEBUG: Data sanitized. Final valid perfume count: ${allPerfumes.length}`);
+        if (allPerfumes.length === 0 && rawData.length > 0) {
+            console.error("CRITICAL ERROR: No valid perfumes were found after processing. Please check the JSON structure.");
         }
 
     } catch (error) {
