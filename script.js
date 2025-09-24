@@ -7,7 +7,6 @@ let topAccordsChart = null;
 let scentProfileChart = null;
 let perfumeDetailsModal;
 
-// All display and helper functions remain the same as before...
 function displayPerfumes(perfumes, containerId, customTitle = null) {
     const listElement = document.getElementById(containerId);
     listElement.className = state.viewMode === 'grid' ? 'row g-4' : 'list-group';
@@ -155,6 +154,7 @@ function createFilters() {
 
 function calculateAndShowStats() {
     const chartCanvas = document.getElementById('topAccordsChart');
+    if (!chartCanvas) return;
     const ctx = chartCanvas.getContext('2d');
     const counts = allPerfumes.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
     const top5 = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 5);
@@ -314,23 +314,27 @@ async function init() {
         const rawData = await response.json();
         console.log(`DEBUG: Successfully parsed JSON. Found ${rawData.length} raw entries.`);
         
-        if (rawData.length > 0 && rawData[0].perfumes && Array.isArray(rawData[0].perfumes)) {
+        if (rawData.length > 0 && Array.isArray(rawData[0].perfumes)) {
             console.log("DEBUG: Data structure is [Brand with nested perfumes]. Flattening the structure.");
+            
+            // *** THE FIX IS HERE ***
             allPerfumes = rawData.flatMap(brandObject => {
                 if (brandObject && Array.isArray(brandObject.perfumes)) {
-                    // *** THE FIX IS HERE ***
+                    // Check for brand name under 'brand' or 'brandName' key
                     const brandName = brandObject.brand || brandObject.brandName || "Unknown Brand";
+                    // Add brand information to each perfume object as it's processed
                     return brandObject.perfumes.map(perfume => ({
                         ...perfume,
-                        brand: perfume.brand || brandName, // Prioritize brand on perfume, fallback to parent
+                        brand: brandName, 
                         brandDescription: brandObject.brandDescription
                     }));
                 }
                 return [];
             });
             console.log(`DEBUG: Successfully flattened data. Total perfumes found: ${allPerfumes.length}`);
+
         } else {
-            console.log("DEBUG: Data structure appears to be a flat list already. Processing as-is.");
+            console.log("DEBUG: Data structure appears to be a flat list. Processing as-is.");
             allPerfumes = rawData;
         }
 
@@ -343,13 +347,16 @@ async function init() {
         }));
         
         console.log(`DEBUG: Data sanitized. Final valid perfume count: ${allPerfumes.length}`);
+        if (allPerfumes.length > 0) {
+            console.log("DEBUG: First valid perfume object after processing:", allPerfumes[0]);
+        }
         if (allPerfumes.length === 0 && rawData.length > 0) {
-            console.error("CRITICAL ERROR: No valid perfumes were found after processing. Please check the JSON structure.");
+            console.error("CRITICAL ERROR: No valid perfumes were found. Check JSON structure and flattening logic.");
         }
 
     } catch (error) {
         console.error("ERROR: Could not load or parse perfume data:", error);
-        document.getElementById('results-count').innerHTML = `<span class="text-danger">Error: Could not load perfume data. Please check the console (F12).</span>`;
+        document.getElementById('results-count').innerHTML = `<span class="text-danger">Error: Could not load data. See console (F12) for details.</span>`;
         return;
     }
 
