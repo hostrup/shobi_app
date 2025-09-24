@@ -1,33 +1,54 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // DOM Elements
     const searchInput = document.getElementById('searchInput');
     const perfumeList = document.getElementById('perfumeList');
     const brandFilter = document.getElementById('brandFilter');
+    const themeToggle = document.getElementById('theme-toggle');
+    const totalPerfumesEl = document.getElementById('total-perfumes');
+    const totalBrandsEl = document.getElementById('total-brands');
+
     let perfumesData = [];
     let allBrands = [];
 
-    // Fetch perfume data from the CORRECT JSON file
+    // --- THEME MANAGEMENT ---
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        let theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('theme', theme);
+    });
+
+    // --- DATA FETCHING & INITIALIZATION ---
     fetch('database_complete.json')
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             return response.json();
         })
         .then(data => {
             perfumesData = data;
-            // Extract unique brand names for the filter
             allBrands = [...new Set(perfumesData.map(p => p.brand).filter(b => b).sort())];
+            
+            updateStatistics(perfumesData.length, allBrands.length);
             populateBrandFilter(allBrands);
             displayPerfumes(perfumesData);
         })
         .catch(error => {
             console.error("Fejl ved indlæsning af parfumedata:", error);
-            perfumeList.innerHTML = '<p style="color: red;">Kunne ikke indlæse parfumedata fra database_complete.json. Tjek filnavnet og konsollen for fejl.</p>';
+            perfumeList.innerHTML = `<p style="color: red;">Kunne ikke indlæse parfumedata fra database_complete.json. Tjek filnavnet og konsollen.</p>`;
         });
 
-    // Function to populate the brand filter dropdown
+    // --- UI UPDATE FUNCTIONS ---
+    function updateStatistics(perfumeCount, brandCount) {
+        totalPerfumesEl.textContent = perfumeCount;
+        totalBrandsEl.textContent = brandCount;
+    }
+    
     function populateBrandFilter(brands) {
-        brandFilter.innerHTML = '<option value="">Alle Brands</option>'; // Reset
+        brandFilter.innerHTML = '<option value="">Alle Brands</option>';
         brands.forEach(brand => {
             const option = document.createElement('option');
             option.value = brand;
@@ -36,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Function to display perfumes on the page
     function displayPerfumes(perfumes) {
         perfumeList.innerHTML = '';
         if (perfumes.length === 0) {
@@ -47,12 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const perfumeCard = document.createElement('div');
             perfumeCard.className = 'perfume-card';
 
-            // Safely access notes
             const topNotes = perfume.notes?.top?.join(', ') || 'N/A';
             const heartNotes = perfume.notes?.heart?.join(', ') || 'N/A';
             const baseNotes = perfume.notes?.base?.join(', ') || 'N/A';
-
-            // Construct the purchase link
             const shobiLink = `https://leparfum.com.gr/en/products/${perfume.code}`;
 
             perfumeCard.innerHTML = `
@@ -75,31 +92,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Function to filter and search perfumes
+    // --- FILTER & SEARCH LOGIC ---
     function filterAndSearch() {
         const searchTerm = searchInput.value.toLowerCase();
         const selectedBrand = brandFilter.value;
 
         let filteredPerfumes = perfumesData;
 
-        // Filter by brand first
         if (selectedBrand) {
-            filteredPerfumes = filteredPerfumes.filter(perfume => perfume.brand === selectedBrand);
+            filteredPerfumes = filteredPerfumes.filter(p => p.brand === selectedBrand);
         }
 
-        // Then filter by search term
         if (searchTerm) {
-            filteredPerfumes = filteredPerfumes.filter(perfume =>
-                (perfume.inspiredBy && perfume.inspiredBy.toLowerCase().includes(searchTerm)) ||
-                (perfume.brand && perfume.brand.toLowerCase().includes(searchTerm)) ||
-                (perfume.description && perfume.description.toLowerCase().includes(searchTerm))
+            filteredPerfumes = filteredPerfumes.filter(p =>
+                (p.inspiredBy && p.inspiredBy.toLowerCase().includes(searchTerm)) ||
+                (p.brand && p.brand.toLowerCase().includes(searchTerm)) ||
+                (p.description && p.description.toLowerCase().includes(searchTerm))
             );
         }
 
         displayPerfumes(filteredPerfumes);
     }
 
-    // Event listeners for search and filter
+    // --- EVENT LISTENERS ---
     searchInput.addEventListener('input', filterAndSearch);
     brandFilter.addEventListener('change', filterAndSearch);
 });
