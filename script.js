@@ -1,3 +1,6 @@
+// DEBUG: Script started.
+console.log("DEBUG: script.js loaded and running.");
+
 let allPerfumes = [];
 const state = { searchQuery: '', sortKey: 'inspiredBy', activeFilters: {}, favorites: [], showingFavorites: false, viewMode: 'grid', currentView: 'main' };
 let topAccordsChart = null;
@@ -278,8 +281,11 @@ function toggleFavorite(event) {
     else state.favorites.push(code);
     localStorage.setItem('shobi-favorites', JSON.stringify(state.favorites));
     document.getElementById('favorites-count').textContent = state.favorites.length;
-    const btn = event.target;
-    if (btn) btn.classList.toggle('is-favorite', index === -1);
+    event.target.classList.toggle('is-favorite', index === -1);
+     // If we are in the favorites view, re-render to remove the card
+    if (state.showingFavorites) {
+        applyFiltersAndRender();
+    }
 }
 
 function resetAllFilters() {
@@ -299,23 +305,31 @@ function setTheme(theme) {
 }
 
 async function init() {
+    console.log("DEBUG: init() function started.");
     try {
         const response = await fetch('database_complete.json');
+        console.log("DEBUG: Fetch response received. Status:", response.status);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const rawData = await response.json();
         
+        const rawData = await response.json();
+        console.log(`DEBUG: Successfully parsed JSON. Found ${rawData.length} raw entries.`);
+
         // DATA SANITIZATION
         allPerfumes = rawData.filter(p => p && p.code && p.inspiredBy).map(p => ({
             ...p,
             mainAccords: Array.isArray(p.mainAccords) ? p.mainAccords : [],
             seasons: Array.isArray(p.seasons) ? p.seasons : [],
             occasions: Array.isArray(p.occasions) ? p.occasions : [],
-            notes: p.notes || { top: [], heart: [], base: [] } // Ensure notes object exists
+            notes: p.notes || { top: [], heart: [], base: [] }
         }));
+        console.log(`DEBUG: Data sanitized. Total valid perfumes: ${allPerfumes.length}`);
+        if (allPerfumes.length > 0) {
+            console.log("DEBUG: First perfume object after sanitization:", allPerfumes[0]);
+        }
 
     } catch (error) {
-        console.error("Could not load perfume data:", error);
-        document.getElementById('results-count').innerHTML = `<span class="text-danger">Error: Could not load perfume data. Please check the console.</span>`;
+        console.error("ERROR: Could not load or parse perfume data:", error);
+        document.getElementById('results-count').innerHTML = `<span class="text-danger">Error: Could not load perfume data. Please check the console (F12).</span>`;
         return;
     }
 
@@ -323,9 +337,14 @@ async function init() {
     const savedFavorites = localStorage.getItem('shobi-favorites');
     if(savedFavorites) state.favorites = JSON.parse(savedFavorites);
     document.getElementById('favorites-count').textContent = state.favorites.length;
+    
+    console.log("DEBUG: Creating filters and calculating stats.");
     createFilters();
     calculateAndShowStats();
+    
     setTheme(localStorage.getItem('shobi-theme') || 'light');
+    
+    console.log("DEBUG: Performing initial render.");
     applyFiltersAndRender();
 }
 
