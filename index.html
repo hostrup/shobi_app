@@ -4,102 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shobi Parfum Finder</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        h1, h2 {
-            text-align: center;
-            color: #2c3e50;
-        }
-        .controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        #searchInput, #brandFilter {
-            padding: 12px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            min-width: 250px;
-        }
-        #perfumeList {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .perfume-card {
-            background-color: #fdfdfd;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            transition: transform 0.2s ease-in-out;
-            display: flex;
-            flex-direction: column;
-        }
-        .perfume-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .perfume-card h3 {
-            margin-top: 0;
-            color: #3498db;
-        }
-        .perfume-card .brand-name {
-            font-size: 0.9em;
-            color: #555;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-        .perfume-card .description {
-            font-size: 0.95em;
-            line-height: 1.5;
-            margin-bottom: 15px;
-            flex-grow: 1; /* Sikrer at kortene har samme højde */
-        }
-        .notes, .details {
-            font-size: 0.85em;
-            color: #666;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-            margin-top: 10px;
-        }
-        .notes p, .details p {
-            margin: 5px 0;
-        }
-        .shobi-link {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 15px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-            font-weight: bold;
-            transition: background-color 0.2s;
-        }
-        .shobi-link:hover {
-            background-color: #2980b9;
-        }
-    </style>
+   <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -114,3 +19,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
