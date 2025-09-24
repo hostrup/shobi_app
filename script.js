@@ -316,23 +316,20 @@ async function init() {
         
         if (rawData.length > 0 && Array.isArray(rawData[0].perfumes)) {
             console.log("DEBUG: Data structure is [Brand with nested perfumes]. Flattening the structure.");
-            
-            // *** THE FIX IS HERE ***
             allPerfumes = rawData.flatMap(brandObject => {
                 if (brandObject && Array.isArray(brandObject.perfumes)) {
-                    // Check for brand name under 'brand' or 'brandName' key
-                    const brandName = brandObject.brand || brandObject.brandName || "Unknown Brand";
-                    // Add brand information to each perfume object as it's processed
+                    // *** THE FINAL FIX IS HERE ***
+                    // Correctly access the brand name from the nested brandInfo object
+                    const brandName = brandObject.brandInfo?.name || "Unknown Brand";
                     return brandObject.perfumes.map(perfume => ({
                         ...perfume,
-                        brand: brandName, 
-                        brandDescription: brandObject.brandDescription
+                        brand: perfume.brand || brandName, // Prioritize brand on perfume, fallback to parent
+                        brandDescription: brandObject.brandInfo?.description
                     }));
                 }
                 return [];
             });
             console.log(`DEBUG: Successfully flattened data. Total perfumes found: ${allPerfumes.length}`);
-
         } else {
             console.log("DEBUG: Data structure appears to be a flat list. Processing as-is.");
             allPerfumes = rawData;
@@ -351,7 +348,7 @@ async function init() {
             console.log("DEBUG: First valid perfume object after processing:", allPerfumes[0]);
         }
         if (allPerfumes.length === 0 && rawData.length > 0) {
-            console.error("CRITICAL ERROR: No valid perfumes were found. Check JSON structure and flattening logic.");
+            console.error("CRITICAL ERROR: No valid perfumes were found after processing. Please check the JSON structure.");
         }
 
     } catch (error) {
