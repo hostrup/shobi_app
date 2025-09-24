@@ -313,28 +313,27 @@ async function init() {
         
         const rawData = await response.json();
         console.log(`DEBUG: Successfully parsed JSON. Found ${rawData.length} raw entries.`);
-
-        // --- NEW & IMPROVED DATA HANDLING ---
+        
         if (rawData.length > 0 && rawData[0].perfumes && Array.isArray(rawData[0].perfumes)) {
-            console.log("DEBUG: Data structure appears to be [Brand -> perfumes]. Flattening the structure.");
+            console.log("DEBUG: Data structure is [Brand with nested perfumes]. Flattening the structure.");
             allPerfumes = rawData.flatMap(brandObject => {
                 if (brandObject && Array.isArray(brandObject.perfumes)) {
-                    // Tilføj brand-information til hver parfume under indlæsningen
+                    // *** THE FIX IS HERE ***
+                    const brandName = brandObject.brand || brandObject.brandName || "Unknown Brand";
                     return brandObject.perfumes.map(perfume => ({
                         ...perfume,
-                        brand: brandObject.brand, // Sørg for at brand-navnet er korrekt
+                        brand: perfume.brand || brandName, // Prioritize brand on perfume, fallback to parent
                         brandDescription: brandObject.brandDescription
                     }));
                 }
-                return []; // Returner en tom liste, hvis strukturen er uventet
+                return [];
             });
-             console.log(`DEBUG: Successfully flattened data. Total perfumes found: ${allPerfumes.length}`);
+            console.log(`DEBUG: Successfully flattened data. Total perfumes found: ${allPerfumes.length}`);
         } else {
-            console.log("DEBUG: Data structure appears to be a flat list. Processing as-is.");
+            console.log("DEBUG: Data structure appears to be a flat list already. Processing as-is.");
             allPerfumes = rawData;
         }
 
-        // DATA SANITIZATION (Now on the flattened list)
         allPerfumes = allPerfumes.filter(p => p && p.code && p.inspiredBy).map(p => ({
             ...p,
             mainAccords: Array.isArray(p.mainAccords) ? p.mainAccords : [],
