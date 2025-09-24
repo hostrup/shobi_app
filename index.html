@@ -4,11 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shobi Parfum Finder</title>
-   <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Shobi Parfum Finder</h1>
+        <header>
+            <h1>Shobi Parfum Finder</h1>
+            <button id="theme-toggle">Skift Tema</button>
+        </header>
+
+        <div class="statistics">
+            <h2>Statistik</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Totalt Antal Parfumer</h3>
+                    <p id="total-perfumes">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Unikke Brands</h3>
+                    <p id="total-brands">0</p>
+                </div>
+            </div>
+        </div>
+
         <div class="controls">
             <input type="text" id="searchInput" placeholder="Søg på navn, brand eller noter...">
             <select id="brandFilter"></select>
@@ -19,4 +37,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
