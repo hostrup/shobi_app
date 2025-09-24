@@ -2,7 +2,7 @@
 console.log("DEBUG: script.js loaded and running.");
 
 let allPerfumes = [];
-const state = { searchQuery: '', sortKey: 'inspiredBy', activeFilters: {}, favorites: [], showingFavorites: false, viewMode: 'grid', currentView: 'main' };
+const state = { searchQuery: '', sortKey: 'inspiredBy', activeFilters: {}, favorites: [], showingFavorites: false, viewMode: 'grid', currentView: 'main', currentBrand: null };
 let topAccordsChart = null;
 let scentProfileChart = null;
 let perfumeDetailsModal;
@@ -15,7 +15,8 @@ function displayPerfumes(perfumes, containerId, customTitle = null) {
     if (customTitle) {
         resultsCountEl.innerHTML = customTitle;
     } else if (containerId === 'perfume-list') {
-        resultsCountEl.textContent = `Showing ${perfumes.length} results`;
+        const perfumeSource = state.currentView === 'brand' ? allPerfumes.filter(p => p.brand === state.currentBrand) : allPerfumes;
+        resultsCountEl.textContent = `Showing ${perfumes.length} of ${perfumeSource.length} results`;
     }
 
     if(perfumes.length === 0) {
@@ -83,10 +84,16 @@ function displayPerfumes(perfumes, containerId, customTitle = null) {
 }
 
 function applyFiltersAndRender() {
-    let filtered = [...allPerfumes];
-    if (state.showingFavorites) {
-        filtered = filtered.filter(p => state.favorites.includes(p.code));
+    let perfumeSource = allPerfumes;
+    // Determine the source of perfumes based on the current view
+    if (state.currentView === 'brand' && state.currentBrand) {
+        perfumeSource = allPerfumes.filter(p => p.brand === state.currentBrand);
+    } else if (state.showingFavorites) {
+        perfumeSource = allPerfumes.filter(p => state.favorites.includes(p.code));
     }
+
+    let filtered = [...perfumeSource];
+    
     if (state.searchQuery) {
         const query = state.searchQuery.toLowerCase();
         filtered = filtered.filter(p => 
@@ -94,6 +101,7 @@ function applyFiltersAndRender() {
             String(p.brand || '').toLowerCase().includes(query)
         );
     }
+
     for (const key in state.activeFilters) {
         const selected = state.activeFilters[key];
         if (selected.length > 0) {
@@ -103,11 +111,14 @@ function applyFiltersAndRender() {
             });
         }
     }
+
     filtered.sort((a, b) => String(a[state.sortKey] || '').localeCompare(String(b[state.sortKey] || '')));
-    displayPerfumes(filtered, 'perfume-list');
+    
+    const containerId = state.currentView === 'brand' ? 'brand-perfume-list' : 'perfume-list';
+    displayPerfumes(filtered, containerId);
 }
 
-function createFilters() {
+function createFilters(perfumeSource) {
     const accordion = document.getElementById('filter-accordion');
     const filters = {
         mainAccords: { title: 'Main Accords', options: new Set(), limit: 10 },
@@ -117,14 +128,14 @@ function createFilters() {
     };
 
     const allOccasions = new Set();
-    allPerfumes.forEach(p => {
+    perfumeSource.forEach(p => {
         (p.seasons || []).forEach(s => filters.seasons.options.add(s));
         (p.occasions || []).forEach(o => allOccasions.add(o));
         if (p.genderAffinity) filters.genderAffinity.options.add(p.genderAffinity);
     });
     [...allOccasions].sort().forEach(o => filters.occasions.options.add(o));
 
-    const counts = allPerfumes.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
+    const counts = perfumeSource.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
     const topAccords = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, filters.mainAccords.limit).map(e => e[0]);
     topAccords.forEach(a => filters.mainAccords.options.add(a));
     
@@ -152,11 +163,11 @@ function createFilters() {
     accordion.querySelectorAll('.filter-checkbox').forEach(box => box.addEventListener('change', handleFilterChange));
 }
 
-function calculateAndShowStats() {
+function calculateAndShowStats(perfumeSource) {
     const chartCanvas = document.getElementById('topAccordsChart');
     if (!chartCanvas) return;
     const ctx = chartCanvas.getContext('2d');
-    const counts = allPerfumes.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
+    const counts = perfumeSource.flatMap(p => p.mainAccords || []).reduce((acc, a) => { acc[a] = (acc[a] || 0) + 1; return acc; }, {});
     const top5 = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 5);
     if (topAccordsChart) topAccordsChart.destroy();
     topAccordsChart = new Chart(ctx, {
@@ -231,12 +242,18 @@ function showPerfumeDetails(code) {
 
 function showBrandView(brandName) {
     state.currentView = 'brand';
+    state.currentBrand = brandName;
     document.getElementById('main-view').classList.add('d-none');
     document.getElementById('brand-view').classList.remove('d-none');
+    
     const brandPerfumes = allPerfumes.filter(p => p.brand === brandName);
     const brandInfoEntry = allPerfumes.find(p => p.brand === brandName && p.brandDescription);
     const brandDescription = brandInfoEntry ? brandInfoEntry.brandDescription : 'No brand description available.';
     document.getElementById('brand-info').innerHTML = `<h2>${brandName}</h2><p>${brandDescription}</p>`;
+    
+    // Rebuild filters and stats for the specific brand
+    createFilters(brandPerfumes);
+    calculateAndShowStats(brandPerfumes);
     displayPerfumes(brandPerfumes, 'brand-perfume-list');
 }
 
@@ -271,7 +288,10 @@ function handleFilterChange(e) {
     const value = e.target.value;
     if (e.target.checked) state.activeFilters[key].push(value);
     else state.activeFilters[key] = state.activeFilters[key].filter(v => v !== value);
+    
+    // Only apply filters, don't reset the view
     state.showingFavorites = false;
+    document.getElementById('favorites-btn').classList.remove('active');
     applyFiltersAndRender();
 }
 
@@ -308,30 +328,22 @@ async function init() {
     console.log("DEBUG: init() function started.");
     try {
         const response = await fetch('database_complete.json');
-        console.log("DEBUG: Fetch response received. Status:", response.status);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        
         const rawData = await response.json();
-        console.log(`DEBUG: Successfully parsed JSON. Found ${rawData.length} raw entries.`);
         
         if (rawData.length > 0 && Array.isArray(rawData[0].perfumes)) {
-            console.log("DEBUG: Data structure is [Brand with nested perfumes]. Flattening the structure.");
             allPerfumes = rawData.flatMap(brandObject => {
                 if (brandObject && Array.isArray(brandObject.perfumes)) {
-                    // *** THE FINAL FIX IS HERE ***
-                    // Correctly access the brand name from the nested brandInfo object
                     const brandName = brandObject.brandInfo?.name || "Unknown Brand";
                     return brandObject.perfumes.map(perfume => ({
                         ...perfume,
-                        brand: perfume.brand || brandName, // Prioritize brand on perfume, fallback to parent
+                        brand: brandName, 
                         brandDescription: brandObject.brandInfo?.description
                     }));
                 }
                 return [];
             });
-            console.log(`DEBUG: Successfully flattened data. Total perfumes found: ${allPerfumes.length}`);
         } else {
-            console.log("DEBUG: Data structure appears to be a flat list. Processing as-is.");
             allPerfumes = rawData;
         }
 
@@ -343,14 +355,8 @@ async function init() {
             notes: p.notes || { top: [], heart: [], base: [] }
         }));
         
-        console.log(`DEBUG: Data sanitized. Final valid perfume count: ${allPerfumes.length}`);
-        if (allPerfumes.length > 0) {
-            console.log("DEBUG: First valid perfume object after processing:", allPerfumes[0]);
-        }
-        if (allPerfumes.length === 0 && rawData.length > 0) {
-            console.error("CRITICAL ERROR: No valid perfumes were found after processing. Please check the JSON structure.");
-        }
-
+        console.log(`DEBUG: Final valid perfume count: ${allPerfumes.length}`);
+        
     } catch (error) {
         console.error("ERROR: Could not load or parse perfume data:", error);
         document.getElementById('results-count').innerHTML = `<span class="text-danger">Error: Could not load data. See console (F12) for details.</span>`;
@@ -362,13 +368,9 @@ async function init() {
     if(savedFavorites) state.favorites = JSON.parse(savedFavorites);
     document.getElementById('favorites-count').textContent = state.favorites.length;
     
-    console.log("DEBUG: Creating filters and calculating stats.");
-    createFilters();
-    calculateAndShowStats();
-    
+    createFilters(allPerfumes);
+    calculateAndShowStats(allPerfumes);
     setTheme(localStorage.getItem('shobi-theme') || 'light');
-    
-    console.log("DEBUG: Performing initial render.");
     applyFiltersAndRender();
 }
 
@@ -400,7 +402,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.theme-choice').forEach(item => item.addEventListener('click', e => { e.preventDefault(); setTheme(e.target.dataset.themeValue); }));
     document.getElementById('favorites-btn').addEventListener('click', () => {
         state.showingFavorites = !state.showingFavorites;
-        if(state.showingFavorites) { resetAllFilters(); state.showingFavorites = true; }
+        state.currentView = 'main'; // Go back to main view for favorites
+        state.currentBrand = null;
+        document.getElementById('brand-view').classList.add('d-none');
+        document.getElementById('main-view').classList.remove('d-none');
+        if(state.showingFavorites) { 
+            resetAllFilters(); 
+            state.showingFavorites = true; 
+            createFilters(allPerfumes.filter(p => state.favorites.includes(p.code)));
+            calculateAndShowStats(allPerfumes.filter(p => state.favorites.includes(p.code)));
+        } else {
+            createFilters(allPerfumes);
+            calculateAndShowStats(allPerfumes);
+        }
         document.getElementById('favorites-btn').classList.toggle('active', state.showingFavorites);
         applyFiltersAndRender();
     });
@@ -411,11 +425,21 @@ document.addEventListener('DOMContentLoaded', () => {
             showPerfumeDetails(randomPerfume.code);
         }
     });
-    document.getElementById('reset-filters-btn').addEventListener('click', resetAllFilters);
+    document.getElementById('reset-filters-btn').addEventListener('click', () => {
+        resetAllFilters();
+        if (state.currentView === 'brand') {
+             const brandPerfumes = allPerfumes.filter(p => p.brand === state.currentBrand);
+             displayPerfumes(brandPerfumes, 'brand-perfume-list');
+        }
+    });
     document.getElementById('back-to-all-btn').addEventListener('click', () => {
         state.currentView = 'main';
+        state.currentBrand = null;
         document.getElementById('brand-view').classList.add('d-none');
         document.getElementById('main-view').classList.remove('d-none');
+        // Restore global filters and stats
+        createFilters(allPerfumes);
+        calculateAndShowStats(allPerfumes);
         applyFiltersAndRender();
     });
 });
