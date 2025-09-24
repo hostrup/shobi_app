@@ -1,25 +1,110 @@
 /* style.css */
+:root {
+    --bg-color: #f4f4f9;
+    --card-bg-color: #ffffff;
+    --text-color: #333;
+    --primary-color: #3498db;
+    --primary-color-hover: #2980b9;
+    --border-color: #eee;
+    --shadow-color: rgba(0,0,0,0.1);
+    --header-text-color: #2c3e50;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 20px;
-    background-color: #f4f4f9;
-    color: #333;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    --bg-color: #2c3e50;
+    --card-bg-color: #34495e;
+    --text-color: #ecf0f1;
+    --primary-color: #5dade2;
+    --primary-color-hover: #85c1e9;
+    --border-color: #4a6278;
+    --shadow-color: rgba(0,0,0,0.4);
+    --header-text-color: #ecf0f1;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: var(--card-bg-color);
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px var(--shadow-color);
+    transition: background-color 0.3s;
 }
 
-h1, h2 {
-    text-align: center;
-    color: #2c3e50;
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
+
+h1 {
+    text-align: center;
+    color: var(--header-text-color);
+    flex-grow: 1;
+}
+
+#theme-toggle {
+    padding: 10px 15px;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+#theme-toggle:hover {
+    background-color: var(--primary-color-hover);
+}
+
+.statistics {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.statistics h2 {
+    color: var(--header-text-color);
+}
+
+.stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background-color: var(--bg-color);
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.stat-card h3 {
+    margin: 0 0 5px 0;
+    font-size: 1em;
+    color: var(--text-color);
+}
+
+.stat-card p {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
 
 .controls {
     display: flex;
@@ -33,7 +118,9 @@ h1, h2 {
 #searchInput, #brandFilter {
     padding: 12px;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
     font-size: 16px;
     min-width: 250px;
 }
@@ -45,29 +132,30 @@ h1, h2 {
 }
 
 .perfume-card {
-    background-color: #fdfdfd;
-    border: 1px solid #eee;
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     display: flex;
     flex-direction: column;
 }
 
 .perfume-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .perfume-card h3 {
     margin-top: 0;
-    color: #3498db;
+    color: var(--primary-color);
 }
 
 .perfume-card .brand-name {
     font-size: 0.9em;
-    color: #555;
+    color: var(--text-color);
+    opacity: 0.8;
     margin-bottom: 15px;
     font-weight: bold;
 }
@@ -76,13 +164,14 @@ h1, h2 {
     font-size: 0.95em;
     line-height: 1.5;
     margin-bottom: 15px;
-    flex-grow: 1; /* Sikrer at kortene har samme højde */
+    flex-grow: 1;
 }
 
 .notes, .details {
     font-size: 0.85em;
-    color: #666;
-    border-top: 1px solid #eee;
+    color: var(--text-color);
+    opacity: 0.9;
+    border-top: 1px solid var(--border-color);
     padding-top: 10px;
     margin-top: 10px;
 }
@@ -95,7 +184,7 @@ h1, h2 {
     display: inline-block;
     margin-top: 15px;
     padding: 10px 15px;
-    background-color: #3498db;
+    background-color: var(--primary-color);
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -105,5 +194,5 @@ h1, h2 {
 }
 
 .shobi-link:hover {
-    background-color: #2980b9;
+    background-color: var(--primary-color-hover);
 }
