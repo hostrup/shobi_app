@@ -7,7 +7,17 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('database_complete.json')
             .then(response => response.json())
             .then(data => {
-                perfumes = data;
+                perfumes = data.map(perfume => ({
+                    ...perfume,
+                    scentProfile: { // Tilføj en fiktiv duftprofil, da den ikke er i JSON
+                        "Frisk": Math.random() * 5,
+                        "Sød": Math.random() * 5,
+                        "Krydret": Math.random() * 5,
+                        "Træagtig": Math.random() * 5,
+                        "Frugtig": Math.random() * 5,
+                        "Blomstret": Math.random() * 5,
+                    }
+                }));
                 displayPerfumes(perfumes);
                 populateBrandFilter(perfumes);
             })
@@ -65,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
         shobiLink.className = 'btn btn-primary me-2';
         shobiLink.textContent = 'Find på Shobi';
         shobiLink.target = '_blank';
-        // RETTELSE: Her tilføjes det korrekte link til Shobi-knappen
+        // RETTELSE 1: Her tilføjes det korrekte link til Shobi-knappen
         shobiLink.href = `https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${perfume.code}`;
 
         const parfumoLink = document.createElement('a');
@@ -105,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 datasets: [{
                     label: 'Duftprofil',
                     data: Object.values(scentProfile),
-                    // RETTELSE: Her er farverne på diagrammet blevet ændret
+                    // RETTELSE 2: Her er farverne på diagrammet blevet ændret
                     backgroundColor: 'rgba(211, 54, 130, 0.2)',
                     borderColor: 'rgba(211, 54, 130, 1)',
                     borderWidth: 1
@@ -154,6 +164,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Funktion til at udfylde brand-filter dropdown
     function populateBrandFilter(perfumes) {
         const brandFilterElement = document.getElementById('brandFilter');
+        // Sørg for ikke at tilføje duplikat-options, hvis funktionen kaldes igen
+        brandFilterElement.innerHTML = '<option selected value="">Alle mærker</option>';
         const brands = [...new Set(perfumes.map(perfume => perfume.brand))];
         brands.sort();
         brands.forEach(brand => {
