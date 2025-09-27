@@ -29,7 +29,9 @@ function displayPerfumes(perfumes, containerId, customTitle = null) {
         const isFavorite = state.favorites.includes(p.code);
         const accordsText = (p.mainAccords || []).slice(0, 3).map(a => `<span class="badge bg-secondary me-1 accord-tag" onclick="handleAccordClick('${a}')">${a}</span>`).join('');
         
-        const shobiLink = `https://leparfum.com.gr/en/products/${p.code}`;
+        // *** RETTELSE 1: Linket til Shobi er nu det korrekte søge-link ***
+        const shobiLink = `https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${p.code}`;
+        
         const parfumoLinkHTML = p.link ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-info ms-1">Parfumo</a>` : '';
 
         let genderIcon = '';
@@ -96,9 +98,11 @@ function applyFiltersAndRender() {
     
     if (state.searchQuery) {
         const query = state.searchQuery.toLowerCase();
+        // *** RETTELSE 2: Søgningen tjekker nu også for parfumens 'code' (ID) ***
         filtered = filtered.filter(p => 
             String(p.inspiredBy || '').toLowerCase().includes(query) || 
-            String(p.brand || '').toLowerCase().includes(query)
+            String(p.brand || '').toLowerCase().includes(query) ||
+            String(p.code || '').toLowerCase().includes(query)
         );
     }
 
