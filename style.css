@@ -1,187 +1,95 @@
-/* --- THEME DEFINITIONS --- */
-:root, html[data-theme='solarized-dark'] {
-    --bg-primary: #002b36; 
-    --bg-secondary: #073642; 
-    --bg-tertiary: #002b36;
-    --text-primary: #839496; 
-    --text-secondary: #93a1a1; 
-    --text-header: #eee8d5;
-    --border-color: #586e75;
-    --accent-primary: #2aa198; 
-    --accent-secondary: #268bd2; 
-    --accent-danger: #dc322f; 
-    --accent-love: #d33682;
-    --note-top: #b58900; 
-    --note-heart: #2aa198; 
-    --note-base: #6c71c4;
-}
-html[data-theme='dracula'] {
-    --bg-primary: #282a36; 
-    --bg-secondary: #44475a; 
-    --bg-tertiary: #21222C;
-    --text-primary: #f8f8f2; 
-    --text-secondary: #bd93f9; 
-    --text-header: #f8f8f2;
-    --border-color: #6272a4;
-    --accent-primary: #50fa7b; 
-    --accent-secondary: #8be9fd; 
-    --accent-danger: #ff5555; 
-    --accent-love: #ff79c6;
-    --note-top: #ffb86c; 
-    --note-heart: #50fa7b; 
-    --note-base: #bd93f9;
-}
-html[data-theme='nord'] {
-    --bg-primary: #2e3440; 
-    --bg-secondary: #3b4252; 
-    --bg-tertiary: #292e39;
-    --text-primary: #d8dee9; 
-    --text-secondary: #e5e9f0; 
-    --text-header: #eceff4;
-    --border-color: #4c566a;
-    --accent-primary: #88c0d0; 
-    --accent-secondary: #81a1c1; 
-    --accent-danger: #bf616a; 
-    --accent-love: #b48ead;
-    --note-top: #ebcb8b; 
-    --note-heart: #a3be8c; 
-    --note-base: #81a1c1;
-}
-html[data-theme='gruvbox-light'] {
-    --bg-primary: #fbf1c7; 
-    --bg-secondary: #ebdbb2; 
-    --bg-tertiary: #f9f5d7;
-    --text-primary: #3c3836; 
-    --text-secondary: #504945; 
-    --text-header: #282828;
-    --border-color: #d5c4a1;
-    --accent-primary: #458588; 
-    --accent-secondary: #076678; 
-    --accent-danger: #9d0006; 
-    --accent-love: #b16286;
-    --note-top: #d65d0e; 
-    --note-heart: #98971a; 
-    --note-base: #458588;
+:root, [data-bs-theme="light"] {
+    --bs-primary-rgb: 60, 100, 255;
+    --bs-secondary-rgb: 108, 117, 125;
+    --bs-body-bg: #f8f9fa;
+    --bs-tertiary-bg: #ffffff;
+    --gradient-start: #eef2f3;
+    --gradient-end: #ffffff;
 }
 
-/* --- Base styling using CSS variables --- */
-body { 
-    font-family: 'Inter', sans-serif; 
-    background-color: var(--bg-primary); 
-    color: var(--text-primary); 
-    transition: background-color 0.3s, color 0.3s; 
-}
-.chart-container { 
-    position: relative; 
-    height: 40vh; 
-    width: 100%; 
-}
-::-webkit-scrollbar { 
-    width: 8px; 
-} 
-::-webkit-scrollbar-track { 
-    background: var(--bg-secondary); 
-} 
-::-webkit-scrollbar-thumb { 
-    background: var(--border-color); 
-    border-radius: 10px; 
-} 
-::-webkit-scrollbar-thumb:hover { 
-    background: var(--text-primary); 
-}
-.glass-effect { 
-    background: color-mix(in srgb, var(--bg-secondary), transparent 20%); 
-    backdrop-filter: blur(10px); 
-    -webkit-backdrop-filter: blur(10px); 
-    border: 1px solid color-mix(in srgb, var(--border-color), transparent 70%); 
-}
-.favorite-btn .heart-outline { display: block; } 
-.favorite-btn .heart-solid { display: none; } 
-.favorite-btn.favorited .heart-outline { display: none; } 
-.favorite-btn.favorited .heart-solid { display: block; }
-.stat-item { 
-    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; 
-}
-.stat-fade-out { 
-    opacity: 0; 
-    transform: translateY(-5px); 
-}
-.perfume-card { 
-    cursor: pointer; 
+[data-bs-theme="dark"] {
+    --bs-body-bg: #1c1c1e;
+    --bs-body-color: #dee2e6;
+    --bs-tertiary-bg: #2c2c2e;
+    --bs-primary-rgb: 70, 130, 255;
+    --gradient-start: #232526;
+    --gradient-end: #414345;
 }
 
-/* --- Library overrides for theming --- */
-:root { 
-    --ss-bg-color: var(--bg-tertiary); 
-    --ss-border-color: var(--border-color); 
-    --ss-main-color: var(--accent-primary); 
-    --ss-font-color: var(--text-primary); 
-    --ss-bg-color-hover: var(--bg-secondary); 
-    --ss-font-color-hover: var(--text-primary); 
-    --ss-highlight-color: var(--accent-secondary); 
-}
-.ss-main { 
-    background-color: var(--ss-bg-color); 
-    border-color: var(--ss-border-color); 
-}
-.ss-main .ss-single-selected, .ss-main .ss-multi-selected .ss-values .ss-value { 
-    background-color: var(--accent-primary); 
-    color: var(--bg-primary); 
-}
-.ss-main .ss-multi-selected .ss-add { 
-    color: var(--ss-font-color); 
-}
-.ss-main .ss-content { 
-    background-color: var(--ss-bg-color); 
-    border-color: var(--ss-border-color); 
-}
-.ss-main .ss-content .ss-search input { 
-    color: var(--ss-font-color); 
-}
-.ss-main .ss-content .ss-list .ss-option.ss-highlighted, .ss-main .ss-content .ss-list .ss-option:hover { 
-    background-color: var(--ss-bg-color-hover); 
-    color: var(--ss-highlight-color); 
-}
-.ss-main .ss-content .ss-list .ss-option.ss-selected { 
-    background-color: var(--ss-bg-color-hover); 
-    color: var(--ss-highlight-color);
+[data-theme="deepsea"] {
+    --bs-body-bg: #1A2238;
+    --bs-body-color: #F4F7FF;
+    --bs-tertiary-bg: #253354;
+    --bs-primary: #9DAAF2;
+    --bs-primary-rgb: 157, 170, 242;
+    --bs-secondary: #FF6A5C;
+    --bs-dark: #F4F7FF;
+    --gradient-start: #0f2027;
+    --gradient-end: #203a43;
 }
 
-.gridjs-container, .gridjs-head, .gridjs-footer { 
-    background-color: var(--bg-secondary) !important; 
-    color: var(--text-primary) !important; 
-    border-color: var(--border-color) !important; 
+[data-theme="sandstone"] {
+    --bs-body-bg: #FDF6E3;
+    --bs-body-color: #657B83;
+    --bs-tertiary-bg: #F5EADD;
+    --bs-primary: #D33682;
+    --bs-primary-rgb: 211, 54, 130;
+    --bs-secondary: #2AA198;
+    --bs-dark: #002B36;
+    --gradient-start: #fdfcfb;
+    --gradient-end: #e2d1c3;
 }
-.gridjs-table, .gridjs-th, .gridjs-td { 
-    background-color: var(--bg-secondary) !important; 
-    color: var(--text-primary) !important; 
-    border-color: var(--border-color) !important; 
+
+[data-theme="rosequartz"] {
+    --bs-body-bg: #f7f3f7;
+    --bs-body-color: #5c4f5c;
+    --bs-tertiary-bg: #ffffff;
+    --bs-primary: #e8a2af;
+    --bs-primary-rgb: 232, 162, 175;
+    --bs-secondary: #9d8c9d;
+    --bs-dark: #3b2e3b;
+    --gradient-start: #f8f5f8;
+    --gradient-end: #e8dde4;
 }
-.gridjs-search-input { 
-    background-color: var(--bg-tertiary) !important; 
-    color: var(--text-primary) !important; 
-    border-color: var(--border-color) !important; 
+
+[data-theme="forest"] {
+    --bs-body-bg: #2a3d33;
+    --bs-body-color: #e8e8e8;
+    --bs-tertiary-bg: #3c5446;
+    --bs-primary: #a3b18a;
+    --bs-primary-rgb: 163, 177, 138;
+    --bs-secondary: #588157;
+    --bs-dark: #e8e8e8;
+    --gradient-start: #233128;
+    --gradient-end: #3a4a3f;
 }
-.gridjs-tr:hover .gridjs-td, .gridjs-th-sort:hover { 
-    background-color: var(--bg-primary) !important; 
+
+body {
+    background-image: linear-gradient(120deg, var(--gradient-start), var(--gradient-end));
 }
-.gridjs-summary { 
-    color: var(--text-secondary) !important; 
+
+.perfume-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 0;
 }
-.gridjs-pagination .gridjs-pages button { 
-    background-color: var(--bg-tertiary); 
-    border: 1px solid var(--border-color); 
-    color: var(--text-primary); 
-    padding: 0.5rem 0.75rem; 
-    border-radius: 0.375rem; 
-    margin: 0 0.25rem; 
+.perfume-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
 }
-.gridjs-pagination .gridjs-pages button:hover { 
-    background-color: var(--bg-primary) !important; 
-    border-color: var(--accent-secondary); 
+
+.favorite-btn {
+    position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 1.5rem; color: #ccc; transition: color 0.2s ease;
 }
-.gridjs-pagination .gridjs-pages button.gridjs-currentPage { 
-    background-color: var(--accent-primary) !important; 
-    color: var(--bg-primary) !important; 
-    border-color: var(--accent-primary) !important; 
+.favorite-btn.is-favorite { color: #dc3545; }
+.brand-link { cursor: pointer; text-decoration: underline; }
+.accord-tag { cursor: pointer; }
+.list-group-item .favorite-btn { position: static; }
+
+.sidebar { position: sticky; top: 80px; }
+.accordion-button:not(.collapsed) { background-color: rgba(var(--bs-primary-rgb), 0.1); }
+#topAccordsChart { cursor: pointer; }
+.modal-title .brand-link-modal {
+    color: var(--bs-primary);
+    text-decoration: underline;
+    cursor: pointer;
 }
