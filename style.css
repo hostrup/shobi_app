@@ -1,95 +1,279 @@
-:root, [data-bs-theme="light"] {
-    --bs-primary-rgb: 60, 100, 255;
-    --bs-secondary-rgb: 108, 117, 125;
-    --bs-body-bg: #f8f9fa;
-    --bs-tertiary-bg: #ffffff;
+/* ============================================= */
+/* THEME DEFINITIONS (CSS Custom Properties)     */
+/* ============================================= */
+
+/* Default Theme: Light (og fallback) */
+:root {
+    /* Primary & Secondary */
+    --primary-color: #3c64ff;
+    --primary-rgb: 60, 100, 255;
+    --secondary-color: #6c757d;
+    --secondary-rgb: 108, 117, 125;
+    
+    /* Backgrounds & Surfaces */
+    --bg-body: #f8f9fa;
+    --bg-surface: #ffffff; /* Cards, modals, etc. */
     --gradient-start: #eef2f3;
     --gradient-end: #ffffff;
+
+    /* Text & Borders */
+    --text-color: #212529;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    
+    /* Misc */
+    --link-color: var(--primary-color);
+    --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-[data-bs-theme="dark"] {
-    --bs-body-bg: #1c1c1e;
-    --bs-body-color: #dee2e6;
-    --bs-tertiary-bg: #2c2c2e;
-    --bs-primary-rgb: 70, 130, 255;
+[data-theme="dark"] {
+    --primary-color: #4682ff;
+    --primary-rgb: 70, 130, 255;
+    --secondary-color: #adb5bd;
+    --bg-body: #1c1c1e;
+    --bg-surface: #2c2c2e;
     --gradient-start: #232526;
     --gradient-end: #414345;
+    --text-color: #dee2e6;
+    --text-muted: #adb5bd;
+    --border-color: #495057;
+    --shadow-color: rgba(0, 0, 0, 0.25);
 }
 
 [data-theme="deepsea"] {
-    --bs-body-bg: #1A2238;
-    --bs-body-color: #F4F7FF;
-    --bs-tertiary-bg: #253354;
-    --bs-primary: #9DAAF2;
-    --bs-primary-rgb: 157, 170, 242;
-    --bs-secondary: #FF6A5C;
-    --bs-dark: #F4F7FF;
+    --primary-color: #9DAAF2;
+    --primary-rgb: 157, 170, 242;
+    --secondary-color: #FF6A5C;
+    --bg-body: #1A2238;
+    --bg-surface: #253354;
     --gradient-start: #0f2027;
     --gradient-end: #203a43;
+    --text-color: #F4F7FF;
+    --text-muted: #a7b4e0;
+    --border-color: #3b4f7b;
+    --shadow-color: rgba(0, 0, 0, 0.25);
 }
 
 [data-theme="sandstone"] {
-    --bs-body-bg: #FDF6E3;
-    --bs-body-color: #657B83;
-    --bs-tertiary-bg: #F5EADD;
-    --bs-primary: #D33682;
-    --bs-primary-rgb: 211, 54, 130;
-    --bs-secondary: #2AA198;
-    --bs-dark: #002B36;
+    --primary-color: #D33682;
+    --primary-rgb: 211, 54, 130;
+    --secondary-color: #2AA198;
+    --bg-body: #FDF6E3;
+    --bg-surface: #F5EADD;
     --gradient-start: #fdfcfb;
     --gradient-end: #e2d1c3;
+    --text-color: #657B83;
+    --text-muted: #93a1a1;
+    --border-color: #d8c9b6;
+    --shadow-color: rgba(85, 107, 115, 0.15);
 }
 
 [data-theme="rosequartz"] {
-    --bs-body-bg: #f7f3f7;
-    --bs-body-color: #5c4f5c;
-    --bs-tertiary-bg: #ffffff;
-    --bs-primary: #e8a2af;
-    --bs-primary-rgb: 232, 162, 175;
-    --bs-secondary: #9d8c9d;
-    --bs-dark: #3b2e3b;
+    --primary-color: #e8a2af;
+    --primary-rgb: 232, 162, 175;
+    --secondary-color: #9d8c9d;
+    --bg-body: #f7f3f7;
+    --bg-surface: #ffffff;
     --gradient-start: #f8f5f8;
     --gradient-end: #e8dde4;
+    --text-color: #5c4f5c;
+    --text-muted: #8c7f8c;
+    --border-color: #e3d9e3;
+    --shadow-color: rgba(92, 79, 92, 0.1);
 }
 
 [data-theme="forest"] {
-    --bs-body-bg: #2a3d33;
-    --bs-body-color: #e8e8e8;
-    --bs-tertiary-bg: #3c5446;
-    --bs-primary: #a3b18a;
-    --bs-primary-rgb: 163, 177, 138;
-    --bs-secondary: #588157;
-    --bs-dark: #e8e8e8;
+    --primary-color: #a3b18a;
+    --primary-rgb: 163, 177, 138;
+    --secondary-color: #588157;
+    --bg-body: #2a3d33;
+    --bg-surface: #3c5446;
     --gradient-start: #233128;
     --gradient-end: #3a4a3f;
+    --text-color: #e8e8e8;
+    --text-muted: #b0c2b2;
+    --border-color: #5d7c69;
+    --shadow-color: rgba(0, 0, 0, 0.25);
 }
 
+/* --- NYT TEMA --- */
+[data-theme="coastal-breeze"] {
+    --primary-color: #0077b6;
+    --primary-rgb: 0, 119, 182;
+    --secondary-color: #fca311;
+    --bg-body: #f0f8ff;
+    --bg-surface: #ffffff;
+    --gradient-start: #ade8f4;
+    --gradient-end: #f0f8ff;
+    --text-color: #03045e;
+    --text-muted: #4895ef;
+    --border-color: #caf0f8;
+    --shadow-color: rgba(72, 149, 239, 0.15);
+}
+
+/* --- NYT TEMA --- */
+[data-theme="spiced-amber"] {
+    --primary-color: #d95f02;
+    --primary-rgb: 217, 95, 2;
+    --secondary-color: #7570b3;
+    --bg-body: #fff8e1;
+    --bg-surface: #ffffff;
+    --gradient-start: #ffecd2;
+    --gradient-end: #f5d6af;
+    --text-color: #4e342e;
+    --text-muted: #795548;
+    --border-color: #ffe0b2;
+    --shadow-color: rgba(121, 85, 72, 0.15);
+}
+
+/* --- NYT TEMA --- */
+[data-theme="midnight-bloom"] {
+    --primary-color: #d6b4f7;
+    --primary-rgb: 214, 180, 247;
+    --secondary-color: #f7d99a;
+    --bg-body: #1d1029;
+    --bg-surface: #2c183e;
+    --gradient-start: #1d1029;
+    --gradient-end: #3d2352;
+    --text-color: #f5e6ff;
+    --text-muted: #c0a5d1;
+    --border-color: #4a3061;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================= */
+/* GENERAL STYLING                             */
+/* ============================================= */
+
 body {
+    background-color: var(--bg-body);
+    color: var(--text-color);
     background-image: linear-gradient(120deg, var(--gradient-start), var(--gradient-end));
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Use theme variables for Bootstrap components */
+.bg-body-tertiary {
+    background-color: var(--bg-surface) !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.btn-primary:hover {
+    filter: brightness(110%);
+}
+
+.btn-outline-secondary {
+    color: var(--text-muted);
+    border-color: var(--text-muted);
+}
+.btn-outline-secondary:hover {
+    color: var(--bg-surface);
+    background-color: var(--text-muted);
+    border-color: var(--text-muted);
+}
+
+.badge.bg-secondary {
+    background-color: var(--secondary-color) !important;
+}
+
+/* ============================================= */
+/* CUSTOM COMPONENT STYLING                    */
+/* ============================================= */
+
+.sidebar {
+    position: sticky;
+    top: 80px;
 }
 
 .perfume-card {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    border: 0;
+    border: 1px solid var(--border-color);
+    border-radius: .375rem; /* Bootstrap's default card radius */
 }
+
 .perfume-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    box-shadow: 0 .5rem 1rem var(--shadow-color) !important;
 }
 
 .favorite-btn {
-    position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 1.5rem; color: #ccc; transition: color 0.2s ease;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #ccc;
+    transition: color 0.2s ease, transform 0.2s ease;
 }
-.favorite-btn.is-favorite { color: #dc3545; }
-.brand-link { cursor: pointer; text-decoration: underline; }
-.accord-tag { cursor: pointer; }
-.list-group-item .favorite-btn { position: static; }
+.favorite-btn:hover {
+    transform: scale(1.2);
+}
 
-.sidebar { position: sticky; top: 80px; }
-.accordion-button:not(.collapsed) { background-color: rgba(var(--bs-primary-rgb), 0.1); }
-#topAccordsChart { cursor: pointer; }
+.favorite-btn.is-favorite {
+    color: #dc3545;
+}
+
+.brand-link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: var(--link-color);
+}
+
+.accord-tag {
+    cursor: pointer;
+}
+
+.list-group-item {
+    border-color: var(--border-color);
+}
+
+.list-group-item .favorite-btn {
+    position: static;
+}
+
+.accordion-item {
+    background-color: var(--bg-surface);
+    border-color: var(--border-color);
+}
+
+.accordion-button {
+    color: var(--text-color);
+}
+
+.accordion-button:not(.collapsed) {
+    color: var(--primary-color);
+    background-color: rgba(var(--primary-rgb), 0.1);
+    box-shadow: inset 0 -1px 0 var(--border-color);
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 .25rem rgba(var(--primary-rgb), 0.25);
+    border-color: var(--primary-color);
+}
+
+#topAccordsChart {
+    cursor: pointer;
+}
+
+.modal-content {
+    background-color: var(--bg-surface);
+    border-color: var(--border-color);
+}
+
 .modal-title .brand-link-modal {
-    color: var(--bs-primary);
+    color: var(--primary-color);
     text-decoration: underline;
     cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
