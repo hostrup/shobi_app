@@ -203,6 +203,21 @@ hr {
 /* CUSTOM COMPONENT STYLING                    */
 /* ============================================= */
 
+/* --- NY REGEL: Sikrer at navbar følger tema --- */
+.navbar {
+    background-color: var(--bg-surface) !important;
+    box-shadow: 0 .125rem .25rem var(--shadow-color);
+}
+.navbar-brand {
+    color: var(--text-color) !important;
+}
+[data-theme="dark"] .navbar-toggler-icon,
+[data-theme="deepsea"] .navbar-toggler-icon,
+[data-theme="forest"] .navbar-toggler-icon,
+[data-theme="midnight-bloom"] .navbar-toggler-icon {
+    filter: invert(1);
+}
+
 .sidebar {
     position: sticky;
     top: 80px;
@@ -293,14 +308,12 @@ hr {
     border-color: var(--primary-color);
 }
 
-/* --- NY REGEL: Gør harmonika-pilene synlige på mørke temaer --- */
 [data-theme="dark"] .accordion-button::after,
 [data-theme="deepsea"] .accordion-button::after,
 [data-theme="forest"] .accordion-button::after,
 [data-theme="midnight-bloom"] .accordion-button::after {
     filter: brightness(0) invert(1);
 }
-
 
 #topAccordsChart {
     cursor: pointer;
@@ -325,4 +338,19 @@ hr {
 .form-check-input:checked {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
+}
+
+/* --- NY REGEL: Sikrer at dropdown-menuer følger tema --- */
+.dropdown-menu {
+    background-color: var(--bg-surface);
+    border-color: var(--border-color);
+}
+
+.dropdown-item {
+    color: var(--text-color);
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    color: var(--text-color);
+    background-color: rgba(var(--primary-rgb), 0.1);
 }
