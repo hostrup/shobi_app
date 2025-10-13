@@ -104,8 +104,9 @@ function applyFiltersAndRender() {
 
     for (const key in state.activeFilters) {
         const selected = state.activeFilters[key];
-        if (selected.length > 0) {
+        if (selected && selected.length > 0) {
             filtered = filtered.filter(p => {
+                if (!p[key]) return false;
                 if (Array.isArray(p[key])) return selected.some(val => p[key].includes(val));
                 return selected.includes(p[key]);
             });
@@ -121,6 +122,7 @@ function applyFiltersAndRender() {
 function createFilters(perfumeSource) {
     const accordion = document.getElementById('filter-accordion');
     const filters = {
+        brand: { title: 'Brand', options: new Set() },
         mainAccords: { title: 'Main Accords', options: new Set(), limit: 10 },
         seasons: { title: 'Season', options: new Set() },
         occasions: { title: 'Occasion', options: new Set() },
@@ -129,6 +131,7 @@ function createFilters(perfumeSource) {
 
     const allOccasions = new Set();
     perfumeSource.forEach(p => {
+        if (p.brand) filters.brand.options.add(p.brand);
         (p.seasons || []).forEach(s => filters.seasons.options.add(s));
         (p.occasions || []).forEach(o => allOccasions.add(o));
         if (p.genderAffinity) filters.genderAffinity.options.add(p.genderAffinity);
@@ -141,9 +144,13 @@ function createFilters(perfumeSource) {
     
     let html = '';
     for (const key in filters) {
-        state.activeFilters[key] = [];
+        state.activeFilters[key] = state.activeFilters[key] || []; // Preserve existing filters on reset
         const options = [...filters[key].options].sort();
         if (options.length === 0) continue;
+
+        const isBrandFilter = key === 'brand';
+        const searchInputHTML = isBrandFilter ? `<input type="text" class="form-control form-control-sm mb-2" id="brand-filter-search" placeholder="Search brands...">` : '';
+        const listContainerId = isBrandFilter ? `id="brand-filter-list"` : '';
 
         html += `
         <div class="accordion-item">
@@ -153,15 +160,31 @@ function createFilters(perfumeSource) {
                 </button>
             </h2>
             <div id="collapse-${key}" class="accordion-collapse collapse" aria-labelledby="heading-${key}">
-                <div class="accordion-body" style="max-height: 200px; overflow-y: auto;">`;
+                <div class="accordion-body" style="max-height: 200px; overflow-y: auto;">
+                    ${searchInputHTML}
+                    <div ${listContainerId}>`;
         options.forEach(option => {
-            html += `<div class="form-check"><input class="form-check-input filter-checkbox" type="checkbox" value="${option}" id="${key}-${option}" data-filter-key="${key}"><label class="form-check-label" for="${key}-${option}">${option}</label></div>`;
+            html += `<div class="form-check"><input class="form-check-input filter-checkbox" type="checkbox" value="${option}" id="${key}-${option.replace(/\s+/g, '-')}" data-filter-key="${key}"><label class="form-check-label" for="${key}-${option.replace(/\s+/g, '-')}">${option}</label></div>`;
         });
-        html += `</div></div></div>`;
+        html += `</div></div></div></div>`;
     }
     accordion.innerHTML = html;
+    
+    // Add event listeners
     accordion.querySelectorAll('.filter-checkbox').forEach(box => box.addEventListener('change', handleFilterChange));
+    
+    const brandSearchInput = document.getElementById('brand-filter-search');
+    if (brandSearchInput) {
+        brandSearchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            document.querySelectorAll('#brand-filter-list .form-check').forEach(item => {
+                const label = item.querySelector('label').textContent.toLowerCase();
+                item.style.display = label.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    }
 }
+
 
 function calculateAndShowStats(perfumeSource) {
     const chartCanvas = document.getElementById('topAccordsChart');
@@ -284,13 +307,23 @@ window.handleAccordClick = (accord) => {
 function handleFilterChange(e) {
     const key = e.target.dataset.filterKey;
     const value = e.target.value;
-    if (e.target.checked) state.activeFilters[key].push(value);
-    else state.activeFilters[key] = state.activeFilters[key].filter(v => v !== value);
+    
+    // Initialize the filter array if it doesn't exist
+    if (!state.activeFilters[key]) {
+        state.activeFilters[key] = [];
+    }
+
+    if (e.target.checked) {
+        state.activeFilters[key].push(value);
+    } else {
+        state.activeFilters[key] = state.activeFilters[key].filter(v => v !== value);
+    }
     
     state.showingFavorites = false;
     document.getElementById('favorites-btn').classList.remove('active');
     applyFiltersAndRender();
 }
+
 
 function toggleFavorite(event) {
     const code = event.target.dataset.code;
@@ -308,6 +341,15 @@ function toggleFavorite(event) {
 function resetAllFilters() {
     document.querySelectorAll('.filter-checkbox').forEach(box => box.checked = false);
     for (const key in state.activeFilters) { state.activeFilters[key] = []; }
+    
+    // Also clear the brand filter search input
+    const brandSearchInput = document.getElementById('brand-filter-search');
+    if (brandSearchInput) {
+        brandSearchInput.value = '';
+        // Trigger input event to re-show all brands in the list
+        brandSearchInput.dispatchEvent(new Event('input'));
+    }
+    
     state.showingFavorites = false;
     document.getElementById('favorites-btn').classList.remove('active');
     state.searchQuery = ''; 
@@ -323,14 +365,11 @@ function resetAllFilters() {
 function setTheme(theme) {
     if (!theme) return;
 
-    // Determine the base theme for Bootstrap. All our custom themes are dark variations.
     const bootstrapTheme = (theme === 'light') ? 'light' : 'dark';
     document.documentElement.setAttribute('data-bs-theme', bootstrapTheme);
     
-    // Set our specific custom theme for detailed styling.
     document.documentElement.setAttribute('data-theme', theme);
     
-    // Save the user's choice.
     localStorage.setItem('shobi-theme', theme);
 }
 
