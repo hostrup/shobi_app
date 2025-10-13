@@ -158,7 +158,6 @@ hr {
     opacity: 0.25;
 }
 
-/* Use theme variables for Bootstrap components */
 .bg-body-tertiary {
     background-color: var(--bg-surface) !important;
 }
@@ -209,7 +208,6 @@ hr {
     top: 80px;
 }
 
-/* --- NY REGEL: Sikrer at inputfelter følger tema --- */
 .form-control {
     background-color: var(--bg-surface);
     color: var(--text-color);
@@ -294,6 +292,15 @@ hr {
     box-shadow: 0 0 0 .25rem rgba(var(--primary-rgb), 0.25);
     border-color: var(--primary-color);
 }
+
+/* --- NY REGEL: Gør harmonika-pilene synlige på mørke temaer --- */
+[data-theme="dark"] .accordion-button::after,
+[data-theme="deepsea"] .accordion-button::after,
+[data-theme="forest"] .accordion-button::after,
+[data-theme="midnight-bloom"] .accordion-button::after {
+    filter: brightness(0) invert(1);
+}
+
 
 #topAccordsChart {
     cursor: pointer;
