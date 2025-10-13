@@ -26,20 +26,22 @@
     --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
+/* --- JUSTERET TEMA --- */
 [data-theme="dark"] {
-    --primary-color: #4682ff;
-    --primary-rgb: 70, 130, 255;
+    --primary-color: #5890ff; /* Lidt blødere blå */
+    --primary-rgb: 88, 144, 255;
     --secondary-color: #adb5bd;
     --bg-body: #1c1c1e;
     --bg-surface: #2c2c2e;
     --gradient-start: #232526;
     --gradient-end: #414345;
-    --text-color: #dee2e6;
+    --text-color: #e2e2e2; /* Lidt blødere end før */
     --text-muted: #adb5bd;
     --border-color: #495057;
     --shadow-color: rgba(0, 0, 0, 0.25);
 }
 
+/* --- JUSTERET TEMA --- */
 [data-theme="deepsea"] {
     --primary-color: #9DAAF2;
     --primary-rgb: 157, 170, 242;
@@ -48,7 +50,7 @@
     --bg-surface: #253354;
     --gradient-start: #0f2027;
     --gradient-end: #203a43;
-    --text-color: #F4F7FF;
+    --text-color: #e9efff; /* Blødere, mindre skarp hvid */
     --text-muted: #a7b4e0;
     --border-color: #3b4f7b;
     --shadow-color: rgba(0, 0, 0, 0.25);
@@ -82,6 +84,7 @@
     --shadow-color: rgba(92, 79, 92, 0.1);
 }
 
+/* --- JUSTERET TEMA --- */
 [data-theme="forest"] {
     --primary-color: #a3b18a;
     --primary-rgb: 163, 177, 138;
@@ -90,13 +93,12 @@
     --bg-surface: #3c5446;
     --gradient-start: #233128;
     --gradient-end: #3a4a3f;
-    --text-color: #e8e8e8;
+    --text-color: #e4e4e4; /* En anelse blødere */
     --text-muted: #b0c2b2;
     --border-color: #5d7c69;
     --shadow-color: rgba(0, 0, 0, 0.25);
 }
 
-/* --- NYT TEMA --- */
 [data-theme="coastal-breeze"] {
     --primary-color: #0077b6;
     --primary-rgb: 0, 119, 182;
@@ -111,7 +113,6 @@
     --shadow-color: rgba(72, 149, 239, 0.15);
 }
 
-/* --- NYT TEMA --- */
 [data-theme="spiced-amber"] {
     --primary-color: #d95f02;
     --primary-rgb: 217, 95, 2;
@@ -126,16 +127,16 @@
     --shadow-color: rgba(121, 85, 72, 0.15);
 }
 
-/* --- NYT TEMA --- */
+/* --- JUSTERET TEMA --- */
 [data-theme="midnight-bloom"] {
-    --primary-color: #d6b4f7;
-    --primary-rgb: 214, 180, 247;
+    --primary-color: #ceabf5; /* Lidt mindre intens lilla */
+    --primary-rgb: 206, 171, 245;
     --secondary-color: #f7d99a;
     --bg-body: #1d1029;
     --bg-surface: #2c183e;
     --gradient-start: #1d1029;
     --gradient-end: #3d2352;
-    --text-color: #f5e6ff;
+    --text-color: #f0e8fa; /* Blødere hvid-lilla */
     --text-muted: #c0a5d1;
     --border-color: #4a3061;
     --shadow-color: rgba(0, 0, 0, 0.3);
@@ -152,6 +153,11 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+hr {
+    color: inherit;
+    opacity: 0.25;
+}
+
 /* Use theme variables for Bootstrap components */
 .bg-body-tertiary {
     background-color: var(--bg-surface) !important;
@@ -164,7 +170,18 @@ body {
 .btn-primary {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
+    color: var(--bg-surface);
 }
+
+[data-theme="dark"] .btn-primary,
+[data-theme="deepsea"] .btn-primary,
+[data-theme="forest"] .btn-primary,
+[data-theme="midnight-bloom"] .btn-primary,
+[data-theme="sandstone"] .btn-primary,
+[data-theme="rosequartz"] .btn-primary {
+    color: #fff;
+}
+
 .btn-primary:hover {
     filter: brightness(110%);
 }
@@ -192,10 +209,29 @@ body {
     top: 80px;
 }
 
+/* --- NY REGEL: Sikrer at inputfelter følger tema --- */
+.form-control {
+    background-color: var(--bg-surface);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+    opacity: 1;
+}
+
+.form-control:focus {
+    background-color: var(--bg-surface);
+    color: var(--text-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 .25rem rgba(var(--primary-rgb), 0.25);
+}
+
 .perfume-card {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     border: 1px solid var(--border-color);
-    border-radius: .375rem; /* Bootstrap's default card radius */
+    border-radius: .375rem;
 }
 
 .perfume-card:hover {
@@ -238,13 +274,14 @@ body {
     position: static;
 }
 
-.accordion-item {
+.accordion-item, .accordion-body {
     background-color: var(--bg-surface);
     border-color: var(--border-color);
 }
 
 .accordion-button {
     color: var(--text-color);
+    background-color: var(--bg-surface);
 }
 
 .accordion-button:not(.collapsed) {
@@ -271,6 +308,11 @@ body {
     color: var(--primary-color);
     text-decoration: underline;
     cursor: pointer;
+}
+
+.form-check-input {
+    background-color: var(--bg-surface);
+    border-color: var(--border-color);
 }
 
 .form-check-input:checked {
