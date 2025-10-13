@@ -26,22 +26,20 @@
     --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-/* --- JUSTERET TEMA --- */
 [data-theme="dark"] {
-    --primary-color: #5890ff; /* Lidt blødere blå */
+    --primary-color: #5890ff;
     --primary-rgb: 88, 144, 255;
     --secondary-color: #adb5bd;
     --bg-body: #1c1c1e;
     --bg-surface: #2c2c2e;
     --gradient-start: #232526;
     --gradient-end: #414345;
-    --text-color: #e2e2e2; /* Lidt blødere end før */
+    --text-color: #e2e2e2;
     --text-muted: #adb5bd;
     --border-color: #495057;
     --shadow-color: rgba(0, 0, 0, 0.25);
 }
 
-/* --- JUSTERET TEMA --- */
 [data-theme="deepsea"] {
     --primary-color: #9DAAF2;
     --primary-rgb: 157, 170, 242;
@@ -50,7 +48,7 @@
     --bg-surface: #253354;
     --gradient-start: #0f2027;
     --gradient-end: #203a43;
-    --text-color: #e9efff; /* Blødere, mindre skarp hvid */
+    --text-color: #e9efff;
     --text-muted: #a7b4e0;
     --border-color: #3b4f7b;
     --shadow-color: rgba(0, 0, 0, 0.25);
@@ -84,7 +82,6 @@
     --shadow-color: rgba(92, 79, 92, 0.1);
 }
 
-/* --- JUSTERET TEMA --- */
 [data-theme="forest"] {
     --primary-color: #a3b18a;
     --primary-rgb: 163, 177, 138;
@@ -93,7 +90,7 @@
     --bg-surface: #3c5446;
     --gradient-start: #233128;
     --gradient-end: #3a4a3f;
-    --text-color: #e4e4e4; /* En anelse blødere */
+    --text-color: #e4e4e4;
     --text-muted: #b0c2b2;
     --border-color: #5d7c69;
     --shadow-color: rgba(0, 0, 0, 0.25);
@@ -127,16 +124,15 @@
     --shadow-color: rgba(121, 85, 72, 0.15);
 }
 
-/* --- JUSTERET TEMA --- */
 [data-theme="midnight-bloom"] {
-    --primary-color: #ceabf5; /* Lidt mindre intens lilla */
+    --primary-color: #ceabf5;
     --primary-rgb: 206, 171, 245;
     --secondary-color: #f7d99a;
     --bg-body: #1d1029;
     --bg-surface: #2c183e;
     --gradient-start: #1d1029;
     --gradient-end: #3d2352;
-    --text-color: #f0e8fa; /* Blødere hvid-lilla */
+    --text-color: #f0e8fa;
     --text-muted: #c0a5d1;
     --border-color: #4a3061;
     --shadow-color: rgba(0, 0, 0, 0.3);
@@ -153,18 +149,9 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-hr {
-    color: inherit;
-    opacity: 0.25;
-}
-
-.bg-body-tertiary {
-    background-color: var(--bg-surface) !important;
-}
-
-.text-muted {
-    color: var(--text-muted) !important;
-}
+hr { color: inherit; opacity: 0.25; }
+.bg-body-tertiary { background-color: var(--bg-surface) !important; }
+.text-muted { color: var(--text-muted) !important; }
 
 .btn-primary {
     background-color: var(--primary-color);
@@ -181,187 +168,96 @@ hr {
     color: #fff;
 }
 
-.btn-primary:hover {
-    filter: brightness(110%);
-}
-
-.btn-outline-secondary {
-    color: var(--text-muted);
-    border-color: var(--text-muted);
-}
-.btn-outline-secondary:hover {
-    color: var(--bg-surface);
-    background-color: var(--text-muted);
-    border-color: var(--text-muted);
-}
-
-.badge.bg-secondary {
-    background-color: var(--secondary-color) !important;
-}
+.btn-primary:hover { filter: brightness(110%); }
+.btn-outline-secondary { color: var(--text-muted); border-color: var(--text-muted); }
+.btn-outline-secondary:hover { color: var(--bg-surface); background-color: var(--text-muted); border-color: var(--text-muted); }
+.badge.bg-secondary { background-color: var(--secondary-color) !important; }
 
 /* ============================================= */
 /* CUSTOM COMPONENT STYLING                    */
 /* ============================================= */
 
-.navbar {
-    background-color: var(--bg-surface) !important;
-    box-shadow: 0 .125rem .25rem var(--shadow-color);
-}
-.navbar-brand {
-    color: var(--text-color) !important;
-}
+.navbar { background-color: var(--bg-surface) !important; box-shadow: 0 .125rem .25rem var(--shadow-color); }
+.navbar-brand { color: var(--text-color) !important; }
 [data-theme="dark"] .navbar-toggler-icon,
 [data-theme="deepsea"] .navbar-toggler-icon,
 [data-theme="forest"] .navbar-toggler-icon,
-[data-theme="midnight-bloom"] .navbar-toggler-icon {
-    filter: invert(1);
-}
+[data-theme="midnight-bloom"] .navbar-toggler-icon { filter: invert(1); }
 
-.sidebar {
-    position: sticky;
-    top: 80px;
-}
+.sidebar { position: sticky; top: 80px; }
 
-.form-control {
-    background-color: var(--bg-surface);
-    color: var(--text-color);
-    border-color: var(--border-color);
-}
+.form-control { background-color: var(--bg-surface); color: var(--text-color); border-color: var(--border-color); }
+.form-control::placeholder { color: var(--text-muted); opacity: 1; }
+.form-control:focus { background-color: var(--bg-surface); color: var(--text-color); border-color: var(--primary-color); box-shadow: 0 0 0 .25rem rgba(var(--primary-rgb), 0.25); }
 
-.form-control::placeholder {
-    color: var(--text-muted);
-    opacity: 1;
-}
+.navbar .input-group .form-control { background-color: var(--bg-body) !important; border-color: var(--border-color) !important; color: var(--text-color); }
+.navbar .input-group .input-group-text { background-color: var(--bg-body) !important; border-color: var(--border-color) !important; color: var(--text-muted); }
 
-.form-control:focus {
-    background-color: var(--bg-surface);
-    color: var(--text-color);
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 .25rem rgba(var(--primary-rgb), 0.25);
-}
+.perfume-card { border: 1px solid var(--border-color); border-radius: .375rem; }
+.perfume-card:hover { transform: none; box-shadow: 0 .5rem 1rem var(--shadow-color) !important; }
 
-/* --- RETTELSE: Specifik styling for søgefeltet i navbaren --- */
-.navbar .input-group .form-control {
-    background-color: var(--bg-body) !important; /* Brug body's baggrund for kontrast */
-    border-color: var(--border-color) !important;
-    color: var(--text-color);
-}
-.navbar .input-group .input-group-text {
-    background-color: var(--bg-body) !important;
-    border-color: var(--border-color) !important;
-    color: var(--text-muted);
-}
+.favorite-btn { position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 1.5rem; color: #ccc; transition: color 0.2s ease, transform 0.2s ease; }
+.favorite-btn:hover { transform: scale(1.2); }
+.favorite-btn.is-favorite { color: #dc3545; }
 
+.brand-link { cursor: pointer; text-decoration: underline; color: var(--link-color); }
+.accord-tag { cursor: pointer; }
 
-.perfume-card {
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    border: 1px solid var(--border-color);
-    border-radius: .375rem;
-}
+.list-group-item { border-color: var(--border-color); }
+.list-group-item .favorite-btn { position: static; }
 
-.perfume-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 .5rem 1rem var(--shadow-color) !important;
-}
-
-.favorite-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: #ccc;
-    transition: color 0.2s ease, transform 0.2s ease;
-}
-.favorite-btn:hover {
-    transform: scale(1.2);
-}
-
-.favorite-btn.is-favorite {
-    color: #dc3545;
-}
-
-.brand-link {
-    cursor: pointer;
-    text-decoration: underline;
-    color: var(--link-color);
-}
-
-.accord-tag {
-    cursor: pointer;
-}
-
-.list-group-item {
-    border-color: var(--border-color);
-}
-
-.list-group-item .favorite-btn {
-    position: static;
-}
-
-.accordion-item, .accordion-body {
-    background-color: var(--bg-surface);
-    border-color: var(--border-color);
-}
-
-.accordion-button {
-    color: var(--text-color);
-    background-color: var(--bg-surface);
-}
-
-.accordion-button:not(.collapsed) {
-    color: var(--primary-color);
-    background-color: rgba(var(--primary-rgb), 0.1);
-    box-shadow: inset 0 -1px 0 var(--border-color);
-}
-
-.accordion-button:focus {
-    box-shadow: 0 0 0 .25rem rgba(var(--primary-rgb), 0.25);
-    border-color: var(--primary-color);
-}
+.accordion-item, .accordion-body { background-color: var(--bg-surface); border-color: var(--border-color); }
+.accordion-button { color: var(--text-color); background-color: var(--bg-surface); }
+.accordion-button:not(.collapsed) { color: var(--primary-color); background-color: rgba(var(--primary-rgb), 0.1); box-shadow: inset 0 -1px 0 var(--border-color); }
+.accordion-button:focus { box-shadow: 0 0 0 .25rem rgba(var(--primary-rgb), 0.25); border-color: var(--primary-color); }
 
 [data-theme="dark"] .accordion-button::after,
 [data-theme="deepsea"] .accordion-button::after,
 [data-theme="forest"] .accordion-button::after,
-[data-theme="midnight-bloom"] .accordion-button::after {
-    filter: brightness(0) invert(1);
+[data-theme="midnight-bloom"] .accordion-button::after { filter: brightness(0) invert(1); }
+
+#topAccordsChart { cursor: pointer; }
+
+.modal-content { background-color: var(--bg-surface); border-color: var(--border-color); }
+.modal-title .brand-link-modal { color: var(--primary-color); text-decoration: underline; cursor: pointer; }
+
+.form-check-input { background-color: var(--bg-surface); border-color: var(--border-color); }
+.form-check-input:checked { background-color: var(--primary-color); border-color: var(--primary-color); }
+
+.dropdown-menu { background-color: var(--bg-surface); border-color: var(--border-color); }
+.dropdown-item { color: var(--text-color); }
+.dropdown-item:hover, .dropdown-item:focus { color: var(--text-color); background-color: rgba(var(--primary-rgb), 0.1); }
+
+/* ============================================= */
+/* FLIP CARD STYLING (NEW)                     */
+/* ============================================= */
+.perfume-flip-card-container {
+    perspective: 1000px;
+    min-height: 290px; /* Give it a minimum height to avoid layout shifts */
 }
 
-#topAccordsChart {
-    cursor: pointer;
+.perfume-card-flipper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
 }
 
-.modal-content {
-    background-color: var(--bg-surface);
-    border-color: var(--border-color);
+.perfume-flip-card-container:hover .perfume-card-flipper {
+    transform: rotateY(180deg);
 }
 
-.modal-title .brand-link-modal {
-    color: var(--primary-color);
-    text-decoration: underline;
-    cursor: pointer;
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-.form-check-input {
-    background-color: var(--bg-surface);
-    border-color: var(--border-color);
-}
-
-.form-check-input:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.dropdown-menu {
-    background-color: var(--bg-surface);
-    border-color: var(--border-color);
-}
-
-.dropdown-item {
-    color: var(--text-color);
-}
-
-.dropdown-item:hover, .dropdown-item:focus {
-    color: var(--text-color);
-    background-color: rgba(var(--primary-rgb), 0.1);
+.card-back {
+    transform: rotateY(180deg);
 }
