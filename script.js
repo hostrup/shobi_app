@@ -316,15 +316,24 @@ function resetAllFilters() {
 }
 
 /**
- * Sets the color theme for the entire application.
- * @param {string} theme - The name of the theme to apply (e.g., 'light', 'dark', 'deepsea').
+ * Sets the color theme for the entire application, ensuring
+ * compatibility with Bootstrap's color modes.
+ * @param {string} theme - The name of the theme to apply.
  */
 function setTheme(theme) {
-    if (theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('shobi-theme', theme);
-    }
+    if (!theme) return;
+
+    // Determine the base theme for Bootstrap. All our custom themes are dark variations.
+    const bootstrapTheme = (theme === 'light') ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-bs-theme', bootstrapTheme);
+    
+    // Set our specific custom theme for detailed styling.
+    document.documentElement.setAttribute('data-theme', theme);
+    
+    // Save the user's choice.
+    localStorage.setItem('shobi-theme', theme);
 }
+
 
 async function init() {
     console.log("DEBUG: init() function started.");
@@ -370,7 +379,6 @@ async function init() {
     if(savedFavorites) state.favorites = JSON.parse(savedFavorites);
     document.getElementById('favorites-count').textContent = state.favorites.length;
     
-    // Set theme from localStorage or default to 'light'
     setTheme(localStorage.getItem('shobi-theme') || 'light');
     
     createFilters(allPerfumes);
