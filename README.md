@@ -1,62 +1,59 @@
-# Perfume Inspiration Finder
+# Shobi Perfume Finder
 
-A feature-rich, single-page web application designed to help users explore and find inspiration for "dupe" perfumes available on the Shobi website ([leparfum.com.gr/en/](https://leparfum.com.gr/en/)).
+An advanced and user-friendly single-page web application, designed to help users explore and find inspiration among "dupe" perfumes from the webshop [leparfum.com.gr/en/](https://leparfum.com.gr/en/).
 
-This application is built with vanilla JavaScript, Tailwind CSS, and several powerful libraries to provide a fast, beautiful, and user-friendly experience. It loads all its data from the external `parfumer_beriget_ai.json` file.
+The application is built with pure (vanilla) JavaScript, HTML5, and CSS3, and is enriched with several reputable libraries to deliver a fast, beautiful, and intuitive user experience. All data is loaded from an external `database_complete.json` file, which makes maintenance and updates simple.
 
 ## Features
 
-* **Dynamic Data Loading:** All perfume data is loaded asynchronously from a local JSON file, making it easy to update the collection.
+* **Asynchronous Data Loading:** All perfume data is fetched asynchronously from a local JSON file. This ensures a fast page load and makes it easy to update the perfume collection without having to change the code.
 
 * **Advanced Search & Filtering:**
+    * A powerful **real-time search function** that queries across all perfume attributes (brand, name, notes, etc.).
+    * Filtering based on **scent accords, season, occasion, and gender**.
 
-  * A powerful real-time search that queries across all perfume attributes (brand, name, notes, etc.).
-
-  * Filter by Brand, Perfume Type (Men, Women, Unisex, Niche), and multiple Scent Notes simultaneously using an intuitive combo box.
-
-* **Dual View Modes:**
-
-  * **Card View:** A responsive, visually appealing grid layout perfect for browsing.
-
-  * **Table View:** A sortable and paginated table view powered by Grid.js, ideal for quickly analyzing and comparing data.
+* **Flexible View Modes:**
+    * **Grid View:** A responsive and visually appealing grid layout, perfect for browsing and getting a quick overview.
+    * **List View:** A more detailed list view that provides more information about each perfume.
 
 * **User-Centric Tools:**
+    * **Favorites System:** Mark perfumes with a heart to save them to a personal list. Favorites are stored locally in the browser using `localStorage`.
+    * **"Surprise Me" Function:** Get a random perfume presented with a single click.
 
-  * **Favorites System:** Mark perfumes with a heart icon to save them to a personal list, which is stored locally in the browser.
+* **Interactive Data Visualization:**
+    * Detailed information about each perfume's "inspiration" is displayed in a pop-up (modal) window, complete with visual charts (doughnut and radar charts) powered by **Chart.js**.
 
-  * **Shopping Cart:** Collect perfume codes in a slide-out cart.
-
-  * **Copy Codes:** Easily copy all collected codes to the clipboard with a single click, ready to be used on the Shobi website.
-
-* **Interactive Dashboard:**
-
-  * Visualize the data with charts (powered by Chart.js) showing breakdowns of perfumes per brand and by scent type.
-
-  * See interesting, dynamically calculated stats about the perfume collection.
-
-* **Customizable Themes:**
-
-  * Switch between four beautiful, pre-built color themes (Solarized Dark, Dracula, Nord, and Gruvbox Light) to suit your preference. Your choice is saved for your next visit.
+* **Personalization:**
+    * Switch between **four different color themes** to customize the appearance. Your choice is saved in `localStorage` for your next visit.
 
 * **Performance Optimized:**
+    * Results are loaded in "chunks" to ensure a fast startup, even with a large amount of data. The user can load more results as needed.
 
-  * The card view uses a "lazy loading" approach, initially displaying a subset of results and allowing the user to load more, ensuring a fast initial startup even with thousands of products.
+## Technical Overview
 
-## How to Use
+* **Frontend:**
+    * **HTML5:** Semantic markup for a well-structured application.
+    * **CSS3:** Custom styling for a unique and responsive design.
+    * **JavaScript (ES6+):** The core of the application's logic and interactivity.
 
-1. Clone or download the repository.
+* **Libraries:**
+    * **Bootstrap 5.3.3:** Used for layout, the grid system, and UI components like modal windows.
+    * **Font Awesome 6.5.2:** For icons throughout the user interface.
+    * **Chart.js:** For visualizing scent data in an easy-to-understand way.
 
-2. Place your `parfumer_beriget_ai.json` file in the same root directory as the `index.html` file.
+## Installation and Usage
 
-3. Open `index.html` in any modern web browser.
+1.  Clone or download this repository.
+2.  Place your `database_complete.json` file in the same directory as `index.html`.
+3.  Open `index.html` in a modern web browser.
 
 ## Disclaimer
 
-This project is an independent creation and is intended solely for personal, inspirational, and non-commercial use.
+This project is an independent initiative and is intended solely for personal, inspirational, and non-commercial use.
 
 * **No Affiliation:** I am not affiliated, associated, authorized, endorsed by, or in any way officially connected with Shobi ([leparfum.com.gr](https://leparfum.com.gr)) or any of the original perfume brands mentioned in the data. All product and company names are trademarks™ or registered® trademarks of their respective holders.
 
-* **Data Accuracy:** The perfume data provided in the JSON file is compiled for inspirational purposes. I do not take responsibility for its accuracy, completeness, or timeliness. The data should not be considered an official source.
+* **Data Accuracy:** The perfume data provided in the JSON file is compiled for inspirational purposes. I do not take responsibility for the accuracy, completeness, or timeliness of this data. The data should not be considered an official source.
 
 ## License
 
