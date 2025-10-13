@@ -38,24 +38,50 @@ function displayPerfumes(perfumes, containerId, customTitle = null) {
         else if (p.genderAffinity === 'Unisex') genderIcon = '<i class="fas fa-venus-mars text-warning ms-2"></i>';
         
         if (state.viewMode === 'grid') {
+            const notesHTMLForCard = (notes, title) => {
+                if (!notes || notes.length === 0) return '';
+                return `<div class="mb-2"><strong>${title}:</strong> <span class="text-muted small">${notes.join(', ')}</span></div>`;
+            };
+
+            const cardBackHTML = `
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title mb-2">${p.inspiredBy}</h5>
+                    <h6 class="card-subtitle mb-3 text-muted">Scent Pyramid</h6>
+                    <div class="flex-grow-1">
+                        ${notesHTMLForCard(p.notes.top, 'Top')}
+                        ${notesHTMLForCard(p.notes.heart, 'Heart')}
+                        ${notesHTMLForCard(p.notes.base, 'Base')}
+                    </div>
+                    <div class="mt-auto text-center">
+                        <button class="btn btn-sm btn-outline-secondary" onclick="showPerfumeDetails('${p.code}')">Full Details & Charts</button>
+                    </div>
+                </div>`;
+            
             return `
-            <div class="col-md-6 col-xl-4">
-                <div class="card h-100 shadow-sm perfume-card bg-body-tertiary">
-                    <div class="card-body d-flex flex-column position-relative">
-                        <i class="fas fa-heart favorite-btn ${isFavorite ? 'is-favorite' : ''}" data-code="${p.code}"></i>
-                        <h5 class="card-title">${p.inspiredBy}${genderIcon}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted"><span class="brand-link" data-brand="${p.brand}">${p.brand}</span></h6>
-                        <p class="card-text small flex-grow-1">${String(p.description || 'No description available.').substring(0, 80)}...</p>
-                        <div class="mb-2">${accordsText}</div>
-                        <div class="mt-auto">
-                            <button class="btn btn-sm btn-outline-secondary" onclick="showPerfumeDetails('${p.code}')">Details</button>
-                            <a href="${shobiLink}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary ms-1">Shobi</a>
-                            ${parfumoLinkHTML}
+            <div class="col-md-6 col-xl-4 perfume-flip-card-container">
+                <div class="perfume-card-flipper">
+                    <div class="card h-100 shadow-sm perfume-card card-front bg-body-tertiary">
+                        <div class="card-body d-flex flex-column position-relative">
+                            <i class="fas fa-heart favorite-btn ${isFavorite ? 'is-favorite' : ''}" data-code="${p.code}"></i>
+                            <h5 class="card-title">${p.inspiredBy}${genderIcon}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted"><span class="brand-link" data-brand="${p.brand}">${p.brand}</span></h6>
+                            <p class="card-text small flex-grow-1">${String(p.description || 'No description available.').substring(0, 80)}...</p>
+                            <div class="mb-2">${accordsText}</div>
+                            <div class="mt-auto d-flex justify-content-between align-items-center">
+                                <div>
+                                    <a href="${shobiLink}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary">Shobi</a>
+                                    ${parfumoLinkHTML}
+                                </div>
+                                <span class="text-muted small" style="font-size: 0.75rem;"><i class="fas fa-info-circle"></i> Hover for notes</span>
+                            </div>
                         </div>
+                    </div>
+                    <div class="card h-100 shadow-sm perfume-card card-back bg-body-tertiary">
+                        ${cardBackHTML}
                     </div>
                 </div>
             </div>`;
-        } else {
+        } else { // List view remains unchanged
             return `
             <li class="list-group-item bg-body-tertiary">
                 <div class="d-flex w-100 justify-content-between align-items-start">
@@ -144,7 +170,7 @@ function createFilters(perfumeSource) {
     
     let html = '';
     for (const key in filters) {
-        state.activeFilters[key] = state.activeFilters[key] || []; // Preserve existing filters on reset
+        state.activeFilters[key] = state.activeFilters[key] || [];
         const options = [...filters[key].options].sort();
         if (options.length === 0) continue;
 
@@ -170,7 +196,6 @@ function createFilters(perfumeSource) {
     }
     accordion.innerHTML = html;
     
-    // Add event listeners
     accordion.querySelectorAll('.filter-checkbox').forEach(box => box.addEventListener('change', handleFilterChange));
     
     const brandSearchInput = document.getElementById('brand-filter-search');
@@ -184,7 +209,6 @@ function createFilters(perfumeSource) {
         });
     }
 }
-
 
 function calculateAndShowStats(perfumeSource) {
     const chartCanvas = document.getElementById('topAccordsChart');
@@ -308,7 +332,6 @@ function handleFilterChange(e) {
     const key = e.target.dataset.filterKey;
     const value = e.target.value;
     
-    // Initialize the filter array if it doesn't exist
     if (!state.activeFilters[key]) {
         state.activeFilters[key] = [];
     }
@@ -342,11 +365,9 @@ function resetAllFilters() {
     document.querySelectorAll('.filter-checkbox').forEach(box => box.checked = false);
     for (const key in state.activeFilters) { state.activeFilters[key] = []; }
     
-    // Also clear the brand filter search input
     const brandSearchInput = document.getElementById('brand-filter-search');
     if (brandSearchInput) {
         brandSearchInput.value = '';
-        // Trigger input event to re-show all brands in the list
         brandSearchInput.dispatchEvent(new Event('input'));
     }
     
@@ -357,19 +378,11 @@ function resetAllFilters() {
     applyFiltersAndRender();
 }
 
-/**
- * Sets the color theme for the entire application, ensuring
- * compatibility with Bootstrap's color modes.
- * @param {string} theme - The name of the theme to apply.
- */
 function setTheme(theme) {
     if (!theme) return;
-
     const bootstrapTheme = (theme === 'light') ? 'light' : 'dark';
     document.documentElement.setAttribute('data-bs-theme', bootstrapTheme);
-    
     document.documentElement.setAttribute('data-theme', theme);
-    
     localStorage.setItem('shobi-theme', theme);
 }
 
@@ -480,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetAllFilters();
         if (state.currentView === 'brand') {
              const brandPerfumes = allPerfumes.filter(p => p.brand === state.currentBrand);
-             displayPerfumes(brandPerfumes, 'brand-perfume-list');
+             displayFiltersAndRender(brandPerfumes, 'brand-perfume-list');
         }
     });
     document.getElementById('back-to-all-btn').addEventListener('click', () => {
