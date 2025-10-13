@@ -203,7 +203,6 @@ hr {
 /* CUSTOM COMPONENT STYLING                    */
 /* ============================================= */
 
-/* --- NY REGEL: Sikrer at navbar følger tema --- */
 .navbar {
     background-color: var(--bg-surface) !important;
     box-shadow: 0 .125rem .25rem var(--shadow-color);
@@ -240,6 +239,19 @@ hr {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 .25rem rgba(var(--primary-rgb), 0.25);
 }
+
+/* --- RETTELSE: Specifik styling for søgefeltet i navbaren --- */
+.navbar .input-group .form-control {
+    background-color: var(--bg-body) !important; /* Brug body's baggrund for kontrast */
+    border-color: var(--border-color) !important;
+    color: var(--text-color);
+}
+.navbar .input-group .input-group-text {
+    background-color: var(--bg-body) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-muted);
+}
+
 
 .perfume-card {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -340,7 +352,6 @@ hr {
     border-color: var(--primary-color);
 }
 
-/* --- NY REGEL: Sikrer at dropdown-menuer følger tema --- */
 .dropdown-menu {
     background-color: var(--bg-surface);
     border-color: var(--border-color);
