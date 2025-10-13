@@ -29,9 +29,7 @@ function displayPerfumes(perfumes, containerId, customTitle = null) {
         const isFavorite = state.favorites.includes(p.code);
         const accordsText = (p.mainAccords || []).slice(0, 3).map(a => `<span class="badge bg-secondary me-1 accord-tag" onclick="handleAccordClick('${a}')">${a}</span>`).join('');
         
-        // *** RETTELSE 1: Linket til Shobi er nu det korrekte søge-link ***
         const shobiLink = `https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${p.code}`;
-        
         const parfumoLinkHTML = p.link ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-info ms-1">Parfumo</a>` : '';
 
         let genderIcon = '';
@@ -87,7 +85,6 @@ function displayPerfumes(perfumes, containerId, customTitle = null) {
 
 function applyFiltersAndRender() {
     let perfumeSource = allPerfumes;
-    // Determine the source of perfumes based on the current view
     if (state.currentView === 'brand' && state.currentBrand) {
         perfumeSource = allPerfumes.filter(p => p.brand === state.currentBrand);
     } else if (state.showingFavorites) {
@@ -98,7 +95,6 @@ function applyFiltersAndRender() {
     
     if (state.searchQuery) {
         const query = state.searchQuery.toLowerCase();
-        // *** RETTELSE 2: Søgningen tjekker nu også for parfumens 'code' (ID) ***
         filtered = filtered.filter(p => 
             String(p.inspiredBy || '').toLowerCase().includes(query) || 
             String(p.brand || '').toLowerCase().includes(query) ||
@@ -181,7 +177,6 @@ function calculateAndShowStats(perfumeSource) {
             datasets: [{ 
                 label: 'Most Popular Accords', 
                 data: top5.map(a => a[1]),
-                backgroundColor: ['rgba(60, 100, 255, 0.7)', 'rgba(255, 99, 132, 0.7)', 'rgba(255, 205, 86, 0.7)', 'rgba(75, 192, 192, 0.7)', 'rgba(153, 102, 255, 0.7)'],
             }] 
         },
         options: { 
@@ -236,7 +231,7 @@ function showPerfumeDetails(code) {
         type: 'radar',
         data: {
             labels: accordLabels,
-            datasets: [{ label: 'Profile', data: accordData, fill: true, backgroundColor: 'rgba(var(--bs-primary-rgb), 0.2)', borderColor: 'rgb(var(--bs-primary-rgb))', pointBackgroundColor: 'rgb(var(--bs-primary-rgb))' }]
+            datasets: [{ label: 'Profile', data: accordData, fill: true, backgroundColor: 'rgba(var(--primary-rgb), 0.2)', borderColor: 'rgb(var(--primary-rgb))', pointBackgroundColor: 'rgb(var(--primary-rgb))' }]
         },
         options: { scales: { r: { suggestedMin: 0, suggestedMax: 10, ticks: { display: false } } }, plugins: { legend: { display: false } } }
     });
@@ -255,7 +250,6 @@ function showBrandView(brandName) {
     const brandDescription = brandInfoEntry ? brandInfoEntry.brandDescription : 'No brand description available.';
     document.getElementById('brand-info').innerHTML = `<h2>${brandName}</h2><p>${brandDescription}</p>`;
     
-    // Rebuild filters and stats for the specific brand
     createFilters(brandPerfumes);
     calculateAndShowStats(brandPerfumes);
     displayPerfumes(brandPerfumes, 'brand-perfume-list');
@@ -293,7 +287,6 @@ function handleFilterChange(e) {
     if (e.target.checked) state.activeFilters[key].push(value);
     else state.activeFilters[key] = state.activeFilters[key].filter(v => v !== value);
     
-    // Only apply filters, don't reset the view
     state.showingFavorites = false;
     document.getElementById('favorites-btn').classList.remove('active');
     applyFiltersAndRender();
@@ -322,10 +315,15 @@ function resetAllFilters() {
     applyFiltersAndRender();
 }
 
+/**
+ * Sets the color theme for the entire application.
+ * @param {string} theme - The name of the theme to apply (e.g., 'light', 'dark', 'deepsea').
+ */
 function setTheme(theme) {
-    document.documentElement.setAttribute('data-bs-theme', (theme === 'light' || theme === 'dark') ? theme : 'light');
-    document.documentElement.setAttribute('data-theme', (theme !== 'light' && theme !== 'dark') ? theme : '');
-    localStorage.setItem('shobi-theme', theme);
+    if (theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('shobi-theme', theme);
+    }
 }
 
 async function init() {
@@ -372,9 +370,11 @@ async function init() {
     if(savedFavorites) state.favorites = JSON.parse(savedFavorites);
     document.getElementById('favorites-count').textContent = state.favorites.length;
     
+    // Set theme from localStorage or default to 'light'
+    setTheme(localStorage.getItem('shobi-theme') || 'light');
+    
     createFilters(allPerfumes);
     calculateAndShowStats(allPerfumes);
-    setTheme(localStorage.getItem('shobi-theme') || 'light');
     applyFiltersAndRender();
 }
 
@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.theme-choice').forEach(item => item.addEventListener('click', e => { e.preventDefault(); setTheme(e.target.dataset.themeValue); }));
     document.getElementById('favorites-btn').addEventListener('click', () => {
         state.showingFavorites = !state.showingFavorites;
-        state.currentView = 'main'; // Go back to main view for favorites
+        state.currentView = 'main';
         state.currentBrand = null;
         document.getElementById('brand-view').classList.add('d-none');
         document.getElementById('main-view').classList.remove('d-none');
@@ -441,7 +441,6 @@ document.addEventListener('DOMContentLoaded', () => {
         state.currentBrand = null;
         document.getElementById('brand-view').classList.add('d-none');
         document.getElementById('main-view').classList.remove('d-none');
-        // Restore global filters and stats
         createFilters(allPerfumes);
         calculateAndShowStats(allPerfumes);
         applyFiltersAndRender();
