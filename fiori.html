@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Fiori Prototype - JSP Plan</title>
+    <script
+        id="sap-ui-bootstrap"
+        src="https://ui5.sap.com/resources/sap-ui-core.js"
+        data-sap-ui-theme="sap_horizon"
+        data-sap-ui-libs="sap.m, sap.f, sap.ui.core"
+        data-sap-ui-compatVersion="edge"
+        data-sap-ui-async="true"
+        data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
+        data-sap-ui-resourceroots='{
+            "jsp.prototype": "./"
+        }'>
+    </script>
+</head>
+<body class="sapUiBody" id="content">
+    <div data-sap-ui-component data-name="jsp.prototype" data-id="container" data-settings='{"id" : "jsp.prototype"}'></div>
+</body>
+
+<!-- Component.js: Defines the application structure -->
+<script src="Component.js"></script>
+
+<!-- manifest.json: App descriptor -->
+<script type="application/json" src="manifest.json">
+{
+    "sap.app": {
+        "id": "jsp.prototype",
+        "type": "application"
+    },
+    "sap.ui5": {
+        "rootView": {
+            "viewName": "jsp.prototype.view.App",
+            "type": "XML",
+            "async": true
+        },
+        "dependencies": {
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.f": {}
+            }
+        }
+    }
+}
+</script>
+
+<!-- App.view.xml: The main view of the app -->
+<script type="text/xml" src="view/App.view.xml">
+<mvc:View
+    controllerName="jsp.prototype.controller.App"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    displayBlock="true">
+    <Page title="JSP Plan Koncept" showHeader="false">
+        <content>
+            <FlexBox
+                height="100vh"
+                width="100%"
+                alignItems="Center"
+                justifyContent="Center"
+                class="sapUiSmallMargin">
+                <f:Card class="sapUiMediumMargin" width="100%" maxWidth="80rem">
+                    <f:header>
+                        <Toolbar>
+							<VBox class="sapUiSmallMarginBegin">
+								<Title text="Jernbanearbejde ved bro" level="H1"/>
+								<Text text="2025-00002-002" class="sapUiTinyMarginTop"/>
+							</VBox>
+							<ToolbarSpacer />
+							<ObjectStatus title="Status" text="Godkendt" state="Success" class="sapUiSmallMarginEnd"/>
+							<ObjectStatus title="Gyldig fra" text="01.07.2025" state="None" icon="sap-icon://calendar" class="sapUiSmallMarginEnd"/>
+						</Toolbar>
+                    </f:header>
+                    <f:content>
+                        <List
+                            id="strækningList"
+                            items="{planModel>/strækninger}"
+                            noDataText="Ingen strækninger tilføjet">
+                            <CustomListItem>
+                                <VBox class="sapUiSmallMargin sapBackgroundColorNeutral">
+                                    <HBox alignItems="Center" class="sapUiSmallMarginBegin sapUiTinyMarginTopBottom">
+                                        <Label text="Strækning" design="Bold" class="sapUiTinyMarginEnd"/>
+                                        <HBox class="sapUiTinyMarginEnd" alignItems="Center">
+                                            <Text text="{planModel>fra}" class="sapMTitle" />
+                                            <core:Icon src="sap-icon://arrow-right" class="sapUiTinyMarginBeginEnd"/>
+                                            <Text text="{planModel>til}" class="sapMTitle" />
+                                        </HBox>
+                                    </HBox>
+                                    
+                                    <core:HTML content='&lt;hr style=&quot;border: 0; border-top: 1px dashed #d9d9d9; margin: 0.5rem 0;&quot; /&gt;' />
+                                    
+                                    <VBox class="sapUiSmallMarginBegin sapUiSmallMarginBottom">
+                                        <!-- Stationer Section -->
+                                        <VBox visible="{= ${planModel>stationer}.length > 0 }">
+                                            <Label text="Stationer" design="Bold" class="sapUiTinyMarginBottom"/>
+                                            <FlexBox wrap="Wrap" items="{planModel>stationer}">
+                                                <GenericTag text="{planModel>navn}" class="sapUiTinyMargin"/>
+                                            </FlexBox>
+                                        </VBox>
+
+                                        <!-- Mellem Stationer Section -->
+                                        <VBox visible="{= ${planModel>mellemStationer}.length > 0 }" class="sapUiSmallMarginTop">
+                                            <Label text="Mellem Stationer" design="Bold" class="sapUiTinyMarginBottom"/>
+                                            <VBox items="{planModel>mellemStationer}">
+                                               <Panel backgroundDesign="Transparent" class="sapUiNoContentPadding">
+                                                    <HBox alignItems="Center">
+                                                        <Text text="{planModel>fra}"/>
+                                                        <core:HTML content='&lt;div style=&quot;flex-grow: 1; border-bottom: 1px dashed #888; margin: 0 0.5rem;&quot;&gt;&lt;/div&gt;' />
+                                                        <Text text="{planModel>til}"/>
+                                                    </HBox>
+                                               </Panel>
+                                            </VBox>
+                                        </VBox>
+                                        
+                                        <Text
+                                            text="Ingen stationer eller mellem stationer valgt."
+                                            visible="{= !${planModel>stationer}.length &amp;&amp; !${planModel>mellemStationer}.length }" 
+                                            class="sapUiItalicElement"/>
+
+                                    </VBox>
+                                </VBox>
+                            </CustomListItem>
+                        </List>
+                    </f:content>
+                </f:Card>
+            </FlexBox>
+        </content>
+    </Page>
+</mvc:View>
+</script>
+
+<!-- App.controller.js: The controller for the main view -->
+<script type="text/javascript" src="controller/App.controller.js">
+sap.ui.define([
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/json/JSONModel"
+], function(Controller, JSONModel) {
+    "use strict";
+
+    return Controller.extend("jsp.prototype.controller.App", {
+        onInit: function() {
+            var oPlanData = {
+                strækninger: [
+                    {
+                        fra: "Næstved",
+                        til: "Nykøbing F Vest",
+                        stationer: [ {navn: "Lundby"}, {navn: "Vordingborg"} ],
+                        mellemStationer: [ {fra: "Lundby", til: "Masnedø"} ]
+                    },
+                    {
+                        fra: "Vigerslev",
+                        til: "Ringsted",
+                        stationer: [],
+                        mellemStationer: [
+                            {fra: "Vigerslev", til: "Jersie Fjern"},
+                            {fra: "Jersie Fjern", til: "Køge"},
+                            {fra: "Lellinge", til: "Bjæverskov"}
+                        ]
+                    },
+                    {
+                        fra: "Ålborg",
+                        til: "Frederikshavn",
+                        stationer: [
+                            {navn: "Aalborg"}, {navn: "Lindholm"}, {navn: "Brønderslev"},
+                            {navn: "Vrå"}, {navn: "Hjørring"}, {navn: "Sindbjerg"},
+                            {navn: "Tolne"}, {navn: "Kvissel"}, {navn: "Frederikshavn"}
+                        ],
+                        mellemStationer: []
+                    },
+                    {
+                        fra: "Roskilde",
+                        til: "Næstved",
+                        stationer: [],
+                        mellemStationer: []
+                    }
+                ]
+            };
+            var oModel = new JSONModel(oPlanData);
+            this.getView().setModel(oModel, "planModel");
+        }
+    });
+});
+</script>
+</html>
