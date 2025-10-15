@@ -7,17 +7,15 @@
         id="sap-ui-bootstrap"
         src="https://ui5.sap.com/resources/sap-ui-core.js"
         data-sap-ui-theme="sap_horizon"
-        data-sap-ui-libs="sap.m, sap.f, sap.ui.core"
+        data-sap-ui-libs="sap.m, sap.ui.core"
         data-sap-ui-compatVersion="edge"
         data-sap-ui-async="true">
     </script>
-
     <!-- Main application script -->
     <script>
         sap.ui.getCore().attachInit(function () {
             "use strict";
 
-            // Use sap.ui.require to ensure all dependencies are loaded before execution
             sap.ui.require([
                 "sap/ui/core/mvc/Controller",
                 "sap/ui/model/json/JSONModel",
@@ -71,41 +69,31 @@
                 // 2. Create an instance of the Controller
                 var oAppController = new AppController();
 
-                // 3. Define the XML View as a string
+                // 3. Define the XML View as a string, using only sap.m controls
                 var sXMLView = `
                     <mvc:View
                         xmlns:mvc="sap.ui.core.mvc"
                         xmlns="sap.m"
                         xmlns:core="sap.ui.core"
-                        xmlns:f="sap.f"
                         displayBlock="true">
                         <Page title="JSP Plan Koncept" showHeader="false">
                             <content>
-                                <FlexBox
-                                    height="100vh"
-                                    width="100%"
-                                    alignItems="Center"
-                                    justifyContent="Center"
-                                    class="sapUiSmallMargin">
-                                    <f:Card class="sapUiMediumMargin" width="80rem">
-                                        <f:header>
-                                            <f:CardHeader>
-                                                <f:toolbar>
-                                                    <Toolbar>
-                                                        <VBox>
-                                                            <Title text="Jernbanearbejde ved bro" level="H1"/>
-                                                            <Text text="2025-00002-002" class="sapUiTinyMarginTop"/>
-                                                        </VBox>
-                                                        <ToolbarSpacer />
-                                                        <HBox>
-                                                            <ObjectStatus title="Status" text="Godkendt" state="Success" class="sapUiSmallMarginEnd"/>
-                                                            <ObjectStatus title="Gyldig fra" text="01.07.2025" state="None" icon="sap-icon://calendar" />
-                                                        </HBox>
-                                                    </Toolbar>
-                                                </f:toolbar>
-                                            </f:CardHeader>
-                                        </f:header>
-                                        <f:content>
+                                <VBox height="100vh" width="100%" alignItems="Center" justifyContent="Center" class="sapUiSmallMargin">
+                                    <Panel class="sapUiMediumMargin" width="80rem">
+                                        <headerToolbar>
+                                            <Toolbar>
+                                                <VBox>
+                                                    <Title text="Jernbanearbejde ved bro" level="H1"/>
+                                                    <Text text="2025-00002-002" class="sapUiTinyMarginTop"/>
+                                                </VBox>
+                                                <ToolbarSpacer />
+                                                <HBox>
+                                                    <ObjectStatus title="Status" text="Godkendt" state="Success" class="sapUiSmallMarginEnd"/>
+                                                    <ObjectStatus title="Gyldig fra" text="01.07.2025" state="None" icon="sap-icon://calendar" />
+                                                </HBox>
+                                            </Toolbar>
+                                        </headerToolbar>
+                                        <content>
                                             <List
                                                 id="straekningList"
                                                 items="{planModel>/strækninger}"
@@ -120,9 +108,7 @@
                                                                 <Text text="{planModel>til}" class="sapMTitle" />
                                                             </HBox>
                                                         </HBox>
-                                                        
                                                         <core:HTML content='&lt;hr style=&quot;border: 0; border-top: 1px dashed #d9d9d9; margin: 0.5rem 0;&quot; /&gt;' />
-                                                        
                                                         <VBox class="sapUiSmallMarginBegin sapUiSmallMarginBottom">
                                                             <!-- Stationer Section -->
                                                             <VBox visible="{= \${planModel>stationer}.length > 0 }">
@@ -131,7 +117,6 @@
                                                                     <GenericTag text="{planModel>navn}" class="sapUiTinyMargin" templateShareable="false"/>
                                                                 </FlexBox>
                                                             </VBox>
-
                                                             <!-- Mellem Stationer Section -->
                                                             <VBox visible="{= \${planModel>mellemStationer}.length > 0 }" class="sapUiSmallMarginTop">
                                                                 <Label text="Mellem Stationer" design="Bold" class="sapUiTinyMarginBottom"/>
@@ -145,19 +130,17 @@
                                                                    </Panel>
                                                                 </VBox>
                                                             </VBox>
-                                                            
                                                             <Text
                                                                 text="Ingen stationer eller mellem stationer valgt."
                                                                 visible="{= !\${planModel>stationer}.length &amp;&amp; !\${planModel>mellemStationer}.length }" 
                                                                 class="sapUiItalicElement"/>
-
                                                         </VBox>
                                                     </VBox>
                                                 </CustomListItem>
                                             </List>
-                                        </f:content>
-                                    </f:Card>
-                                </FlexBox>
+                                        </content>
+                                    </Panel>
+                                </VBox>
                             </content>
                         </Page>
                     </mvc:View>
@@ -177,4 +160,3 @@
 <body class="sapUiBody" id="content">
 </body>
 </html>
-
