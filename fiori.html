@@ -17,101 +17,15 @@
         sap.ui.getCore().attachInit(function () {
             "use strict";
 
-            // 1. Define the XML View as a string
-            var sXMLView = `
-                <mvc:View
-                    controllerName="jsp.prototype.controller.App"
-                    xmlns:mvc="sap.ui.core.mvc"
-                    xmlns="sap.m"
-                    xmlns:core="sap.ui.core"
-                    xmlns:f="sap.f"
-                    displayBlock="true">
-                    <Page title="JSP Plan Koncept" showHeader="false">
-                        <content>
-                            <FlexBox
-                                height="100vh"
-                                width="100%"
-                                alignItems="Center"
-                                justifyContent="Center"
-                                class="sapUiSmallMargin">
-                                <f:Card class="sapUiMediumMargin" width="100%" maxWidth="80rem">
-                                    <f:header>
-                                        <Toolbar>
-                                            <VBox class="sapUiSmallMarginBegin">
-                                                <Title text="Jernbanearbejde ved bro" level="H1"/>
-                                                <Text text="2025-00002-002" class="sapUiTinyMarginTop"/>
-                                            </VBox>
-                                            <ToolbarSpacer />
-                                            <ObjectStatus title="Status" text="Godkendt" state="Success" class="sapUiSmallMarginEnd"/>
-                                            <ObjectStatus title="Gyldig fra" text="01.07.2025" state="None" icon="sap-icon://calendar" class="sapUiSmallMarginEnd"/>
-                                        </Toolbar>
-                                    </f:header>
-                                    <f:content>
-                                        <List
-                                            id="strækningList"
-                                            items="{planModel>/strækninger}"
-                                            noDataText="Ingen strækninger tilføjet">
-                                            <CustomListItem>
-                                                <VBox class="sapUiSmallMargin sapBackgroundColorNeutral">
-                                                    <HBox alignItems="Center" class="sapUiSmallMarginBegin sapUiTinyMarginTopBottom">
-                                                        <Label text="Strækning" design="Bold" class="sapUiTinyMarginEnd"/>
-                                                        <HBox class="sapUiTinyMarginEnd" alignItems="Center">
-                                                            <Text text="{planModel>fra}" class="sapMTitle" />
-                                                            <core:Icon src="sap-icon://arrow-right" class="sapUiTinyMarginBeginEnd"/>
-                                                            <Text text="{planModel>til}" class="sapMTitle" />
-                                                        </HBox>
-                                                    </HBox>
-                                                    
-                                                    <core:HTML content='&lt;hr style=&quot;border: 0; border-top: 1px dashed #d9d9d9; margin: 0.5rem 0;&quot; /&gt;' />
-                                                    
-                                                    <VBox class="sapUiSmallMarginBegin sapUiSmallMarginBottom">
-                                                        <!-- Stationer Section -->
-                                                        <VBox visible="{= \${planModel>stationer}.length > 0 }">
-                                                            <Label text="Stationer" design="Bold" class="sapUiTinyMarginBottom"/>
-                                                            <FlexBox wrap="Wrap" items="{planModel>stationer}">
-                                                                <GenericTag text="{planModel>navn}" class="sapUiTinyMargin"/>
-                                                            </FlexBox>
-                                                        </VBox>
-
-                                                        <!-- Mellem Stationer Section -->
-                                                        <VBox visible="{= \${planModel>mellemStationer}.length > 0 }" class="sapUiSmallMarginTop">
-                                                            <Label text="Mellem Stationer" design="Bold" class="sapUiTinyMarginBottom"/>
-                                                            <VBox items="{planModel>mellemStationer}">
-                                                               <Panel backgroundDesign="Transparent" class="sapUiNoContentPadding">
-                                                                    <HBox alignItems="Center">
-                                                                        <Text text="{planModel>fra}"/>
-                                                                        <core:HTML content='&lt;div style=&quot;flex-grow: 1; border-bottom: 1px dashed #888; margin: 0 0.5rem;&quot;&gt;&lt;/div&gt;' />
-                                                                        <Text text="{planModel>til}"/>
-                                                                    </HBox>
-                                                               </Panel>
-                                                            </VBox>
-                                                        </VBox>
-                                                        
-                                                        <Text
-                                                            text="Ingen stationer eller mellem stationer valgt."
-                                                            visible="{= !\${planModel>stationer}.length &amp;&amp; !\${planModel>mellemStationer}.length }" 
-                                                            class="sapUiItalicElement"/>
-
-                                                    </VBox>
-                                                </VBox>
-                                            </CustomListItem>
-                                        </List>
-                                    </f:content>
-                                </f:Card>
-                            </FlexBox>
-                        </content>
-                    </Page>
-                </mvc:View>
-            `;
-
-            // 2. Define the Controller
-            sap.ui.define("jsp/prototype/controller/App", [
+            // Use sap.ui.require to ensure all dependencies are loaded before execution
+            sap.ui.require([
                 "sap/ui/core/mvc/Controller",
-                "sap/ui/model/json/JSONModel"
-            ], function(Controller, JSONModel) {
-                "use strict";
+                "sap/ui/model/json/JSONModel",
+                "sap/ui/core/mvc/XMLView"
+            ], function (Controller, JSONModel, XMLView) {
 
-                return Controller.extend("jsp.prototype.controller.App", {
+                // 1. Define the Controller Class
+                var AppController = Controller.extend("jsp.prototype.controller.App", {
                     onInit: function() {
                         var oPlanData = {
                             strækninger: [
@@ -153,14 +67,103 @@
                         this.getView().setModel(oModel, "planModel");
                     }
                 });
-            });
 
-            // 3. Create the XML View and place it on the page
-            sap.ui.core.mvc.XMLView.create({
-                definition: sXMLView,
-                controllerName: "jsp.prototype.controller.App"
-            }).then(function (oView) {
-                oView.placeAt("content");
+                // 2. Create an instance of the Controller
+                var oAppController = new AppController();
+
+                // 3. Define the XML View as a string (NOTE: controllerName is removed)
+                var sXMLView = `
+                    <mvc:View
+                        xmlns:mvc="sap.ui.core.mvc"
+                        xmlns="sap.m"
+                        xmlns:core="sap.ui.core"
+                        xmlns:f="sap.f"
+                        displayBlock="true">
+                        <Page title="JSP Plan Koncept" showHeader="false">
+                            <content>
+                                <FlexBox
+                                    height="100vh"
+                                    width="100%"
+                                    alignItems="Center"
+                                    justifyContent="Center"
+                                    class="sapUiSmallMargin">
+                                    <f:Card class="sapUiMediumMargin" width="100%" maxWidth="80rem">
+                                        <f:header>
+                                            <Toolbar>
+                                                <VBox class="sapUiSmallMarginBegin">
+                                                    <Title text="Jernbanearbejde ved bro" level="H1"/>
+                                                    <Text text="2025-00002-002" class="sapUiTinyMarginTop"/>
+                                                </VBox>
+                                                <ToolbarSpacer />
+                                                <ObjectStatus title="Status" text="Godkendt" state="Success" class="sapUiSmallMarginEnd"/>
+                                                <ObjectStatus title="Gyldig fra" text="01.07.2025" state="None" icon="sap-icon://calendar" class="sapUiSmallMarginEnd"/>
+                                            </Toolbar>
+                                        </f:header>
+                                        <f:content>
+                                            <List
+                                                id="strækningList"
+                                                items="{planModel>/strækninger}"
+                                                noDataText="Ingen strækninger tilføjet">
+                                                <CustomListItem>
+                                                    <VBox class="sapUiSmallMargin sapBackgroundColorNeutral">
+                                                        <HBox alignItems="Center" class="sapUiSmallMarginBegin sapUiTinyMarginTopBottom">
+                                                            <Label text="Strækning" design="Bold" class="sapUiTinyMarginEnd"/>
+                                                            <HBox class="sapUiTinyMarginEnd" alignItems="Center">
+                                                                <Text text="{planModel>fra}" class="sapMTitle" />
+                                                                <core:Icon src="sap-icon://arrow-right" class="sapUiTinyMarginBeginEnd"/>
+                                                                <Text text="{planModel>til}" class="sapMTitle" />
+                                                            </HBox>
+                                                        </HBox>
+                                                        
+                                                        <core:HTML content='&lt;hr style=&quot;border: 0; border-top: 1px dashed #d9d9d9; margin: 0.5rem 0;&quot; /&gt;' />
+                                                        
+                                                        <VBox class="sapUiSmallMarginBegin sapUiSmallMarginBottom">
+                                                            <!-- Stationer Section -->
+                                                            <VBox visible="{= \${planModel>stationer}.length > 0 }">
+                                                                <Label text="Stationer" design="Bold" class="sapUiTinyMarginBottom"/>
+                                                                <FlexBox wrap="Wrap" items="{planModel>stationer}">
+                                                                    <GenericTag text="{planModel>navn}" class="sapUiTinyMargin"/>
+                                                                </FlexBox>
+                                                            </VBox>
+
+                                                            <!-- Mellem Stationer Section -->
+                                                            <VBox visible="{= \${planModel>mellemStationer}.length > 0 }" class="sapUiSmallMarginTop">
+                                                                <Label text="Mellem Stationer" design="Bold" class="sapUiTinyMarginBottom"/>
+                                                                <VBox items="{planModel>mellemStationer}">
+                                                                   <Panel backgroundDesign="Transparent" class="sapUiNoContentPadding">
+                                                                        <HBox alignItems="Center">
+                                                                            <Text text="{planModel>fra}"/>
+                                                                            <core:HTML content='&lt;div style=&quot;flex-grow: 1; border-bottom: 1px dashed #888; margin: 0 0.5rem;&quot;&gt;&lt;/div&gt;' />
+                                                                            <Text text="{planModel>til}"/>
+                                                                        </HBox>
+                                                                   </Panel>
+                                                                </VBox>
+                                                            </VBox>
+                                                            
+                                                            <Text
+                                                                text="Ingen stationer eller mellem stationer valgt."
+                                                                visible="{= !\${planModel>stationer}.length &amp;&amp; !\${planModel>mellemStationer}.length }" 
+                                                                class="sapUiItalicElement"/>
+
+                                                        </VBox>
+                                                    </VBox>
+                                                </CustomListItem>
+                                            </List>
+                                        </f:content>
+                                    </f:Card>
+                                </FlexBox>
+                            </content>
+                        </Page>
+                    </mvc:View>
+                `;
+
+                // 4. Create the XML View and pass the controller instance directly
+                XMLView.create({
+                    definition: sXMLView,
+                    controller: oAppController 
+                }).then(function (oView) {
+                    oView.placeAt("content");
+                });
             });
         });
     </script>
