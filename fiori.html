@@ -18,9 +18,7 @@
             "use strict";
 
             sap.ui.require([
-                "sap/ui/core/mvc/Controller",
                 "sap/ui/model/json/JSONModel",
-                "sap/ui/core/mvc/View",
                 "sap/m/Page",
                 "sap/m/FlexBox",
                 "sap/m/Panel",
@@ -37,150 +35,138 @@
                 "sap/ui/core/Icon",
                 "sap/ui/core/HTML",
                 "sap/m/GenericTag"
-            ], function (Controller, JSONModel, View, Page, FlexBox, Panel, Toolbar, VBox, HBox, Title, Text, ToolbarSpacer, ObjectStatus, List, CustomListItem, Label, Icon, HTML, GenericTag) {
+            ], function (JSONModel, Page, FlexBox, Panel, Toolbar, VBox, HBox, Title, Text, ToolbarSpacer, ObjectStatus, List, CustomListItem, Label, Icon, HTML, GenericTag) {
 
-                // 1. Define the Controller Class
-                var AppController = Controller.extend("jsp.prototype.controller.App", {
-                    onInit: function() {
-                        var oPlanData = {
-                            strækninger: [
-                                { fra: "Næstved", til: "Nykøbing F Vest", stationer: [{ navn: "Lundby" }, { navn: "Vordingborg" }], mellemStationer: [{ fra: "Lundby", til: "Masnedø" }] },
-                                { fra: "Vigerslev", til: "Ringsted", stationer: [], mellemStationer: [{ fra: "Vigerslev", til: "Jersie Fjern" }, { fra: "Jersie Fjern", til: "Køge" }, { fra: "Lellinge", til: "Bjæverskov" }] },
-                                { fra: "Ålborg", til: "Frederikshavn", stationer: [{ navn: "Aalborg" }, { navn: "Lindholm" }, { navn: "Brønderslev" }, { navn: "Vrå" }, { navn: "Hjørring" }, { navn: "Sindbjerg" }, { navn: "Tolne" }, { navn: "Kvissel" }, { navn: "Frederikshavn" }], mellemStationer: [] },
-                                { fra: "Roskilde", til: "Næstved", stationer: [], mellemStationer: [] }
-                            ]
-                        };
-                        this.getView().setModel(new JSONModel(oPlanData), "planModel");
-                    },
-                    
-                    // Method to create the view content programmatically
-                    createViewContent: function() {
-                        return new Page({
-                            showHeader: false,
-                            content: [
-                                new FlexBox({
-                                    height: "100vh",
-                                    width: "100%",
-                                    alignItems: "Center",
-                                    justifyContent: "Center",
-                                    items: [
-                                        new Panel({
-                                            width: "80rem",
-                                            class: "sapUiMediumMargin",
-                                            headerToolbar: new Toolbar({
-                                                content: [
-                                                    new VBox({
-                                                        items: [
-                                                            new Title({ text: "Jernbanearbejde ved bro", level: "H1" }),
-                                                            new Text({ text: "2025-00002-002", class: "sapUiTinyMarginTop" })
-                                                        ]
-                                                    }),
-                                                    new ToolbarSpacer(),
-                                                    new HBox({
-                                                        items: [
-                                                            new ObjectStatus({ title: "Status", text: "Godkendt", state: "Success", class: "sapUiSmallMarginEnd" }),
-                                                            new ObjectStatus({ title: "Gyldig fra", text: "01.07.2025", state: "None", icon: "sap-icon://calendar" })
-                                                        ]
-                                                    })
+                // 1. Define Data Model
+                var oPlanData = {
+                    strækninger: [
+                        { fra: "Næstved", til: "Nykøbing F Vest", stationer: [{ navn: "Lundby" }, { navn: "Vordingborg" }], mellemStationer: [{ fra: "Lundby", til: "Masnedø" }] },
+                        { fra: "Vigerslev", til: "Ringsted", stationer: [], mellemStationer: [{ fra: "Vigerslev", til: "Jersie Fjern" }, { fra: "Jersie Fjern", til: "Køge" }, { fra: "Lellinge", til: "Bjæverskov" }] },
+                        { fra: "Ålborg", til: "Frederikshavn", stationer: [{ navn: "Aalborg" }, { navn: "Lindholm" }, { navn: "Brønderslev" }, { navn: "Vrå" }, { navn: "Hjørring" }, { navn: "Sindbjerg" }, { navn: "Tolne" }, { navn: "Kvissel" }, { navn: "Frederikshavn" }], mellemStationer: [] },
+                        { fra: "Roskilde", til: "Næstved", stationer: [], mellemStationer: [] }
+                    ]
+                };
+                var oModel = new JSONModel(oPlanData);
+
+                // 2. Create the UI Controls Programmatically
+                var oPage = new Page({
+                    showHeader: false,
+                    content: [
+                        new FlexBox({
+                            height: "100vh",
+                            width: "100%",
+                            alignItems: "Center",
+                            justifyContent: "Center",
+                            items: [
+                                new Panel({
+                                    width: "80rem",
+                                    class: "sapUiMediumMargin",
+                                    headerToolbar: new Toolbar({
+                                        content: [
+                                            new VBox({
+                                                items: [
+                                                    new Title({ text: "Jernbanearbejde ved bro", level: "H1" }),
+                                                    new Text({ text: "2025-00002-002", class: "sapUiTinyMarginTop" })
                                                 ]
                                             }),
-                                            content: [ 
-                                                new List({
-                                                    id: "straekningList",
-                                                    noDataText: "Ingen strækninger tilføjet",
-                                                    items: {
-                                                        path: "planModel>/strækninger",
-                                                        template: new CustomListItem({
-                                                            content: new VBox({
-                                                                class: "sapUiSmallMargin sapBackgroundColorNeutral",
+                                            new ToolbarSpacer(),
+                                            new HBox({
+                                                items: [
+                                                    new ObjectStatus({ title: "Status", text: "Godkendt", state: "Success", class: "sapUiSmallMarginEnd" }),
+                                                    new ObjectStatus({ title: "Gyldig fra", text: "01.07.2025", state: "None", icon: "sap-icon://calendar" })
+                                                ]
+                                            })
+                                        ]
+                                    }),
+                                    content: [ 
+                                        new List({
+                                            id: "straekningList",
+                                            noDataText: "Ingen strækninger tilføjet",
+                                            items: {
+                                                path: "/strækninger", // Path is now relative to the model set on the List
+                                                template: new CustomListItem({
+                                                    content: new VBox({
+                                                        class: "sapUiSmallMargin sapBackgroundColorNeutral",
+                                                        items: [
+                                                            new HBox({
+                                                                alignItems: "Center",
+                                                                class: "sapUiSmallMarginBegin sapUiTinyMarginTopBottom",
                                                                 items: [
-                                                                    new HBox({
-                                                                        alignItems: "Center",
-                                                                        class: "sapUiSmallMarginBegin sapUiTinyMarginTopBottom",
-                                                                        items: [
-                                                                            new Label({ text: "Strækning", design: "Bold", class: "sapUiTinyMarginEnd" }),
-                                                                            new Text({ text: "{planModel>fra}", class: "sapMTitle" }),
-                                                                            new Icon({ src: "sap-icon://arrow-right", class: "sapUiTinyMarginBeginEnd" }),
-                                                                            new Text({ text: "{planModel>til}", class: "sapMTitle" })
-                                                                        ]
-                                                                    }),
-                                                                    new HTML({ content: '<hr style="border: 0; border-top: 1px dashed #d9d9d9; margin: 0.5rem 0;" />' }),
+                                                                    new Label({ text: "Strækning", design: "Bold", class: "sapUiTinyMarginEnd" }),
+                                                                    new Text({ text: "{fra}", class: "sapMTitle" }),
+                                                                    new Icon({ src: "sap-icon://arrow-right", class: "sapUiTinyMarginBeginEnd" }),
+                                                                    new Text({ text: "{til}", class: "sapMTitle" })
+                                                                ]
+                                                            }),
+                                                            new HTML({ content: '<hr style="border: 0; border-top: 1px dashed #d9d9d9; margin: 0.5rem 0;" />' }),
+                                                            new VBox({
+                                                                class: "sapUiSmallMarginBegin sapUiSmallMarginBottom",
+                                                                items: [
                                                                     new VBox({
-                                                                        class: "sapUiSmallMarginBegin sapUiSmallMarginBottom",
+                                                                        visible: "{= ${stationer}.length > 0 }",
                                                                         items: [
-                                                                            new VBox({
-                                                                                visible: "{= ${planModel>stationer}.length > 0 }",
-                                                                                items: [
-                                                                                    new Label({ text: "Stationer", design: "Bold", class: "sapUiTinyMarginBottom" }),
-                                                                                    new FlexBox({
-                                                                                        wrap: "Wrap",
-                                                                                        items: {
-                                                                                            path: "planModel>stationer",
-                                                                                            template: new GenericTag({ text: "{planModel>navn}", class: "sapUiTinyMargin" }),
-                                                                                            templateShareable: false
-                                                                                        }
-                                                                                    })
-                                                                                ]
-                                                                            }),
-                                                                            new VBox({
-                                                                                visible: "{= ${planModel>mellemStationer}.length > 0 }",
-                                                                                class: "sapUiSmallMarginTop",
-                                                                                items: [
-                                                                                    new Label({ text: "Mellem Stationer", design: "Bold", class: "sapUiTinyMarginBottom" }),
-                                                                                    new VBox({
-                                                                                        items: {
-                                                                                            path: "planModel>mellemStationer",
-                                                                                            template: new Panel({
-                                                                                                backgroundDesign: "Transparent",
-                                                                                                class: "sapUiNoContentPadding",
-                                                                                                content: [
-                                                                                                    new HBox({
-                                                                                                        alignItems: "Center",
-                                                                                                        items: [
-                                                                                                            new Text({ text: "{planModel>fra}" }),
-                                                                                                            new HTML({ content: '<div style="flex-grow: 1; border-bottom: 1px dashed #888; margin: 0 0.5rem;"></div>' }),
-                                                                                                            new Text({ text: "{planModel>til}" })
-                                                                                                        ]
-                                                                                                    })
-                                                                                                ]
-                                                                                            }),
-                                                                                            templateShareable: false
-                                                                                        }
-                                                                                    })
-                                                                                ]
-                                                                            }),
-                                                                            new Text({
-                                                                                text: "Ingen stationer eller mellem stationer valgt.",
-                                                                                visible: "{= !${planModel>stationer}.length && !${planModel>mellemStationer}.length }",
-                                                                                class: "sapUiItalicElement"
+                                                                            new Label({ text: "Stationer", design: "Bold", class: "sapUiTinyMarginBottom" }),
+                                                                            new FlexBox({
+                                                                                wrap: "Wrap",
+                                                                                items: {
+                                                                                    path: "stationer",
+                                                                                    template: new GenericTag({ text: "{navn}", class: "sapUiTinyMargin" }),
+                                                                                    templateShareable: false
+                                                                                }
                                                                             })
                                                                         ]
+                                                                    }),
+                                                                    new VBox({
+                                                                        visible: "{= ${mellemStationer}.length > 0 }",
+                                                                        class: "sapUiSmallMarginTop",
+                                                                        items: [
+                                                                            new Label({ text: "Mellem Stationer", design: "Bold", class: "sapUiTinyMarginBottom" }),
+                                                                            new VBox({
+                                                                                items: {
+                                                                                    path: "mellemStationer",
+                                                                                    template: new Panel({
+                                                                                        backgroundDesign: "Transparent",
+                                                                                        class: "sapUiNoContentPadding",
+                                                                                        content: [
+                                                                                            new HBox({
+                                                                                                alignItems: "Center",
+                                                                                                items: [
+                                                                                                    new Text({ text: "{fra}" }),
+                                                                                                    new HTML({ content: '<div style="flex-grow: 1; border-bottom: 1px dashed #888; margin: 0 0.5rem;"></div>' }),
+                                                                                                    new Text({ text: "{til}" })
+                                                                                                ]
+                                                                                            })
+                                                                                        ]
+                                                                                    }),
+                                                                                    templateShareable: false
+                                                                                }
+                                                                            })
+                                                                        ]
+                                                                    }),
+                                                                    new Text({
+                                                                        text: "Ingen stationer eller mellem stationer valgt.",
+                                                                        visible: "{= !${stationer}.length && !${mellemStationer}.length }",
+                                                                        class: "sapUiItalicElement"
                                                                     })
                                                                 ]
                                                             })
-                                                        }),
-                                                        templateShareable: false
-                                                    }
-                                                })
-                                            ]
+                                                        ]
+                                                    })
+                                                }),
+                                                templateShareable: false
+                                            }
                                         })
                                     ]
                                 })
                             ]
-                        });
-                    }
+                        })
+                    ]
                 });
 
-                // 2. Create the View programmatically
-                var oView = new View({
-                    controller: new AppController(),
-                    createContent: function(oController) {
-                        return oController.createViewContent();
-                    }
-                });
+                // 3. Set the model on the page and place it on the screen
+                oPage.setModel(oModel);
+                oPage.placeAt("content");
 
-                // 3. Place the view in the content area
-                oView.placeAt("content");
             });
         });
     </script>
