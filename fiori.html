@@ -4,25 +4,17 @@
     <meta charset="utf-8">
     <title>OpenUI5 Prototype - JSP Plan</title>
 
-    <!-- 1. Load OpenUI5 framework -->
     <script
         id="sap-ui-bootstrap"
         src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
         data-sap-ui-theme="sap_horizon"
         data-sap-ui-libs="sap.m"
         data-sap-ui-compatVersion="edge"
-        data-sap-ui-async="true"
-        data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
-        data-sap-ui-resourceroots='{
-            "jsp.prototype": "./"
-        }'>
+        data-sap-ui-async="true">
     </script>
 
-    <!-- 2. Define the Component (JavaScript) -->
-    <script src="Component.js"></script>
-
-    <!-- 3. Define the XML View -->
-    <script id="myAppView" type="sapui5/xmlview">
+    <!-- Define the XML View directly in the HTML -->
+    <script id="appView" type="sapui5/xmlview">
         <mvc:View
             controllerName="jsp.prototype.App"
             xmlns:mvc="sap.ui.core.mvc"
@@ -99,34 +91,44 @@
         </mvc:View>
     </script>
 
-    <!-- 4. Define the Controller (JavaScript) -->
     <script>
-        sap.ui.define([
-            "sap/ui/core/mvc/Controller",
-            "sap/ui/model/json/JSONModel"
-        ], function (Controller, JSONModel) {
+        sap.ui.getCore().attachInit(function () {
             "use strict";
-            return Controller.extend("jsp.prototype.App", {
-                onInit: function () {
-                    var oPlanData = {
-                        straekninger: [
-                            { fra: "Næstved", til: "Nykøbing F Vest", stationer: [{ navn: "Lundby" }, { navn: "Vordingborg" }], mellemStationer: [{ fra: "Lundby", til: "Masnedø" }] },
-                            { fra: "Vigerslev", til: "Ringsted", stationer: [], mellemStationer: [{ fra: "Vigerslev", til: "Jersie Fjern" }, { fra: "Jersie Fjern", til: "Køge" }, { fra: "Lellinge", til: "Bjæverskov" }] },
-                            { fra: "Ålborg", til: "Frederikshavn", stationer: [{ navn: "Aalborg" }, { navn: "Lindholm" }, { navn: "Brønderslev" }, { navn: "Vrå" }, { navn: "Hjørring" }, { navn: "Sindbjerg" }, { navn: "Tolne" }, { navn: "Kvissel" }, { navn: "Frederikshavn" }], mellemStationer: [] },
-                            { fra: "Roskilde", til: "Næstved", stationer: [], mellemStationer: [] }
-                        ]
-                    };
-                    var oModel = new JSONModel(oPlanData);
-                    this.getView().setModel(oModel, "planModel");
-                }
+
+            // Define Controller
+            sap.ui.define([
+                "sap/ui/core/mvc/Controller",
+                "sap/ui/model/json/JSONModel"
+            ], function (Controller, JSONModel) {
+                return Controller.extend("jsp.prototype.App", {
+                    onInit: function () {
+                        var oPlanData = {
+                            straekninger: [
+                                { fra: "Næstved", til: "Nykøbing F Vest", stationer: [{ navn: "Lundby" }, { navn: "Vordingborg" }], mellemStationer: [{ fra: "Lundby", til: "Masnedø" }] },
+                                { fra: "Vigerslev", til: "Ringsted", stationer: [], mellemStationer: [{ fra: "Vigerslev", til: "Jersie Fjern" }, { fra: "Jersie Fjern", til: "Køge" }, { fra: "Lellinge", til: "Bjæverskov" }] },
+                                { fra: "Ålborg", til: "Frederikshavn", stationer: [{ navn: "Aalborg" }, { navn: "Lindholm" }, { navn: "Brønderslev" }, { navn: "Vrå" }, { navn: "Hjørring" }, { navn: "Sindbjerg" }, { navn: "Tolne" }, { navn: "Kvissel" }, { navn: "Frederikshavn" }], mellemStationer: [] },
+                                { fra: "Roskilde", til: "Næstved", stationer: [], mellemStationer: [] }
+                            ]
+                        };
+                        var oModel = new JSONModel(oPlanData);
+                        this.getView().setModel(oModel, "planModel");
+                    }
+                });
+            });
+
+            // Create XML View from the script tag and place it on the page
+            sap.ui.require(["sap/ui/core/mvc/XMLView"], function(XMLView) {
+                XMLView.create({
+                    definition: document.getElementById("appView").innerHTML
+                }).then(function (oView) {
+                    oView.placeAt("content");
+                });
             });
         });
     </script>
 </head>
 
-<!-- 5. Body with Component Container to bootstrap the app -->
 <body class="sapUiBody" id="content">
-    <div data-sap-ui-component data-name="jsp.prototype" data-id="container" data-settings='{"id" : "jsp.prototype"}'></div>
 </body>
 </html>
 
