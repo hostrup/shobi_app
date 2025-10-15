@@ -13,7 +13,7 @@
         data-sap-ui-async="true">
     </script>
 
-    <!-- Define the XML View directly in the HTML -->
+    <!-- 1. Define the XML View directly in the HTML -->
     <script id="appView" type="sapui5/xmlview">
         <mvc:View
             controllerName="jsp.prototype.App"
@@ -91,16 +91,20 @@
         </mvc:View>
     </script>
 
+    <!-- 2. Main application script -->
     <script>
         sap.ui.getCore().attachInit(function () {
             "use strict";
 
-            // Define Controller
-            sap.ui.define([
+            // Load dependencies synchronously for simplicity in this single-file scenario
+            sap.ui.require([
                 "sap/ui/core/mvc/Controller",
-                "sap/ui/model/json/JSONModel"
-            ], function (Controller, JSONModel) {
-                return Controller.extend("jsp.prototype.App", {
+                "sap/ui/model/json/JSONModel",
+                "sap/ui/core/mvc/XMLView"
+            ], function (Controller, JSONModel, XMLView) {
+
+                // Define the controller
+                sap.ui.controller("jsp.prototype.App", {
                     onInit: function () {
                         var oPlanData = {
                             straekninger: [
@@ -114,10 +118,8 @@
                         this.getView().setModel(oModel, "planModel");
                     }
                 });
-            });
 
-            // Create XML View from the script tag and place it on the page
-            sap.ui.require(["sap/ui/core/mvc/XMLView"], function(XMLView) {
+                // Create the XML View from the script tag and place it on the page
                 XMLView.create({
                     definition: document.getElementById("appView").innerHTML
                 }).then(function (oView) {
