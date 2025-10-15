@@ -51,33 +51,33 @@
                                         <VBox class="sapUiSmallMargin sapBackgroundColorNeutral">
                                             <HBox alignItems="Center" class="sapUiSmallMarginBegin sapUiTinyMarginTopBottom">
                                                 <Label text="Strækning" design="Bold" class="sapUiTinyMarginEnd"/>
-                                                <Text text="{planModel>fra}" class="sapMTitle"/>
+                                                <Text text="{fra}" class="sapMTitle"/>
                                                 <core:Icon src="sap-icon://arrow-right" class="sapUiTinyMarginBeginEnd"/>
-                                                <Text text="{planModel>til}" class="sapMTitle"/>
+                                                <Text text="{til}" class="sapMTitle"/>
                                             </HBox>
                                             <core:HTML content='&lt;hr style=&quot;border: 0; border-top: 1px dashed #d9d9d9; margin: 0.5rem 0;&quot; /&gt;'/>
                                             <VBox class="sapUiSmallMarginBegin sapUiSmallMarginBottom">
-                                                <VBox visible="{= ${planModel>stationer}.length > 0 }">
+                                                <VBox visible="{= ${stationer}.length > 0 }">
                                                     <Label text="Stationer" design="Bold" class="sapUiTinyMarginBottom"/>
-                                                    <FlexBox wrap="Wrap" items="{path: 'planModel>stationer', templateShareable: false}">
-                                                        <GenericTag text="{planModel>navn}" class="sapUiTinyMargin"/>
+                                                    <FlexBox wrap="Wrap" items="{path: 'stationer', templateShareable: false}">
+                                                        <GenericTag text="{navn}" class="sapUiTinyMargin"/>
                                                     </FlexBox>
                                                 </VBox>
-                                                <VBox visible="{= ${planModel>mellemStationer}.length > 0 }" class="sapUiSmallMarginTop">
+                                                <VBox visible="{= ${mellemStationer}.length > 0 }" class="sapUiSmallMarginTop">
                                                     <Label text="Mellem Stationer" design="Bold" class="sapUiTinyMarginBottom"/>
-                                                    <VBox items="{path: 'planModel>mellemStationer', templateShareable: false}">
+                                                    <VBox items="{path: 'mellemStationer', templateShareable: false}">
                                                         <Panel backgroundDesign="Transparent" class="sapUiNoContentPadding">
                                                             <HBox alignItems="Center">
-                                                                <Text text="{planModel>fra}"/>
+                                                                <Text text="{fra}"/>
                                                                 <core:HTML content='&lt;div style=&quot;flex-grow: 1; border-bottom: 1px dashed #888; margin: 0 0.5rem;&quot;&gt;&lt;/div&gt;'/>
-                                                                <Text text="{planModel>til}"/>
+                                                                <Text text="{til}"/>
                                                             </HBox>
                                                         </Panel>
                                                     </VBox>
                                                 </VBox>
                                                 <Text
                                                     text="Ingen stationer eller mellem stationer valgt."
-                                                    visible="{= !${planModel>stationer}.length &amp;&amp; !${planModel>mellemStationer}.length }"
+                                                    visible="{= !${stationer}.length &amp;&amp; !${mellemStationer}.length }"
                                                     class="sapUiItalicElement"/>
                                             </VBox>
                                         </VBox>
