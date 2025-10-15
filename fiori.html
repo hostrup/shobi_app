@@ -60,19 +60,18 @@
                             items: [
                                 new Panel({
                                     width: "80rem",
-                                    class: "sapUiMediumMargin",
                                     headerToolbar: new Toolbar({
                                         content: [
                                             new VBox({
                                                 items: [
                                                     new Title({ text: "Jernbanearbejde ved bro", level: "H1" }),
-                                                    new Text({ text: "2025-00002-002", class: "sapUiTinyMarginTop" })
+                                                    new Text({ text: "2025-00002-002" }).addStyleClass("sapUiTinyMarginTop")
                                                 ]
                                             }),
                                             new ToolbarSpacer(),
                                             new HBox({
                                                 items: [
-                                                    new ObjectStatus({ title: "Status", text: "Godkendt", state: "Success", class: "sapUiSmallMarginEnd" }),
+                                                    new ObjectStatus({ title: "Status", text: "Godkendt", state: "Success" }).addStyleClass("sapUiSmallMarginEnd"),
                                                     new ObjectStatus({ title: "Gyldig fra", text: "01.07.2025", state: "None", icon: "sap-icon://calendar" })
                                                 ]
                                             })
@@ -83,34 +82,31 @@
                                             id: "straekningList",
                                             noDataText: "Ingen strækninger tilføjet",
                                             items: {
-                                                path: "/strækninger", // Path is now relative to the model set on the List
+                                                path: "/strækninger",
                                                 template: new CustomListItem({
                                                     content: new VBox({
-                                                        class: "sapUiSmallMargin sapBackgroundColorNeutral",
                                                         items: [
                                                             new HBox({
                                                                 alignItems: "Center",
-                                                                class: "sapUiSmallMarginBegin sapUiTinyMarginTopBottom",
                                                                 items: [
-                                                                    new Label({ text: "Strækning", design: "Bold", class: "sapUiTinyMarginEnd" }),
-                                                                    new Text({ text: "{fra}", class: "sapMTitle" }),
-                                                                    new Icon({ src: "sap-icon://arrow-right", class: "sapUiTinyMarginBeginEnd" }),
-                                                                    new Text({ text: "{til}", class: "sapMTitle" })
+                                                                    new Label({ text: "Strækning", design: "Bold" }).addStyleClass("sapUiTinyMarginEnd"),
+                                                                    new Text({ text: "{fra}" }).addStyleClass("sapMTitle"),
+                                                                    new Icon({ src: "sap-icon://arrow-right" }).addStyleClass("sapUiTinyMarginBeginEnd"),
+                                                                    new Text({ text: "{til}" }).addStyleClass("sapMTitle")
                                                                 ]
-                                                            }),
+                                                            }).addStyleClass("sapUiSmallMarginBegin sapUiTinyMarginTopBottom"),
                                                             new HTML({ content: '<hr style="border: 0; border-top: 1px dashed #d9d9d9; margin: 0.5rem 0;" />' }),
                                                             new VBox({
-                                                                class: "sapUiSmallMarginBegin sapUiSmallMarginBottom",
                                                                 items: [
                                                                     new VBox({
                                                                         visible: "{= ${stationer}.length > 0 }",
                                                                         items: [
-                                                                            new Label({ text: "Stationer", design: "Bold", class: "sapUiTinyMarginBottom" }),
+                                                                            new Label({ text: "Stationer", design: "Bold" }).addStyleClass("sapUiTinyMarginBottom"),
                                                                             new FlexBox({
                                                                                 wrap: "Wrap",
                                                                                 items: {
                                                                                     path: "stationer",
-                                                                                    template: new GenericTag({ text: "{navn}", class: "sapUiTinyMargin" }),
+                                                                                    template: new GenericTag({ text: "{navn}" }).addStyleClass("sapUiTinyMargin"),
                                                                                     templateShareable: false
                                                                                 }
                                                                             })
@@ -118,15 +114,13 @@
                                                                     }),
                                                                     new VBox({
                                                                         visible: "{= ${mellemStationer}.length > 0 }",
-                                                                        class: "sapUiSmallMarginTop",
                                                                         items: [
-                                                                            new Label({ text: "Mellem Stationer", design: "Bold", class: "sapUiTinyMarginBottom" }),
+                                                                            new Label({ text: "Mellem Stationer", design: "Bold" }).addStyleClass("sapUiTinyMarginBottom"),
                                                                             new VBox({
                                                                                 items: {
                                                                                     path: "mellemStationer",
                                                                                     template: new Panel({
                                                                                         backgroundDesign: "Transparent",
-                                                                                        class: "sapUiNoContentPadding",
                                                                                         content: [
                                                                                             new HBox({
                                                                                                 alignItems: "Center",
@@ -137,27 +131,26 @@
                                                                                                 ]
                                                                                             })
                                                                                         ]
-                                                                                    }),
+                                                                                    }).addStyleClass("sapUiNoContentPadding"),
                                                                                     templateShareable: false
                                                                                 }
                                                                             })
                                                                         ]
-                                                                    }),
+                                                                    }).addStyleClass("sapUiSmallMarginTop"),
                                                                     new Text({
                                                                         text: "Ingen stationer eller mellem stationer valgt.",
-                                                                        visible: "{= !${stationer}.length && !${mellemStationer}.length }",
-                                                                        class: "sapUiItalicElement"
-                                                                    })
+                                                                        visible: "{= !${stationer}.length && !${mellemStationer}.length }"
+                                                                    }).addStyleClass("sapUiItalicElement")
                                                                 ]
-                                                            })
+                                                            }).addStyleClass("sapUiSmallMarginBegin sapUiSmallMarginBottom")
                                                         ]
-                                                    })
+                                                    }).addStyleClass("sapUiSmallMargin sapBackgroundColorNeutral")
                                                 }),
                                                 templateShareable: false
                                             }
                                         })
                                     ]
-                                })
+                                }).addStyleClass("sapUiMediumMargin")
                             ]
                         })
                     ]
