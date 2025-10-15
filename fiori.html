@@ -90,16 +90,19 @@
                                     <f:Card class="sapUiMediumMargin" width="80rem">
                                         <f:header>
                                             <f:CardHeader>
-                                                <FlexBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
-                                                    <VBox>
-                                                        <Title text="Jernbanearbejde ved bro" level="H1"/>
-                                                        <Text text="2025-00002-002" class="sapUiTinyMarginTop"/>
-                                                    </VBox>
-                                                    <HBox>
-                                                        <ObjectStatus title="Status" text="Godkendt" state="Success" class="sapUiSmallMarginEnd"/>
-                                                        <ObjectStatus title="Gyldig fra" text="01.07.2025" state="None" icon="sap-icon://calendar" />
-                                                    </HBox>
-                                                </FlexBox>
+                                                <f:toolbar>
+                                                    <Toolbar>
+                                                        <VBox>
+                                                            <Title text="Jernbanearbejde ved bro" level="H1"/>
+                                                            <Text text="2025-00002-002" class="sapUiTinyMarginTop"/>
+                                                        </VBox>
+                                                        <ToolbarSpacer />
+                                                        <HBox>
+                                                            <ObjectStatus title="Status" text="Godkendt" state="Success" class="sapUiSmallMarginEnd"/>
+                                                            <ObjectStatus title="Gyldig fra" text="01.07.2025" state="None" icon="sap-icon://calendar" />
+                                                        </HBox>
+                                                    </Toolbar>
+                                                </f:toolbar>
                                             </f:CardHeader>
                                         </f:header>
                                         <f:content>
