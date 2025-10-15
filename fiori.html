@@ -37,9 +37,9 @@
                 "sap/m/GenericTag"
             ], function (JSONModel, Page, FlexBox, Panel, Toolbar, VBox, HBox, Title, Text, ToolbarSpacer, ObjectStatus, List, CustomListItem, Label, Icon, HTML, GenericTag) {
 
-                // 1. Define Data Model
+                // 1. Define Data Model (property name corrected)
                 var oPlanData = {
-                    strækninger: [
+                    straekninger: [ // Corrected from 'strækninger'
                         { fra: "Næstved", til: "Nykøbing F Vest", stationer: [{ navn: "Lundby" }, { navn: "Vordingborg" }], mellemStationer: [{ fra: "Lundby", til: "Masnedø" }] },
                         { fra: "Vigerslev", til: "Ringsted", stationer: [], mellemStationer: [{ fra: "Vigerslev", til: "Jersie Fjern" }, { fra: "Jersie Fjern", til: "Køge" }, { fra: "Lellinge", til: "Bjæverskov" }] },
                         { fra: "Ålborg", til: "Frederikshavn", stationer: [{ navn: "Aalborg" }, { navn: "Lindholm" }, { navn: "Brønderslev" }, { navn: "Vrå" }, { navn: "Hjørring" }, { navn: "Sindbjerg" }, { navn: "Tolne" }, { navn: "Kvissel" }, { navn: "Frederikshavn" }], mellemStationer: [] },
@@ -82,7 +82,7 @@
                                             id: "straekningList",
                                             noDataText: "Ingen strækninger tilføjet",
                                             items: {
-                                                path: "/strækninger",
+                                                path: "/straekninger", // Corrected from '/strækninger'
                                                 template: new CustomListItem({
                                                     content: new VBox({
                                                         items: [
