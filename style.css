@@ -1,51 +1,182 @@
-/* Generel body styling (Tailwind håndterer det meste) */
-body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+/* --- NYT: TEMA-DEFINITIONER --- */
+:root {
+    /* Default Light Theme */
+    --color-bg-base: #f3f4f6; /* gray-100 */
+    --color-bg-surface: #ffffff; /* white */
+    --color-bg-subtle: #f9fafb; /* gray-50 */
+    --color-bg-accent-subtle: #eff6ff; /* blue-50 */
+    --color-bg-primary: #3B82F6; /* blue-600 */
+    --color-bg-primary-hover: #2563EB; /* blue-700 */
+    --color-bg-danger: #DC2626; /* red-600 */
+    --color-bg-danger-hover: #B91C1C; /* red-700 */
+
+    --color-text-primary: #111827; /* gray-900 */
+    --color-text-secondary: #374151; /* gray-700 */
+    --color-text-tertiary: #6b7280; /* gray-500 */
+    --color-text-placeholder: #9ca3af; /* gray-400 */
+    --color-text-primary-accent: #3B82F6; /* blue-600 */
+    --color-text-primary-accent-hover: #2563EB; /* blue-800 */
+    --color-text-danger: #DC2626; /* red-600 */
+    --color-text-on-primary: #ffffff; /* white */
+
+    --color-border-base: #d1d5db; /* gray-300 */
+    --color-border-light: #e5e7eb; /* gray-200 */
+    --color-border-accent: #60A5FA; /* blue-400 */
+    --color-focus-ring: #60A5FA; /* blue-400 */
+    --color-icon-base: #d1d5db; /* gray-300 */
 }
 
-/* OPDATERET: Layout Grid 
-  - 1 kolonne på mobil
-  - 300px fast sidebar + 1fr indhold på desktop
-*/
+[data-theme="dark"] {
+    --color-bg-base: #1f2937; /* gray-800 */
+    --color-bg-surface: #374151; /* gray-700 */
+    --color-bg-subtle: #4b5563; /* gray-600 */
+    --color-bg-accent-subtle: #374151; /* gray-700 */
+    --color-bg-primary: #60A5FA; /* blue-400 */
+    --color-bg-primary-hover: #93C5FD; /* blue-300 */
+    --color-bg-danger: #F87171; /* red-400 */
+    --color-bg-danger-hover: #FB923C; /* red-300 */
+
+    --color-text-primary: #f9fafb; /* gray-50 */
+    --color-text-secondary: #d1d5db; /* gray-300 */
+    --color-text-tertiary: #9ca3af; /* gray-400 */
+    --color-text-placeholder: #9ca3af; /* gray-400 */
+    --color-text-primary-accent: #60A5FA; /* blue-400 */
+    --color-text-primary-accent-hover: #93C5FD; /* blue-300 */
+    --color-text-danger: #F87171; /* red-400 */
+    --color-text-on-primary: #111827; /* gray-900 */
+
+    --color-border-base: #4b5563; /* gray-600 */
+    --color-border-light: #4b5563; /* gray-600 */
+    --color-border-accent: #60A5FA; /* blue-400 */
+    --color-focus-ring: #60A5FA; /* blue-400 */
+    --color-icon-base: #6b7280; /* gray-500 */
+}
+
+[data-theme="sepia"] {
+    --color-bg-base: #fbf0e4;
+    --color-bg-surface: #fff8f0;
+    --color-bg-subtle: #fdf5ec;
+    --color-bg-accent-subtle: #fdeee0;
+    --color-bg-primary: #b45309; /* amber-700 */
+    --color-bg-primary-hover: #92400e; /* amber-800 */
+    --color-bg-danger: #dc2626;
+    --color-bg-danger-hover: #b91c1c;
+
+    --color-text-primary: #433422;
+    --color-text-secondary: #5f4c3a;
+    --color-text-tertiary: #7c6d5e;
+    --color-text-placeholder: #9e8a77;
+    --color-text-primary-accent: #b45309;
+    --color-text-primary-accent-hover: #92400e;
+    --color-text-danger: #dc2626;
+    --color-text-on-primary: #ffffff;
+
+    --color-border-base: #d4c2af;
+    --color-border-light: #e4d5c5;
+    --color-border-accent: #f59e0b; /* amber-500 */
+    --color-focus-ring: #f59e0b;
+    --color-icon-base: #c7b29e;
+}
+
+[data-theme="blue"] {
+    --color-bg-base: #eff6ff; /* blue-50 */
+    --color-bg-surface: #ffffff;
+    --color-bg-subtle: #f5f9ff;
+    --color-bg-accent-subtle: #eff6ff;
+    --color-bg-primary: #2563EB; /* blue-700 */
+    --color-bg-primary-hover: #1D4ED8; /* blue-800 */
+    --color-bg-danger: #DC2626;
+    --color-bg-danger-hover: #B91C1C;
+
+    --color-text-primary: #1E3A8A; /* blue-900 */
+    --color-text-secondary: #1E4ED8; /* blue-800 */
+    --color-text-tertiary: #3B82F6; /* blue-600 */
+    --color-text-placeholder: #93C5FD; /* blue-300 */
+    --color-text-primary-accent: #1D4ED8; /* blue-800 */
+    --color-text-primary-accent-hover: #1E3A8A; /* blue-900 */
+    --color-text-danger: #DC2626;
+    --color-text-on-primary: #ffffff;
+
+    --color-border-base: #BFDBFE; /* blue-200 */
+    --color-border-light: #DBEAFE; /* blue-100 */
+    --color-border-accent: #2563EB; /* blue-700 */
+    --color-focus-ring: #2563EB;
+    --color-icon-base: #BFDBFE; /* blue-200 */
+}
+
+/* --- NYT: OVERSKRIVNING AF TAILWIND KLASSER --- */
+/* Vi fortæller Tailwind's klasser, at de skal bruge vores CSS-variabler */
+.bg-gray-100 { background-color: var(--color-bg-base); }
+.bg-white { background-color: var(--color-bg-surface); }
+.bg-gray-50 { background-color: var(--color-bg-subtle); }
+.bg-blue-50 { background-color: var(--color-bg-accent-subtle); }
+.bg-blue-600 { background-color: var(--color-bg-primary); }
+.hover\:bg-blue-700:hover { background-color: var(--color-bg-primary-hover); }
+.bg-red-600 { background-color: var(--color-bg-danger); }
+.hover\:bg-red-700:hover { background-color: var(--color-bg-danger-hover); }
+
+.text-gray-900 { color: var(--color-text-primary); }
+.text-gray-800 { color: var(--color-text-primary); } /* Samme som 900 */
+.text-gray-700 { color: var(--color-text-secondary); }
+.text-gray-600 { color: var(--color-text-secondary); } /* Samme som 700 */
+.text-gray-500 { color: var(--color-text-tertiary); }
+.text-gray-400 { color: var(--color-text-placeholder); }
+.text-gray-300 { color: var(--color-icon-base); }
+.text-blue-600 { color: var(--color-text-primary-accent); }
+.hover\:text-blue-800:hover { color: var(--color-text-primary-accent-hover); }
+.hover\:text-blue-600:hover { color: var(--color-text-primary-accent); }
+.text-red-600 { color: var(--color-text-danger); }
+.hover\:text-red-500:hover { color: var(--color-text-danger); }
+.text-white { color: var(--color-text-on-primary); }
+
+.border-gray-300 { border-color: var(--color-border-base); }
+.border-gray-200 { border-color: var(--color-border-light); }
+.border-blue-500 { border-color: var(--color-border-accent); }
+
+.placeholder-gray-500::placeholder { color: var(--color-text-placeholder); }
+.focus\:ring-blue-500:focus { --tw-ring-color: var(--color-focus-ring); }
+.focus\:border-blue-500:focus { border-color: var(--color-focus-ring); }
+
+/* Sikrer at dropdown-menuen også får tema */
+#theme-menu-dropdown.bg-white { background-color: var(--color-bg-surface); }
+.hover\:bg-gray-100:hover { background-color: var(--color-bg-base); }
+/* --- SLUT TEMA --- */
+
+
+/* Layout Grid */
 .page-grid {
     display: grid;
     grid-template-columns: 1fr; /* 1 kolonne som standard */
 }
-
 @media (min-width: 1024px) { /* Tailwind's 'lg' breakpoint */
-    .page-grid {
-        grid-template-columns: 300px 1fr; 
-    }
+    .page-grid { grid-template-columns: 300px 1fr; }
 }
 
-/* Styling til Favorit-knappen */
+/* Favoritknap */
 .favorite-btn .fa-solid { display: none; }
 .favorite-btn .fa-regular { display: inline-block; }
-.favorite-btn.is-favorite { color: #EF4444; } /* Tailwind's red-500 */
+.favorite-btn.is-favorite { color: #EF4444; } /* Fast rød farve til favorit */
 .favorite-btn.is-favorite .fa-solid { display: inline-block; }
 .favorite-btn.is-favorite .fa-regular { display: none; }
 
-
-/* Styling til Modal-overgange */
+/* Modal */
 #perfume-modal { transition-property: opacity, visibility; }
 #modal-content { transition-property: opacity, transform; }
 
-
-/* Styling til filter-tjekbokse */
+/* Filter Checkboxe */
 .filter-group label {
     display: flex;
     align-items: center;
     cursor: pointer;
-    font-size: 0.875rem; /* text-sm */
-    color: #374151; /* text-gray-700 */
+    font-size: 0.875rem; 
+    color: var(--color-text-secondary); /* Brugt variabel */
 }
 .filter-group input {
-    margin-right: 0.5rem; /* mr-2 */
-    accent-color: #3B82F6; /* accent-blue-600 */
+    margin-right: 0.5rem; 
+    accent-color: var(--color-bg-primary); /* Brugt variabel */
 }
 
-/* Til at afkorte beskrivelse på kort */
+/* Beskrivelses-afkortning */
 .truncate-3-lines {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -53,7 +184,7 @@ body {
     overflow: hidden;
 }
 
-/* Gør klikbare ikoner tydelige */
+/* Klikbare ikoner */
 [data-action="filter-icon"] {
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -62,7 +193,7 @@ body {
     transform: scale(1.2);
 }
 
-/* NYT: Tilføjet til at rotere filter-pilen */
+/* Mobil filter-pil */
 .rotate-180 {
     transform: rotate(180deg);
 }
