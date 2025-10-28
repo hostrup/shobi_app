@@ -1,4 +1,4 @@
-/* --- NYT: TEMA-DEFINITIONER --- */
+/* --- TEMA-DEFINITIONER (Uændret) --- */
 :root {
     /* Default Light Theme */
     --color-bg-base: #f3f4f6; /* gray-100 */
@@ -104,42 +104,33 @@
     --color-icon-base: #BFDBFE; /* blue-200 */
 }
 
-/* --- NYT: OVERSKRIVNING AF TAILWIND KLASSER --- */
-/* Vi fortæller Tailwind's klasser, at de skal bruge vores CSS-variabler */
-.bg-gray-100 { background-color: var(--color-bg-base); }
-.bg-white { background-color: var(--color-bg-surface); }
-.bg-gray-50 { background-color: var(--color-bg-subtle); }
-.bg-blue-50 { background-color: var(--color-bg-accent-subtle); }
-.bg-blue-600 { background-color: var(--color-bg-primary); }
-.hover\:bg-blue-700:hover { background-color: var(--color-bg-primary-hover); }
-.bg-red-600 { background-color: var(--color-bg-danger); }
-.hover\:bg-red-700:hover { background-color: var(--color-bg-danger-hover); }
+/* --- NYT: TEMA-KLASSER --- */
+/* Erstatter de upålidelige Tailwind-overskrivninger */
+.bg-base { background-color: var(--color-bg-base); }
+.bg-surface { background-color: var(--color-bg-surface); }
+.bg-subtle { background-color: var(--color-bg-subtle); }
+.bg-accent-subtle { background-color: var(--color-bg-accent-subtle); }
+.hover\:bg-base:hover { background-color: var(--color-bg-base); }
 
-.text-gray-900 { color: var(--color-text-primary); }
-.text-gray-800 { color: var(--color-text-primary); } /* Samme som 900 */
-.text-gray-700 { color: var(--color-text-secondary); }
-.text-gray-600 { color: var(--color-text-secondary); } /* Samme som 700 */
-.text-gray-500 { color: var(--color-text-tertiary); }
-.text-gray-400 { color: var(--color-text-placeholder); }
-.text-gray-300 { color: var(--color-icon-base); }
-.text-blue-600 { color: var(--color-text-primary-accent); }
-.hover\:text-blue-800:hover { color: var(--color-text-primary-accent-hover); }
-.hover\:text-blue-600:hover { color: var(--color-text-primary-accent); }
-.text-red-600 { color: var(--color-text-danger); }
-.hover\:text-red-500:hover { color: var(--color-text-danger); }
-.text-white { color: var(--color-text-on-primary); }
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-tertiary { color: var(--color-text-tertiary); }
+.text-accent { color: var(--color-text-primary-accent); }
+.text-accent-hover:hover { color: var(--color-text-primary-accent-hover); }
+.text-placeholder-color { color: var(--color-text-placeholder); }
+.icon-base-color { color: var(--color-icon-base); }
 
-.border-gray-300 { border-color: var(--color-border-base); }
-.border-gray-200 { border-color: var(--color-border-light); }
-.border-blue-500 { border-color: var(--color-border-accent); }
+.border-base { border-color: var(--color-border-base); }
+.border-light { border-color: var(--color-border-light); }
+.border-accent { border-color: var(--color-border-accent); }
 
-.placeholder-gray-500::placeholder { color: var(--color-text-placeholder); }
-.focus\:ring-blue-500:focus { --tw-ring-color: var(--color-focus-ring); }
-.focus\:border-blue-500:focus { border-color: var(--color-focus-ring); }
-
-/* Sikrer at dropdown-menuen også får tema */
-#theme-menu-dropdown.bg-white { background-color: var(--color-bg-surface); }
-.hover\:bg-gray-100:hover { background-color: var(--color-bg-base); }
+.placeholder-color::placeholder { color: var(--color-text-placeholder); }
+/* Tilføjet !important for at sikre, at fokus-ring overskriver Tailwinds default */
+.focus-ring:focus { 
+    --tw-ring-color: var(--color-focus-ring) !important;
+    border-color: var(--color-focus-ring) !important;
+    outline-color: var(--color-focus-ring) !important; /* Ekstra sikkerhed */
+}
 /* --- SLUT TEMA --- */
 
 
@@ -163,13 +154,13 @@
 #perfume-modal { transition-property: opacity, visibility; }
 #modal-content { transition-property: opacity, transform; }
 
-/* Filter Checkboxe */
+/* Filter Checkboxe (OPDATERET: Bruger .text-secondary) */
 .filter-group label {
     display: flex;
     align-items: center;
     cursor: pointer;
     font-size: 0.875rem; 
-    color: var(--color-text-secondary); /* Brugt variabel */
+    color: var(--color-text-secondary); /* Brugt variabel direkte */
 }
 .filter-group input {
     margin-right: 0.5rem; 
