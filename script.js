@@ -1,13 +1,13 @@
 // DEBUG: Script started.
-console.log("DEBUG: script.js (Tailwind v2) loaded.");
+console.log("DEBUG: script.js (Tailwind v3 - Fixes) loaded.");
 
 let allPerfumes = [];
-let allBrands = new Map(); // NY: Til at gemme brand-information
+let allBrands = new Map(); // Til at gemme brand-information
 const state = {
     searchQuery: '',
     favorites: [],
     showingFavorites: false,
-    selectedBrand: null // NY: Til at spore valgt brand
+    selectedBrand: null // Til at spore valgt brand
 };
 
 // --- KERNELOGIK: DATAVISNING ---
@@ -62,11 +62,17 @@ function displayPerfumes(perfumes) {
             favButton.classList.add('is-favorite');
         }
 
-        // NY: Håndter Audience Ikoner
-        const iconsContainer = card.querySelector('[data-field="audience-icons"]');
-        iconsContainer.innerHTML = getAudienceIcons(p.audience);
+        // --- IKONER (OPDATERET) ---
+        // Håndter Audience Ikoner
+        const audienceIconsContainer = card.querySelector('[data-field="audience-icons"]');
+        audienceIconsContainer.innerHTML = getAudienceIcons(p.audience);
 
-        // NY: Sæt data-attributter til klik-handlere
+        // NY: Håndter Type Ikoner
+        const typeIconsContainer = card.querySelector('[data-field="type-icons"]');
+        typeIconsContainer.innerHTML = getTypeIcons(p.type);
+        // --- SLUT IKONER ---
+
+        // Sæt data-attributter til klik-handlere
         card.querySelector('[data-action="show-details"]').dataset.code = p.code;
         card.querySelector('[data-action="filter-brand"]').dataset.brand = p.brand;
 
@@ -120,7 +126,7 @@ function applyFiltersAndRender() {
 }
 
 /**
- * NY: Viser info-boksen for det valgte brand.
+ * Viser info-boksen for det valgte brand.
  */
 function displayBrandInfo() {
     const container = document.getElementById('brand-info-container');
@@ -146,7 +152,7 @@ function displayBrandInfo() {
 }
 
 /**
- * NY: Håndterer klik på en brand-knap.
+ * Håndterer klik på en brand-knap.
  * @param {string} brandName - Navnet på det brand, der blev klikket på.
  */
 function handleBrandFilterClick(brandName) {
@@ -166,20 +172,23 @@ function handleBrandFilterClick(brandName) {
     document.getElementById('brand-info-container').scrollIntoView({ behavior: 'smooth' });
 }
 
+
+// --- IKON-HJÆLPERE ---
+
 /**
- * NY: Returnerer HTML-strenge for audience-ikoner.
- * @param {string} audience - Audience-strengen (f.eks. "Male", "Female", "Unisex")
+ * (ROBUST) Returnerer HTML-strenge for audience-ikoner.
+ * @param {string | undefined} audience - Audience-strengen (f.eks. "Male", "Female", "Unisex")
  */
 function getAudienceIcons(audience) {
-    if (!audience) return '';
-    const a = audience.toLowerCase();
+    // Gør funktionen robust overfor null/undefined/ikke-strenge
+    const a = String(audience || '').toLowerCase();
+    if (!a) return ''; // Retur tom streng, hvis audience er tom eller null
+    
     let icons = '';
 
-    // Tjek for "male" ELLER "men" (for en sikkerheds skyld)
     if (a.includes('male') || a.includes('men')) {
         icons += '<i class="fas fa-mars" title="Male"></i>';
     }
-    // Tjek for "female" ELLER "women"
     if (a.includes('female') || a.includes('women')) {
         icons += '<i class="fas fa-venus" title="Female"></i>';
     }
@@ -188,6 +197,42 @@ function getAudienceIcons(audience) {
     }
     
     return icons;
+}
+
+/**
+ * NY: Mapning af duft-keywords til Font Awesome ikoner.
+ */
+const SCENT_ICON_MAP = {
+    'citrus': '<i class="fas fa-lemon" title="Citrus"></i>',
+    'woody': '<i class="fas fa-tree" title="Woody"></i>',
+    'floral': '<i class="fas fa-fan" title="Floral"></i>', // 'fan' bruges ofte til 'aromatic/floral'
+    'aromatic': '<i class="fas fa-seedling" title="Aromatic"></i>',
+    'spicy': '<i class="fas fa-pepper-hot" title="Spicy"></i>',
+    'oriental': '<i class="fas fa-feather" title="Oriental"></i>',
+    'fresh': '<i class="fas fa-wind" title="Fresh"></i>',
+    'aquatic': '<i class="fas fa-water" title="Aquatic"></i>',
+    'leather': '<i class="fas fa-layer-group" title="Leather"></i>'
+};
+
+/**
+ * NY: Returnerer HTML-strenge for dufttype-ikoner.
+ * @param {string | undefined} type - Type-strengen (f.eks. "Citrus Aromatic")
+ */
+function getTypeIcons(type) {
+    const typeString = String(type || '').toLowerCase();
+    if (!typeString) return '';
+
+    let iconsHtml = '';
+    // Brug et Set for at sikre, at vi kun tilføjer hvert ikon én gang
+    const addedIcons = new Set();
+
+    for (const key in SCENT_ICON_MAP) {
+        if (typeString.includes(key) && !addedIcons.has(key)) {
+            iconsHtml += SCENT_ICON_MAP[key];
+            addedIcons.add(key);
+        }
+    }
+    return iconsHtml;
 }
 
 
@@ -225,7 +270,7 @@ function loadFavorites() {
     document.getElementById('favorites-count').textContent = state.favorites.length;
 }
 
-// --- KERNELOGIK: MODAL (NY) ---
+// --- KERNELOGIK: MODAL ---
 
 const modal = document.getElementById('perfume-modal');
 const modalContent = document.getElementById('modal-content');
@@ -365,13 +410,13 @@ document.addEventListener('DOMContentLoaded', () => {
         applyFiltersAndRender();
     });
 
-    // NY: Clear Brand Filter-knap
+    // Clear Brand Filter-knap
     document.getElementById('clear-brand-filter').addEventListener('click', () => {
         state.selectedBrand = null;
         applyFiltersAndRender();
     });
 
-    // NY: Modal Lyttere
+    // Modal Lyttere
     modalCloseBtn.addEventListener('click', hidePerfumeModal);
     modalOverlay.addEventListener('click', hidePerfumeModal);
     
