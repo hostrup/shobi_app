@@ -32,34 +32,51 @@
         </div>
     </nav>
 
-    <section class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
-        <div class="w-full max-w-lg mx-auto">
-            <div class="relative">
-                <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-                    <i class="fas fa-search text-gray-400"></i>
-                </span>
-                <input type="text" id="search-input"
-                       class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-lg"
-                       placeholder="Search by name, brand, or code...">
-            </div>
-        </div>
-    </section>
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+    <div class="page-grid max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 gap-6">
         
-        <div id="brand-info-container" class="hidden bg-blue-50 border-l-4 border-blue-500 p-6 rounded-md shadow-md mb-6">
-            <div id="brand-info-content" class="text-gray-800">
-                </div>
-            <button id="clear-brand-filter" class="mt-4 text-sm font-medium text-blue-600 hover:text-blue-800">
-                &times; Clear filter and show all
-            </button>
-        </div>
-
-        <div id="results-count" class="text-gray-600 mb-4">Loading perfumes...</div>
-
-        <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <aside id="filter-sidebar" class="bg-white p-6 rounded-lg shadow-lg h-fit sticky top-24">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Filters</h3>
+            
+            <div class="filter-group mb-6">
+                <h4 class="font-semibold text-gray-800 mb-2">Gender</h4>
+                <div id="gender-filters" class="space-y-2">
+                    </div>
             </div>
-    </main>
+
+            <div class="filter-group">
+                <h4 class="font-semibold text-gray-800 mb-2">Main Accords</h4>
+                <div id="accord-filters" class="space-y-2 max-h-64 overflow-y-auto pr-2">
+                    <div id="accord-loader" class="text-sm text-gray-500">Loading filters...</div>
+                </div>
+            </div>
+        </aside>
+
+        <main id="main-content">
+            <section class="w-full mb-6">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </span>
+                    <input type="text" id="search-input"
+                           class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-lg"
+                           placeholder="Search by name, brand, or code...">
+                </div>
+            </section>
+
+            <div id="brand-info-container" class="hidden bg-blue-50 border-l-4 border-blue-500 p-6 rounded-md shadow-md mb-6">
+                <div id="brand-info-content" class="text-gray-800"></div>
+                <button id="clear-brand-filter" class="mt-4 text-sm font-medium text-blue-600 hover:text-blue-800">
+                    &times; Clear filter and show all
+                </button>
+            </div>
+
+            <div id="results-count" class="text-gray-600 mb-4">Loading perfumes...</div>
+
+            <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+        </main>
+    </div>
+
 
     <template id="perfume-card-template">
         <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform duration-200 hover:scale-[1.03]">
@@ -78,10 +95,8 @@
                 </button>
 
                 <div class="flex justify-between items-center mb-4">
-                    <div data-field="audience-icons" class="flex space-x-3 text-gray-500 text-base">
-                        </div>
-                    <div data-field="type-icons" class="flex space-x-3 text-gray-500 text-base">
-                        </div>
+                    <div data-field="audience-icons" class="flex space-x-3 text-gray-500 text-base"></div>
+                    <div data-field="type-icons" class="flex space-x-3 text-gray-500 text-base"></div>
                 </div>
 
                 <div class="mt-auto">
@@ -114,8 +129,7 @@
                 </div>
                 <div>
                     <h4 class="font-semibold text-gray-800">Notes</h4>
-                    <div id="modal-notes" class="text-gray-700 space-y-1">
-                        </div>
+                    <div id="modal-notes" class="text-gray-700 space-y-1"></div>
                 </div>
             </div>
 
@@ -127,7 +141,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="script.js"></script>
 
