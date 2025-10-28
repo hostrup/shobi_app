@@ -1,4 +1,4 @@
-/* --- TEMA-DEFINITIONER (Uændret) --- */
+/* --- TEMA-DEFINITIONER --- */
 :root {
     /* Default Light Theme */
     --color-bg-base: #f3f4f6; /* gray-100 */
@@ -104,8 +104,7 @@
     --color-icon-base: #BFDBFE; /* blue-200 */
 }
 
-/* --- NYT: TEMA-KLASSER --- */
-/* Erstatter de upålidelige Tailwind-overskrivninger */
+/* --- TEMA-KLASSER --- */
 .bg-base { background-color: var(--color-bg-base); }
 .bg-surface { background-color: var(--color-bg-surface); }
 .bg-subtle { background-color: var(--color-bg-subtle); }
@@ -125,11 +124,10 @@
 .border-accent { border-color: var(--color-border-accent); }
 
 .placeholder-color::placeholder { color: var(--color-text-placeholder); }
-/* Tilføjet !important for at sikre, at fokus-ring overskriver Tailwinds default */
 .focus-ring:focus { 
     --tw-ring-color: var(--color-focus-ring) !important;
     border-color: var(--color-focus-ring) !important;
-    outline-color: var(--color-focus-ring) !important; /* Ekstra sikkerhed */
+    outline-color: var(--color-focus-ring) !important;
 }
 /* --- SLUT TEMA --- */
 
@@ -154,7 +152,7 @@
 #perfume-modal { transition-property: opacity, visibility; }
 #modal-content { transition-property: opacity, transform; }
 
-/* Filter Checkboxe (OPDATERET: Bruger .text-secondary) */
+/* Filter Checkboxe */
 .filter-group label {
     display: flex;
     align-items: center;
