@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shobi Parfum Finder (Tailwind Udkast)</title>
+    <title>Shobi Perfume Finder</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -17,23 +17,14 @@
             <div class="flex justify-between h-16">
                 <div class="flex-shrink-0 flex items-center">
                     <i class="fas fa-spray-can-sparkles text-blue-600 text-xl mr-2"></i>
-                    <span class="font-bold text-lg text-gray-800">Shobi Parfum Inspiration</span>
+                    <span class="font-bold text-lg text-gray-800">Shobi Perfume Inspiration</span>
                 </div>
 
-                <div class="flex items-center space-x-4">
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-                            <i class="fas fa-search text-gray-400"></i>
-                        </span>
-                        <input type="text" id="search-input"
-                               class="block w-full sm:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                               placeholder="Søg på navn, firma eller kode...">
-                    </div>
-                    
+                <div class="flex items-center">
                     <button id="favorites-btn"
                             class="flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                         <i class="fas fa-heart mr-2"></i>
-                        Favoritter
+                        Favorites
                         <span id="favorites-count" class="ml-2 bg-white text-red-600 text-xs font-bold rounded-full px-2 py-0.5">0</span>
                     </button>
                 </div>
@@ -41,33 +32,98 @@
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
-        <div id="results-count" class="text-gray-600 mb-4">Indlæser parfumer...</div>
+    <section class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="w-full max-w-lg mx-auto">
+            <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                    <i class="fas fa-search text-gray-400"></i>
+                </span>
+                <input type="text" id="search-input"
+                       class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-lg"
+                       placeholder="Search by name, brand, or code...">
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        
+        <div id="brand-info-container" class="hidden bg-blue-50 border-l-4 border-blue-500 p-6 rounded-md shadow-md mb-6">
+            <div id="brand-info-content" class="text-gray-800">
+                </div>
+            <button id="clear-brand-filter" class="mt-4 text-sm font-medium text-blue-600 hover:text-blue-800">
+                &times; Clear filter and show all
+            </button>
+        </div>
+
+        <div id="results-count" class="text-gray-600 mb-4">Loading perfumes...</div>
 
         <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             </div>
     </main>
 
     <template id="perfume-card-template">
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform duration-200 hover:scale-105">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform duration-200 hover:scale-[1.03]">
             <div class="p-5 relative flex-grow flex flex-col">
-                <button class="favorite-btn absolute top-4 right-4 text-2xl text-gray-300 hover:text-red-500 transition-colors">
+                <button class="favorite-btn absolute top-4 right-4 text-2xl text-gray-300 hover:text-red-500 transition-colors z-10">
                     <i class="fa-regular fa-heart"></i>
                 </button>
                 
-                <p class="text-xs font-mono text-gray-500 mb-1" data-field="code">DRC-123</p>
-                <h3 class="text-xl font-bold text-gray-900 mb-1" data-field="inspiredBy">Parfumenavn</h3>
-                <p class="text-sm text-gray-700 mb-4" data-field="brand">Mærke</p>
+                <div data-action="show-details" data-code="" class="cursor-pointer">
+                    <p class="text-xs font-mono text-gray-500 mb-1" data-field="code">DRC-123</p>
+                    <h3 class="text-xl font-bold text-gray-900 mb-1" data-field="inspiredBy">Perfume Name</h3>
+                </div>
+
+                <button data-action="filter-brand" data-brand="" class="text-sm text-gray-700 mb-3 text-left hover:underline" data-field="brand">
+                    Brand Name
+                </button>
+
+                <div data-field="audience-icons" class="flex space-x-3 text-gray-500 text-sm mb-4">
+                    </div>
 
                 <div class="mt-auto">
                     <a data-field="shobiLink" href="#" target="_blank" rel="noopener noreferrer"
                        class="block w-full text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Køb hos Shobi
+                        Buy at Shobi
                     </a>
                 </div>
             </div>
         </div>
     </template>
+
+    <div id="perfume-modal" class="fixed inset-0 z-30 flex items-center justify-center p-4 invisible opacity-0 transition-opacity duration-300">
+        <div id="modal-overlay" class="absolute inset-0 bg-black bg-opacity-75 cursor-pointer"></div>
+        
+        <div id="modal-content" class_DEFAULT="relative bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transition-all duration-300 transform -translate-y-10 opacity-0">
+            <div class="p-6 border-b border-gray-200">
+                <button id="modal-close-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 z-10">
+                    <i class="fas fa-times fa-2x"></i>
+                </button>
+                <h2 id="modal-inspiredBy" class="text-2xl font-bold text-gray-900">Perfume Name</h2>
+                <p id="modal-brand" class="text-lg text-gray-600">Brand Name</p>
+                <p id="modal-code" class="text-sm font-mono text-gray-500 mt-1">CODE-123</p>
+            </div>
+
+            <div class="p-6 space-y-4">
+                <div>
+                    <h4 class="font-semibold text-gray-800">Description</h4>
+                    <p id="modal-description" class="text-gray-700">Description goes here...</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-800">Notes</h4>
+                    <div id="modal-notes" class="text-gray-700 space-y-1">
+                        </div>
+                </div>
+            </div>
+
+            <div class="p-6 bg-gray-50 rounded-b-lg">
+                <a id="modal-shobiLink" href="#" target="_blank" rel="noopener noreferrer"
+                   class="block w-full text-center px-4 py-3 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Buy this at Shobi
+                </a>
+            </div>
+        </div>
+    </div>
+
 
     <script src="script.js"></script>
 
