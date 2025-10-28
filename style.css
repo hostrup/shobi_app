@@ -1,4 +1,4 @@
-/* --- TEMA-DEFINITIONER --- */
+/* --- TEMA-DEFINITIONER (Uændret) --- */
 :root {
     /* Default Light Theme */
     --color-bg-base: #f3f4f6; /* gray-100 */
@@ -124,7 +124,7 @@
 .border-accent { border-color: var(--color-border-accent); }
 
 .placeholder-color::placeholder { color: var(--color-text-placeholder); }
-.focus-ring:focus { 
+.focus-ring:focus {
     --tw-ring-color: var(--color-focus-ring) !important;
     border-color: var(--color-focus-ring) !important;
     outline-color: var(--color-focus-ring) !important;
@@ -157,13 +157,25 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    font-size: 0.875rem; 
-    color: var(--color-text-secondary); /* Brugt variabel direkte */
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    transition: opacity 0.2s ease; /* Tilføjet til deaktivering */
 }
 .filter-group input {
-    margin-right: 0.5rem; 
-    accent-color: var(--color-bg-primary); /* Brugt variabel */
+    margin-right: 0.5rem;
+    accent-color: var(--color-bg-primary);
+    cursor: pointer; /* Tilføjet */
 }
+
+/* NYT: Styling for deaktiverede filter-labels */
+.filter-group label.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.filter-group label.disabled input {
+    cursor: not-allowed;
+}
+
 
 /* Beskrivelses-afkortning */
 .truncate-3-lines {
@@ -186,3 +198,45 @@
 .rotate-180 {
     transform: rotate(180deg);
 }
+
+/* --- NYT: FILTER TOKEN STYLING --- */
+.filter-token {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.6rem; /* Mere kompakt padding */
+    border-radius: 9999px; /* fuldt rundet */
+    font-size: 0.75rem; /* mindre tekst */
+    font-weight: 500;
+    line-height: 1; /* strammere linjehøjde */
+    white-space: nowrap;
+}
+.filter-token button {
+    margin-left: 0.5rem;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em; /* Relativ til token tekst */
+    line-height: 1;
+    color: inherit; /* Arv farve fra token */
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+.filter-token button:hover {
+    opacity: 1;
+}
+
+/* Token farver (eksempler, brug Tailwind-lignende klasser) */
+.token-gender { background-color: #ec4899; color: white; } /* pink-500 */
+.token-brand { background-color: #6366f1; color: white; } /* indigo-500 */
+.token-season { background-color: #f59e0b; color: white; } /* amber-500 */
+.token-occasion { background-color: #10b981; color: white; } /* emerald-500 */
+.token-accord { background-color: #6b7280; color: white; } /* gray-500 */
+
+/* Specifikke farver for dark mode tokens (om nødvendigt, for bedre kontrast) */
+[data-theme="dark"] .token-gender { background-color: #f9a8d4; color: #1f2937; } /* pink-300 */
+[data-theme="dark"] .token-brand { background-color: #a5b4fc; color: #1f2937; } /* indigo-300 */
+[data-theme="dark"] .token-season { background-color: #fbbf24; color: #1f2937; } /* amber-400 */
+[data-theme="dark"] .token-occasion { background-color: #6ee7b7; color: #1f2937; } /* emerald-300 */
+[data-theme="dark"] .token-accord { background-color: #9ca3af; color: #1f2937; } /* gray-400 */
+/* --- SLUT FILTER TOKENS --- */
