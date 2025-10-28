@@ -4,9 +4,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Styling til Favorit-knappen
-  Vi bruger Font Awesome ikoner. 'fa-regular' er standard.
-*/
+/* Styling til Favorit-knappen */
 .favorite-btn .fa-solid {
     display: none; /* Skjul det udfyldte hjerte som standard */
 }
@@ -15,9 +13,7 @@ body {
     display: inline-block; /* Vis det tomme hjerte */
 }
 
-/* Når .is-favorite klassen tilføjes af JS,
-  skjuler vi det tomme hjerte og viser det udfyldte.
-*/
+/* Når .is-favorite klassen tilføjes af JS */
 .favorite-btn.is-favorite {
     color: #EF4444; /* Tailwind's red-500 */
 }
@@ -28,4 +24,17 @@ body {
 
 .favorite-btn.is-favorite .fa-regular {
     display: none; /* Skjul det tomme hjerte */
+}
+
+/*
+  Styling til Modal-overgange.
+  Vi toggler 'invisible', 'opacity-0' og 'transform' klasser i JS
+  for at udløse Tailwinds indbyggede overgange.
+*/
+#perfume-modal {
+    transition-property: opacity, visibility;
+}
+
+#modal-content {
+    transition-property: opacity, transform;
 }
