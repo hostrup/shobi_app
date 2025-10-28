@@ -4,37 +4,44 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Styling til Favorit-knappen */
-.favorite-btn .fa-solid {
-    display: none; /* Skjul det udfyldte hjerte som standard */
-}
-
-.favorite-btn .fa-regular {
-    display: inline-block; /* Vis det tomme hjerte */
-}
-
-/* Når .is-favorite klassen tilføjes af JS */
-.favorite-btn.is-favorite {
-    color: #EF4444; /* Tailwind's red-500 */
-}
-
-.favorite-btn.is-favorite .fa-solid {
-    display: inline-block; /* Vis det udfyldte hjerte */
-}
-
-.favorite-btn.is-favorite .fa-regular {
-    display: none; /* Skjul det tomme hjerte */
-}
-
-/*
-  Styling til Modal-overgange.
-  Vi toggler 'invisible', 'opacity-0' og 'transform' klasser i JS
-  for at udløse Tailwinds indbyggede overgange.
+/* NY: Layout Grid 
+  - 1 kolonne på mobil (sidebar stabler ovenpå)
+  - 3 kolonner på desktop (1 til sidebar, 2 til indhold)
 */
-#perfume-modal {
-    transition-property: opacity, visibility;
+.page-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 kolonne som standard */
 }
 
-#modal-content {
-    transition-property: opacity, transform;
+@media (min-width: 1024px) { /* Tailwind's 'lg' breakpoint */
+    .page-grid {
+        grid-template-columns: 1fr 3fr; /* 1/4 sidebar, 3/4 indhold */
+    }
+}
+
+
+/* Styling til Favorit-knappen */
+.favorite-btn .fa-solid { display: none; }
+.favorite-btn .fa-regular { display: inline-block; }
+.favorite-btn.is-favorite { color: #EF4444; } /* Tailwind's red-500 */
+.favorite-btn.is-favorite .fa-solid { display: inline-block; }
+.favorite-btn.is-favorite .fa-regular { display: none; }
+
+
+/* Styling til Modal-overgange */
+#perfume-modal { transition-property: opacity, visibility; }
+#modal-content { transition-property: opacity, transform; }
+
+
+/* NY: Styling til filter-tjekbokse */
+.filter-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.875rem; /* text-sm */
+    color: #374151; /* text-gray-700 */
+}
+.filter-group input {
+    margin-right: 0.5rem; /* mr-2 */
+    accent-color: #3B82F6; /* accent-blue-600 */
 }
