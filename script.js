@@ -1,5 +1,5 @@
 // DEBUG: Script started.
-console.log("DEBUG: script.js (Tailwind v3 - Fixes) loaded.");
+console.log("DEBUG: script.js (Tailwind v4 - Major Fixes) loaded.");
 
 let allPerfumes = [];
 let allBrands = new Map(); // Til at gemme brand-information
@@ -62,14 +62,14 @@ function displayPerfumes(perfumes) {
             favButton.classList.add('is-favorite');
         }
 
-        // --- IKONER (OPDATERET) ---
-        // Håndter Audience Ikoner
+        // --- IKONER (RETTET) ---
+        // RETTET: Bruger p.genderAffinity i stedet for p.audience
         const audienceIconsContainer = card.querySelector('[data-field="audience-icons"]');
-        audienceIconsContainer.innerHTML = getAudienceIcons(p.audience);
+        audienceIconsContainer.innerHTML = getAudienceIcons(p.genderAffinity); 
 
-        // NY: Håndter Type Ikoner
+        // RETTET: Bruger p.mainAccords i stedet for p.type
         const typeIconsContainer = card.querySelector('[data-field="type-icons"]');
-        typeIconsContainer.innerHTML = getTypeIcons(p.type);
+        typeIconsContainer.innerHTML = getTypeIcons(p.mainAccords);
         // --- SLUT IKONER ---
 
         // Sæt data-attributter til klik-handlere
@@ -186,11 +186,11 @@ function getAudienceIcons(audience) {
     
     let icons = '';
 
-    if (a.includes('male') || a.includes('men')) {
-        icons += '<i class="fas fa-mars" title="Male"></i>';
+    if (a.includes('male') || a.includes('masculine') || a.includes('men')) {
+        icons += '<i class="fas fa-mars" title="Masculine"></i>';
     }
-    if (a.includes('female') || a.includes('women')) {
-        icons += '<i class="fas fa-venus" title="Female"></i>';
+    if (a.includes('female') || a.includes('feminine') || a.includes('women')) {
+        icons += '<i class="fas fa-venus" title="Feminine"></i>';
     }
     if (a.includes('unisex')) {
         icons += '<i class="fas fa-venus-mars" title="Unisex"></i>';
@@ -200,7 +200,7 @@ function getAudienceIcons(audience) {
 }
 
 /**
- * NY: Mapning af duft-keywords til Font Awesome ikoner.
+ * Mapning af duft-keywords til Font Awesome ikoner.
  */
 const SCENT_ICON_MAP = {
     'citrus': '<i class="fas fa-lemon" title="Citrus"></i>',
@@ -208,26 +208,26 @@ const SCENT_ICON_MAP = {
     'floral': '<i class="fas fa-fan" title="Floral"></i>', // 'fan' bruges ofte til 'aromatic/floral'
     'aromatic': '<i class="fas fa-seedling" title="Aromatic"></i>',
     'spicy': '<i class="fas fa-pepper-hot" title="Spicy"></i>',
-    'oriental': '<i class="fas fa-feather" title="Oriental"></i>',
+    'oriental': '<i class="fas fa-feather" title="Oriental/Amber"></i>',
+    'amber': '<i class="fas fa-feather" title="Oriental/Amber"></i>', // Tilføjet for at fange 'amber'
     'fresh': '<i class="fas fa-wind" title="Fresh"></i>',
     'aquatic': '<i class="fas fa-water" title="Aquatic"></i>',
     'leather': '<i class="fas fa-layer-group" title="Leather"></i>'
 };
 
 /**
- * NY: Returnerer HTML-strenge for dufttype-ikoner.
- * @param {string | undefined} type - Type-strengen (f.eks. "Citrus Aromatic")
+ * (RETTET) Returnerer HTML-strenge for dufttype-ikoner.
+ * @param {Array<string> | undefined} accords - Type-arrayet (f.eks. ["aromatic", "woody"])
  */
-function getTypeIcons(type) {
-    const typeString = String(type || '').toLowerCase();
-    if (!typeString) return '';
+function getTypeIcons(accords) {
+    if (!Array.isArray(accords) || accords.length === 0) return '';
 
     let iconsHtml = '';
-    // Brug et Set for at sikre, at vi kun tilføjer hvert ikon én gang
     const addedIcons = new Set();
+    const lowerCaseAccords = accords.map(a => a.toLowerCase());
 
     for (const key in SCENT_ICON_MAP) {
-        if (typeString.includes(key) && !addedIcons.has(key)) {
+        if (!addedIcons.has(key) && lowerCaseAccords.some(accord => accord.includes(key))) {
             iconsHtml += SCENT_ICON_MAP[key];
             addedIcons.add(key);
         }
@@ -270,7 +270,7 @@ function loadFavorites() {
     document.getElementById('favorites-count').textContent = state.favorites.length;
 }
 
-// --- KERNELOGIK: MODAL ---
+// --- KERNELOGIK: MODAL (RETTET) ---
 
 const modal = document.getElementById('perfume-modal');
 const modalContent = document.getElementById('modal-content');
@@ -291,14 +291,26 @@ function showPerfumeModal(code) {
     document.getElementById('modal-code').textContent = perfume.code;
     document.getElementById('modal-description').textContent = perfume.description || 'No description available.';
     
-    // Byg noter
-    const notesHtml = `
-        ${perfume.notes_top ? `<p><strong class="text-gray-600">Top:</strong> ${perfume.notes_top}</p>` : ''}
-        ${perfume.notes_heart ? `<p><strong class="text-gray-600">Heart:</strong> ${perfume.notes_heart}</p>` : ''}
-        ${perfume.notes_base ? `<p><strong class="text-gray-600">Base:</strong> ${perfume.notes_base}</p>` : ''}
-    `;
+    // (RETTET) Byg noter korrekt fra 'notes' objektet og dets arrays
     const notesContainer = document.getElementById('modal-notes');
-    notesContainer.innerHTML = notesHtml || '<p>No note details available.</p>';
+    
+    const topNotes = perfume.notes && Array.isArray(perfume.notes.top) && perfume.notes.top.length > 0
+        ? perfume.notes.top.join(', ')
+        : null;
+    const heartNotes = perfume.notes && Array.isArray(perfume.notes.heart) && perfume.notes.heart.length > 0
+        ? perfume.notes.heart.join(', ')
+        : null;
+    const baseNotes = perfume.notes && Array.isArray(perfume.notes.base) && perfume.notes.base.length > 0
+        ? perfume.notes.base.join(', ')
+        : null;
+
+    const notesHtml = `
+        ${topNotes ? `<p><strong class="text-gray-600">Top:</strong> ${topNotes}</p>` : ''}
+        ${heartNotes ? `<p><strong class="text-gray-600">Heart:</strong> ${heartNotes}</p>` : ''}
+        ${baseNotes ? `<p><strong class="text-gray-600">Base:</strong> ${baseNotes}</p>` : ''}
+    `;
+    
+    notesContainer.innerHTML = (topNotes || heartNotes || baseNotes) ? notesHtml : '<p>No note details available.</p>';
     
     // Sæt "Køb"-link
     document.getElementById('modal-shobiLink').href = `https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${perfume.code}`;
@@ -360,7 +372,12 @@ async function init() {
             allPerfumes = rawData; // Fallback
         }
 
-        allPerfumes = allPerfumes.filter(p => p && p.code && p.inspiredBy);
+        // Ryd op i data og sikr at 'notes' er et objekt
+        allPerfumes = allPerfumes.filter(p => p && p.code && p.inspiredBy).map(p => ({
+            ...p,
+            notes: p.notes || { top: [], heart: [], base: [] } // Sikrer at 'notes' altid er et objekt
+        }));
+        
         console.log(`DEBUG: Total valid perfumes loaded: ${allPerfumes.length}`);
         console.log(`DEBUG: Total unique brands loaded: ${allBrands.size}`);
 
