@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shobi Perfume Finder</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-base font-sans">
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    
+
                     <div class="relative" id="theme-switcher">
                         <button id="theme-menu-btn" class="flex items-center text-secondary text-accent-hover" title="Change theme">
                             <i class="fas fa-palette text-lg"></i>
@@ -55,9 +55,9 @@
     </nav>
 
     <div class="page-grid mx-auto p-4 sm:p-6 lg:p-8 gap-6">
-        
+
         <aside id="filter-sidebar" class="bg-surface rounded-lg shadow-lg h-fit lg:sticky top-24">
-            
+
             <button id="filters-toggle-btn" class="lg:hidden w-full flex justify-between items-center p-4">
                 <h3 class="text-xl font-bold text-primary">Filters</h3>
                 <i id="filters-toggle-icon" class="fas fa-chevron-down transition-transform text-secondary"></i>
@@ -128,6 +128,9 @@
                 </button>
             </div>
 
+            <div id="active-filters-display" class="mb-4 flex flex-wrap gap-2">
+                </div>
+
             <div id="results-count" class="text-secondary mb-4">Loading perfumes...</div>
 
             <div id="resultsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6">
@@ -142,7 +145,7 @@
                 <button class="favorite-btn absolute top-4 right-4 text-2xl icon-base-color hover:text-red-500 transition-colors z-10">
                     <i class="fa-regular fa-heart"></i>
                 </button>
-                
+
                 <div data-action="show-details" data-code="" class="cursor-pointer">
                     <p class="text-xs font-mono text-tertiary mb-1" data-field="code">DRC-123</p>
                     <h3 class="text-lg font-bold text-primary mb-1" data-field="inspiredBy">Perfume Name</h3>
@@ -157,7 +160,7 @@
                 <p data-field="description" class="hidden lg:block text-sm text-secondary mb-4 truncate-3-lines">
                     Loading description...
                 </p>
-                
+
                 <div data-field="type-icons" class="flex space-x-3 text-base mb-4"></div>
 
                 <div class="mt-auto">
@@ -172,7 +175,7 @@
 
     <div id="perfume-modal" class="fixed inset-0 z-30 flex items-center justify-center p-4 invisible opacity-0 transition-opacity duration-300">
         <div id="modal-overlay" class="absolute inset-0 bg-black bg-opacity-75 cursor-pointer"></div>
-        
+
         <div id="modal-content" class="relative bg-surface rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transition-all duration-300 transform -translate-y-10 opacity-0">
             <div class="p-6 border-b border-light">
                 <button id="modal-close-btn" class="absolute top-4 right-4 text-tertiary text-accent-hover z-10">
