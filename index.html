@@ -13,7 +13,7 @@
 <body class="bg-gray-100 font-sans">
 
     <nav class="bg-white shadow-md sticky top-0 z-10">
-        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex-shrink-0 flex items-center">
                     <i class="fas fa-spray-can-sparkles text-blue-600 text-xl mr-2"></i>
@@ -32,33 +32,46 @@
         </div>
     </nav>
 
-    <div class="page-grid max-w-screen-2xl mx-auto p-4 sm:p-6 lg:p-8 gap-6">
+    <div class="page-grid mx-auto p-4 sm:p-6 lg:p-8 gap-6">
         
-        <aside id="filter-sidebar" class="bg-white p-6 rounded-lg shadow-lg h-fit lg:sticky top-24">
-            <h3 class="text-xl font-bold text-gray-900 mb-4">Filters</h3>
+        <aside id="filter-sidebar" class="bg-white rounded-lg shadow-lg h-fit lg:sticky top-24">
             
-            <div class="filter-group mb-6">
-                <h4 class="font-semibold text-gray-800 mb-2">Gender</h4>
-                <div id="gender-filters" class="space-y-2">
-                    </div>
-            </div>
+            <button id="filters-toggle-btn" class="lg:hidden w-full flex justify-between items-center p-4">
+                <h3 class="text-xl font-bold text-gray-900">Filters</h3>
+                <i id="filters-toggle-icon" class="fas fa-chevron-down transition-transform"></i>
+            </button>
 
-            <div class="filter-group mb-6">
-                <h4 class="font-semibold text-gray-800 mb-2">Season</h4>
-                <div id="season-filters" class="space-y-2">
-                    </div>
-            </div>
+            <div id="filters-content" class="hidden lg:block p-6 lg:p-0">
+                <div class="hidden lg:flex justify-between items-center mb-4 lg:pt-6 lg:px-6">
+                    <h3 class="text-xl font-bold text-gray-900">Filters</h3>
+                    <button id="reset-all-filters-btn-desktop" title="Clear all filters" class="text-sm text-blue-600 hover:text-blue-800">
+                        Clear All
+                    </button>
+                </div>
+                <button id="reset-all-filters-btn-mobile" class="lg:hidden w-full text-center text-sm text-blue-600 hover:text-blue-800 mb-4">
+                    Clear All Filters
+                </button>
 
-            <div class="filter-group mb-6">
-                <h4 class="font-semibold text-gray-800 mb-2">Occasion</h4>
-                <div id="occasion-filters" class="space-y-2">
-                    </div>
-            </div>
+                <div class="filter-group mb-6 lg:px-6">
+                    <h4 class="font-semibold text-gray-800 mb-2">Gender</h4>
+                    <div id="gender-filters" class="space-y-2"></div>
+                </div>
 
-            <div class="filter-group">
-                <h4 class="font-semibold text-gray-800 mb-2">Main Accords</h4>
-                <div id="accord-filters" class="space-y-2 max-h-64 overflow-y-auto pr-2">
-                    <div id="accord-loader" class="text-sm text-gray-500">Loading filters...</div>
+                <div class="filter-group mb-6 lg:px-6">
+                    <h4 class="font-semibold text-gray-800 mb-2">Season</h4>
+                    <div id="season-filters" class="space-y-2"></div>
+                </div>
+
+                <div class="filter-group mb-6 lg:px-6">
+                    <h4 class="font-semibold text-gray-800 mb-2">Occasion</h4>
+                    <div id="occasion-filters" class="space-y-2"></div>
+                </div>
+
+                <div class="filter-group lg:px-6 lg:pb-6">
+                    <h4 class="font-semibold text-gray-800 mb-2">Main Accords</h4>
+                    <div id="accord-filters" class="space-y-2 max-h-64 overflow-y-auto pr-2">
+                        <div id="accord-loader" class="text-sm text-gray-500">Loading filters...</div>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -84,7 +97,7 @@
 
             <div id="results-count" class="text-gray-600 mb-4">Loading perfumes...</div>
 
-            <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+            <div id="resultsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6">
                 </div>
         </main>
     </div>
@@ -106,14 +119,13 @@
                     Brand Name
                 </button>
 
-                <div class="flex justify-between items-center mb-4">
-                    <div data-field="audience-icons" class="flex space-x-3 text-base"></div>
-                    <div data-field="type-icons" class="flex space-x-3 text-base"></div>
-                </div>
+                <div data-field="audience-icons" class="flex space-x-3 text-base mb-3"></div>
 
                 <p data-field="description" class="hidden lg:block text-sm text-gray-600 mb-4 truncate-3-lines">
                     Loading description...
                 </p>
+                
+                <div data-field="type-icons" class="flex space-x-3 text-base mb-4"></div>
 
                 <div class="mt-auto">
                     <a data-field="shobiLink" href="#" target="_blank" rel="noopener noreferrer"
