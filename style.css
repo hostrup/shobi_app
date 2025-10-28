@@ -1,13 +1,10 @@
-/* Generel body styling (Tailwind håndterer det meste) */
+/* Generel body styling (Tailwind håndterer det mest) */
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* NY: Layout Grid 
-  - 1 kolonne på mobil (sidebar stabler ovenpå)
-  - 300px fast sidebar + 1fr indhold på desktop
-*/
+/* Layout Grid */
 .page-grid {
     display: grid;
     grid-template-columns: 1fr; /* 1 kolonne som standard */
@@ -15,11 +12,9 @@ body {
 
 @media (min-width: 1024px) { /* Tailwind's 'lg' breakpoint */
     .page-grid {
-        /* OPDATERET: Fast 300px sidebar, resten til indhold */
         grid-template-columns: 300px 1fr; 
     }
 }
-
 
 /* Styling til Favorit-knappen */
 .favorite-btn .fa-solid { display: none; }
@@ -45,4 +40,21 @@ body {
 .filter-group input {
     margin-right: 0.5rem; /* mr-2 */
     accent-color: #3B82F6; /* accent-blue-600 */
+}
+
+/* NYT: Tilføjet for at afkorte beskrivelse på kort */
+.truncate-3-lines {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+/* NYT: Gør klikbare ikoner tydelige */
+[data-action="filter-icon"] {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+[data-action="filter-icon"]:hover {
+    transform: scale(1.2);
 }
