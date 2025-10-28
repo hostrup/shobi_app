@@ -1,236 +1,31 @@
-/* ============================================= */
-/* THEME DEFINITIONS (CSS Custom Properties)     */
-/* ============================================= */
-
-/* Default Theme: Light (og fallback) */
-:root {
-    /* Primary & Secondary */
-    --primary-color: #3c64ff;
-    --primary-rgb: 60, 100, 255;
-    --secondary-color: #6c757d;
-    --secondary-rgb: 108, 117, 125;
-    
-    /* Backgrounds & Surfaces */
-    --bg-body: #f8f9fa;
-    --bg-surface: #ffffff; /* Cards, modals, etc. */
-    --gradient-start: #eef2f3;
-    --gradient-end: #ffffff;
-
-    /* Text & Borders */
-    --text-color: #212529;
-    --text-muted: #6c757d;
-    --border-color: #dee2e6;
-    
-    /* Misc */
-    --link-color: var(--primary-color);
-    --shadow-color: rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="dark"] {
-    --primary-color: #5890ff;
-    --primary-rgb: 88, 144, 255;
-    --secondary-color: #adb5bd;
-    --bg-body: #1c1c1e;
-    --bg-surface: #2c2c2e;
-    --gradient-start: #232526;
-    --gradient-end: #414345;
-    --text-color: #e2e2e2;
-    --text-muted: #adb5bd;
-    --border-color: #495057;
-    --shadow-color: rgba(0, 0, 0, 0.25);
-}
-
-[data-theme="deepsea"] {
-    --primary-color: #9DAAF2;
-    --primary-rgb: 157, 170, 242;
-    --secondary-color: #FF6A5C;
-    --bg-body: #1A2238;
-    --bg-surface: #253354;
-    --gradient-start: #0f2027;
-    --gradient-end: #203a43;
-    --text-color: #e9efff;
-    --text-muted: #a7b4e0;
-    --border-color: #3b4f7b;
-    --shadow-color: rgba(0, 0, 0, 0.25);
-}
-
-[data-theme="sandstone"] {
-    --primary-color: #D33682;
-    --primary-rgb: 211, 54, 130;
-    --secondary-color: #2AA198;
-    --bg-body: #FDF6E3;
-    --bg-surface: #F5EADD;
-    --gradient-start: #fdfcfb;
-    --gradient-end: #e2d1c3;
-    --text-color: #657B83;
-    --text-muted: #93a1a1;
-    --border-color: #d8c9b6;
-    --shadow-color: rgba(85, 107, 115, 0.15);
-}
-
-[data-theme="rosequartz"] {
-    --primary-color: #e8a2af;
-    --primary-rgb: 232, 162, 175;
-    --secondary-color: #9d8c9d;
-    --bg-body: #f7f3f7;
-    --bg-surface: #ffffff;
-    --gradient-start: #f8f5f8;
-    --gradient-end: #e8dde4;
-    --text-color: #5c4f5c;
-    --text-muted: #8c7f8c;
-    --border-color: #e3d9e3;
-    --shadow-color: rgba(92, 79, 92, 0.1);
-}
-
-[data-theme="forest"] {
-    --primary-color: #a3b18a;
-    --primary-rgb: 163, 177, 138;
-    --secondary-color: #588157;
-    --bg-body: #2a3d33;
-    --bg-surface: #3c5446;
-    --gradient-start: #233128;
-    --gradient-end: #3a4a3f;
-    --text-color: #e4e4e4;
-    --text-muted: #b0c2b2;
-    --border-color: #5d7c69;
-    --shadow-color: rgba(0, 0, 0, 0.25);
-}
-
-[data-theme="coastal-breeze"] {
-    --primary-color: #0077b6;
-    --primary-rgb: 0, 119, 182;
-    --secondary-color: #fca311;
-    --bg-body: #f0f8ff;
-    --bg-surface: #ffffff;
-    --gradient-start: #ade8f4;
-    --gradient-end: #f0f8ff;
-    --text-color: #03045e;
-    --text-muted: #4895ef;
-    --border-color: #caf0f8;
-    --shadow-color: rgba(72, 149, 239, 0.15);
-}
-
-[data-theme="spiced-amber"] {
-    --primary-color: #d95f02;
-    --primary-rgb: 217, 95, 2;
-    --secondary-color: #7570b3;
-    --bg-body: #fff8e1;
-    --bg-surface: #ffffff;
-    --gradient-start: #ffecd2;
-    --gradient-end: #f5d6af;
-    --text-color: #4e342e;
-    --text-muted: #795548;
-    --border-color: #ffe0b2;
-    --shadow-color: rgba(121, 85, 72, 0.15);
-}
-
-[data-theme="midnight-bloom"] {
-    --primary-color: #ceabf5;
-    --primary-rgb: 206, 171, 245;
-    --secondary-color: #f7d99a;
-    --bg-body: #1d1029;
-    --bg-surface: #2c183e;
-    --gradient-start: #1d1029;
-    --gradient-end: #3d2352;
-    --text-color: #f0e8fa;
-    --text-muted: #c0a5d1;
-    --border-color: #4a3061;
-    --shadow-color: rgba(0, 0, 0, 0.3);
-}
-
-/* ============================================= */
-/* GENERAL STYLING                             */
-/* ============================================= */
-
+/* Generel body styling (Tailwind håndterer det meste) */
 body {
-    background-color: var(--bg-body);
-    color: var(--text-color);
-    background-image: linear-gradient(120deg, var(--gradient-start), var(--gradient-end));
-    transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-hr { color: inherit; opacity: 0.25; }
-.bg-body-tertiary { background-color: var(--bg-surface) !important; }
-.text-muted { color: var(--text-muted) !important; }
-
-.btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    color: var(--bg-surface);
+/* Styling til Favorit-knappen
+  Vi bruger Font Awesome ikoner. 'fa-regular' er standard.
+*/
+.favorite-btn .fa-solid {
+    display: none; /* Skjul det udfyldte hjerte som standard */
 }
 
-[data-theme="dark"] .btn-primary,
-[data-theme="deepsea"] .btn-primary,
-[data-theme="forest"] .btn-primary,
-[data-theme="midnight-bloom"] .btn-primary,
-[data-theme="sandstone"] .btn-primary,
-[data-theme="rosequartz"] .btn-primary {
-    color: #fff;
+.favorite-btn .fa-regular {
+    display: inline-block; /* Vis det tomme hjerte */
 }
 
-.btn-primary:hover { filter: brightness(110%); }
-.btn-outline-secondary { color: var(--text-muted); border-color: var(--text-muted); }
-.btn-outline-secondary:hover { color: var(--bg-surface); background-color: var(--text-muted); border-color: var(--text-muted); }
-.badge.bg-secondary { background-color: var(--secondary-color) !important; }
-
-/* ============================================= */
-/* CUSTOM COMPONENT STYLING                    */
-/* ============================================= */
-
-.navbar { background-color: var(--bg-surface) !important; box-shadow: 0 .125rem .25rem var(--shadow-color); }
-.navbar-brand { color: var(--text-color) !important; }
-[data-theme="dark"] .navbar-toggler-icon,
-[data-theme="deepsea"] .navbar-toggler-icon,
-[data-theme="forest"] .navbar-toggler-icon,
-[data-theme="midnight-bloom"] .navbar-toggler-icon { filter: invert(1); }
-
-.sidebar { position: sticky; top: 80px; }
-
-.form-control { background-color: var(--bg-surface); color: var(--text-color); border-color: var(--border-color); }
-.form-control::placeholder { color: var(--text-muted); opacity: 1; }
-.form-control:focus { background-color: var(--bg-surface); color: var(--text-color); border-color: var(--primary-color); box-shadow: 0 0 0 .25rem rgba(var(--primary-rgb), 0.25); }
-
-.navbar .input-group .form-control { background-color: var(--bg-body) !important; border-color: var(--border-color) !important; color: var(--text-color); }
-.navbar .input-group .input-group-text { background-color: var(--bg-body) !important; border-color: var(--border-color) !important; color: var(--text-muted); }
-
-.perfume-card { 
-    border: 1px solid var(--border-color);
-    border-radius: .375rem;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-.perfume-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 .5rem 1rem var(--shadow-color) !important;
+/* Når .is-favorite klassen tilføjes af JS,
+  skjuler vi det tomme hjerte og viser det udfyldte.
+*/
+.favorite-btn.is-favorite {
+    color: #EF4444; /* Tailwind's red-500 */
 }
 
-.favorite-btn { position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 1.5rem; color: #ccc; transition: color 0.2s ease, transform 0.2s ease; }
-.favorite-btn:hover { transform: scale(1.2); }
-.favorite-btn.is-favorite { color: #dc3545; }
+.favorite-btn.is-favorite .fa-solid {
+    display: inline-block; /* Vis det udfyldte hjerte */
+}
 
-.brand-link { cursor: pointer; text-decoration: underline; color: var(--link-color); }
-.accord-tag { cursor: pointer; }
-
-.list-group-item { border-color: var(--border-color); }
-.list-group-item .favorite-btn { position: static; }
-
-.accordion-item, .accordion-body { background-color: var(--bg-surface); border-color: var(--border-color); }
-.accordion-button { color: var(--text-color); background-color: var(--bg-surface); }
-.accordion-button:not(.collapsed) { color: var(--primary-color); background-color: rgba(var(--primary-rgb), 0.1); box-shadow: inset 0 -1px 0 var(--border-color); }
-.accordion-button:focus { box-shadow: 0 0 0 .25rem rgba(var(--primary-rgb), 0.25); border-color: var(--primary-color); }
-
-[data-theme="dark"] .accordion-button::after,
-[data-theme="deepsea"] .accordion-button::after,
-[data-theme="forest"] .accordion-button::after,
-[data-theme="midnight-bloom"] .accordion-button::after { filter: brightness(0) invert(1); }
-
-#topAccordsChart { cursor: pointer; }
-
-.modal-content { background-color: var(--bg-surface); border-color: var(--border-color); }
-.modal-title .brand-link-modal { color: var(--primary-color); text-decoration: underline; cursor: pointer; }
-
-.form-check-input { background-color: var(--bg-surface); border-color: var(--border-color); }
-.form-check-input:checked { background-color: var(--primary-color); border-color: var(--primary-color); }
-
-.dropdown-menu { background-color: var(--bg-surface); border-color: var(--border-color); }
-.dropdown-item { color: var(--text-color); }
-.dropdown-item:hover, .dropdown-item:focus { color: var(--text-color); background-color: rgba(var(--primary-rgb), 0.1); }
+.favorite-btn.is-favorite .fa-regular {
+    display: none; /* Skjul det tomme hjerte */
+}
