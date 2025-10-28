@@ -1,5 +1,5 @@
 // DEBUG: Script started.
-console.log("DEBUG: script.js (Tailwind v7 - Clickable Icons & Boost Guide) loaded.");
+console.log("DEBUG: script.js (Tailwind v8 - Mobile Collapse & Reset) loaded.");
 
 let allPerfumes = [];
 let allBrands = new Map(); 
@@ -16,7 +16,7 @@ const state = {
     }
 };
 
-// NYE KONSTANTER til Boost Guide
+// KONSTANTER til Boost Guide
 const LIGHT_ACCORDS = ['fresh', 'aquatic', 'citrus', 'aromatic', 'floral'];
 const HEAVY_ACCORDS = ['gourmand', 'oriental', 'amber', 'spicy', 'leather', 'woody'];
 
@@ -52,11 +52,10 @@ function displayPerfumes(perfumes) {
         const card = template.content.cloneNode(true);
         const isFavorite = state.favorites.includes(p.code);
 
-        // Udfyld data
+        // Udfyld data (med nyt beskrivelsesfelt)
         card.querySelector('[data-field="code"]').textContent = p.code;
         card.querySelector('[data-field="inspiredBy"]').textContent = p.inspiredBy;
         card.querySelector('[data-field="brand"]').textContent = p.brand;
-        // NYT: Udfyld beskrivelse
         card.querySelector('[data-field="description"]').textContent = p.description || '';
         
         const shobiLink = `https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${p.code}`;
@@ -68,7 +67,7 @@ function displayPerfumes(perfumes) {
         favButton.innerHTML = isFavorite ? '<i class="fa-solid fa-heart"></i>' : '<i class="fa-regular fa-heart"></i>';
         if (isFavorite) favButton.classList.add('is-favorite');
 
-        // Ikoner (nu klikbare)
+        // Ikoner (i deres nye rækkefølge)
         const audienceIconsContainer = card.querySelector('[data-field="audience-icons"]');
         audienceIconsContainer.innerHTML = getAudienceIcons(p.genderAffinity); 
         const typeIconsContainer = card.querySelector('[data-field="type-icons"]');
@@ -91,7 +90,6 @@ function displayPerfumes(perfumes) {
     container.querySelectorAll('[data-action="filter-brand"]').forEach(btn => 
         btn.addEventListener('click', (e) => handleBrandFilterClick(e.currentTarget.dataset.brand))
     );
-    // NYT: Listener til ikon-filtre
     container.querySelectorAll('[data-action="filter-icon"]').forEach(btn => 
         btn.addEventListener('click', (e) => {
             const el = e.currentTarget;
@@ -193,13 +191,17 @@ function handleBrandFilterClick(brandName) {
 }
 
 /**
- * NYT: Håndterer klik på et ikon-filter på et kort.
- * @param {string} filterType - 'gender' eller 'accord'
- * @param {string} filterValue - Værdien der skal aktiveres (f.eks. 'feminine' eller 'citrus')
+ * Håndterer klik på et ikon-filter på et kort. (Uændret)
  */
 function handleIconFilterClick(filterType, filterValue) {
     // Ret 'accord' til 'accords' for at matche state-nøglen
     const stateKey = filterType === 'accord' ? 'accords' : filterType;
+
+    // NYT: Åbn mobil-filtre, hvis de er lukkede
+    const filtersContent = document.getElementById('filters-content');
+    if (filtersContent.classList.contains('hidden')) {
+        toggleMobileFilters();
+    }
 
     // Find den tilsvarende tjekboks i sidebaren
     const checkbox = document.querySelector(`#filter-sidebar input[name="${filterType}"][value="${filterValue}"]`);
@@ -218,11 +220,8 @@ function handleIconFilterClick(filterType, filterValue) {
     }
 }
 
-// --- IKON-HJÆLPERE (OPDATERET) ---
+// --- IKON-HJÆLPERE (Uændret) ---
 
-/**
- * (OPDATERET) Returnerer klikbare ikoner med farve.
- */
 function getAudienceIcons(audience) {
     const a = String(audience || '').toLowerCase();
     if (!a) return ''; 
@@ -244,9 +243,6 @@ function getAudienceIcons(audience) {
     ).join(' ');
 }
 
-/**
- * (OPDATERET) Mapning af duft-keywords til ikoner MED FARVE.
- */
 const SCENT_ICON_MAP = {
     'citrus': { icon: '<i class="fas fa-lemon text-yellow-500" title="Citrus"></i>', value: 'citrus' },
     'woody': { icon: '<i class="fas fa-tree text-amber-700" title="Woody"></i>', value: 'woody' },
@@ -260,9 +256,6 @@ const SCENT_ICON_MAP = {
     'leather': { icon: '<i class="fas fa-layer-group text-stone-600" title="Leather"></i>', value: 'leather' }
 };
 
-/**
- * (OPDATERET) Returnerer klikbare dufttype-ikoner.
- */
 function getTypeIcons(accords) {
     if (!Array.isArray(accords) || accords.length === 0) return '';
     let iconsHtml = [];
@@ -316,20 +309,15 @@ function loadFavorites() {
     document.getElementById('favorites-count').textContent = state.favorites.length;
 }
 
-// --- KERNELOGIK: MODAL (OPDATERET) ---
+// --- KERNELOGIK: MODAL (Uændret) ---
 
 const modal = document.getElementById('perfume-modal');
 const modalContent = document.getElementById('modal-content');
 const modalOverlay = document.getElementById('modal-overlay');
 const modalCloseBtn = document.getElementById('modal-close-btn');
 
-/**
- * NYT: Bygger HTML til boost-guiden baseret på parfume-type.
- * @param {Object} perfume - Parfume-objektet.
- */
 function getBoostGuideHtml(perfume) {
     const accords = perfume.mainAccords || [];
-    // Bestem type: Hvis NOGEN 'heavy' accords er til stede, er den heavy. Ellers standard.
     const isHeavy = accords.some(accord => HEAVY_ACCORDS.includes(accord.toLowerCase()));
 
     let rec;
@@ -339,7 +327,6 @@ function getBoostGuideHtml(perfume) {
         title = "Heavy/Gourmand Scent";
         rec = { '30ml': '2ml', '50ml': '3-4ml', '100ml': '5ml' };
     } else {
-        // Standard/Light (sikker anbefaling)
         title = "Fresh/Light Scent";
         rec = { '30ml': '1ml', '50ml': '2ml', '100ml': '3ml' };
     }
@@ -365,20 +352,15 @@ function getBoostGuideHtml(perfume) {
     `;
 }
 
-/**
- * (OPDATERET) Viser modalen og kalder nu getBoostGuideHtml.
- */
 function showPerfumeModal(code) {
     const perfume = allPerfumes.find(p => p.code === code);
     if (!perfume) return;
 
-    // Udfyld standard-info
     document.getElementById('modal-inspiredBy').textContent = perfume.inspiredBy;
     document.getElementById('modal-brand').textContent = perfume.brand;
     document.getElementById('modal-code').textContent = perfume.code;
     document.getElementById('modal-description').textContent = perfume.description || 'No description available.';
     
-    // Udfyld noter
     const notesContainer = document.getElementById('modal-notes');
     const topNotes = perfume.notes && Array.isArray(perfume.notes.top) && perfume.notes.top.length > 0
         ? perfume.notes.top.join(', ')
@@ -397,14 +379,11 @@ function showPerfumeModal(code) {
     `;
     notesContainer.innerHTML = (topNotes || heartNotes || baseNotes) ? notesHtml : '<p>No note details available.</p>';
     
-    // NYT: Udfyld Boost Guide
     const boostGuideContainer = document.getElementById('modal-boost-guide');
     boostGuideContainer.innerHTML = getBoostGuideHtml(perfume);
     
-    // Sæt "Køb"-link
     document.getElementById('modal-shobiLink').href = `https://leparfum.com.gr/en/module/iqitsearch/searchiqit?s=${perfume.code}`;
     
-    // Vis modal
     modal.classList.remove('invisible');
     setTimeout(() => {
         modal.classList.remove('opacity-0');
@@ -421,8 +400,49 @@ function hidePerfumeModal() {
 }
 
 
-// --- FILTER-LOGIK (Uændret) ---
+// --- FILTER-LOGIK (OPDATERET) ---
 
+/**
+ * Toggler synligheden af filtre på mobil.
+ */
+function toggleMobileFilters() {
+    const filtersContent = document.getElementById('filters-content');
+    const filtersIcon = document.getElementById('filters-toggle-icon');
+    filtersContent.classList.toggle('hidden');
+    filtersIcon.classList.toggle('rotate-180');
+}
+
+/**
+* NYT: Nulstiller alle filtre, søgning og valg.
+*/
+function resetAllFilters() {
+    // 1. Nulstil state
+    state.searchQuery = '';
+    state.showingFavorites = false;
+    state.selectedBrand = null;
+    state.activeFilters = {
+        gender: [],
+        accords: [],
+        season: [],
+        occasion: []
+    };
+
+    // 2. Nulstil UI-elementer
+    document.getElementById('search-input').value = '';
+    document.getElementById('favorites-btn').classList.remove('bg-red-800');
+    
+    // 3. Nulstil alle tjekbokse
+    document.querySelectorAll('#filter-sidebar input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    // 4. Gen-render
+    applyFiltersAndRender();
+}
+
+/**
+ * Opretter og indsætter HTML for alle filtre. (Uændret logik)
+ */
 function populateFilters() {
     const genderContainer = document.getElementById('gender-filters');
     const seasonContainer = document.getElementById('season-filters');
@@ -473,9 +493,8 @@ function populateFilters() {
     const sortedAccords = [...allAccords].sort();
 
     accordContainer.innerHTML = sortedAccords.map(accord => {
-        // Find den 'key' i SCENT_ICON_MAP, der matcher
         const mapKey = Object.keys(SCENT_ICON_MAP).find(key => accord.includes(key));
-        const icon = mapKey ? SCENT_ICON_MAP[mapKey].icon : ''; // Få ikonet, hvis det findes
+        const icon = mapKey ? SCENT_ICON_MAP[mapKey].icon : ''; 
         const capitalized = accord.charAt(0).toUpperCase() + accord.slice(1);
         
         return `
@@ -485,7 +504,6 @@ function populateFilters() {
             </label>
         `;
     }).join('');
-    // Rettelse fra v6.1: Vi fjerner ikke loaderen, da innerHTML overskriver den.
 
     // 5. Tilføj Event Listeners til ALLE tjekbokse
     document.querySelectorAll('#filter-sidebar input[type="checkbox"]').forEach(checkbox => {
@@ -499,14 +517,14 @@ function populateFilters() {
             const value = e.target.value;
             
             if (e.target.checked) {
-                if (!state.activeFilters[filterType].includes(value)) { // Undgå duplikater
+                if (!state.activeFilters[filterType].includes(value)) { 
                     state.activeFilters[filterType].push(value);
                 }
             } else {
                 const index = state.activeFilters[filterType].indexOf(value);
                 if (index > -1) state.activeFilters[filterType].splice(index, 1);
             }
-            applyFiltersAndRender(); // Gen-render listen
+            applyFiltersAndRender(); 
         });
     });
 }
@@ -542,12 +560,11 @@ async function init() {
             allPerfumes = rawData; 
         }
 
-        // OPDATERET: Udvidet datarensning
         allPerfumes = allPerfumes.filter(p => p && p.code && p.inspiredBy).map(p => ({
             ...p,
             notes: p.notes || { top: [], heart: [], base: [] },
             mainAccords: (p.mainAccords || []).map(a => a.toLowerCase()),
-            bestSuitedFor: p.bestSuitedFor || { season: [], occasion: [] } // Sikrer at bestSuitedFor eksisterer
+            bestSuitedFor: p.bestSuitedFor || { season: [], occasion: [] } 
         }));
         
         console.log(`DEBUG: Total valid perfumes loaded: ${allPerfumes.length}`);
@@ -559,14 +576,21 @@ async function init() {
     }
 
     loadFavorites();
-    populateFilters(); // Byg filtrene
-    applyFiltersAndRender(); // Vis den indledende liste
+    populateFilters(); 
+    applyFiltersAndRender(); 
 }
 
-// --- EVENT LISTENERS (DOMContentLoade) (Uændret) ---
+// --- EVENT LISTENERS (DOMContentLoade) (OPDATERET) ---
 
 document.addEventListener('DOMContentLoaded', () => {
     init();
+
+    // NYT: Mobil filter toggle
+    document.getElementById('filters-toggle-btn').addEventListener('click', toggleMobileFilters);
+    
+    // NYT: Nulstil filter knapper (mobil + desktop)
+    document.getElementById('reset-all-filters-btn-desktop').addEventListener('click', resetAllFilters);
+    document.getElementById('reset-all-filters-btn-mobile').addEventListener('click', resetAllFilters);
 
     // Søgefelt-listener
     document.getElementById('search-input').addEventListener('input', e => {
@@ -577,7 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Favoritknap-listener
     document.getElementById('favorites-btn').addEventListener('click', () => {
         state.showingFavorites = !state.showingFavorites;
-        state.selectedBrand = null; // Nulstil brand-filter
+        state.selectedBrand = null; 
         
         const btn = document.getElementById('favorites-btn');
         if (state.showingFavorites) {
