@@ -1,5 +1,5 @@
 // DEBUG: Script started.
-console.log("DEBUG: script.js (Tailwind v6.1 - Bugfix) loaded.");
+console.log("DEBUG: script.js (Tailwind v6.2 - Syntaxfix) loaded.");
 
 let allPerfumes = [];
 let allBrands = new Map(); 
@@ -362,7 +362,8 @@ function populateFilters() {
     // 2. NYT: Byg Season Filtre
     const seasons = [
         { label: 'Spring', value: 'spring' },
-        { label:L: 'Summer', value: 'summer' },
+        // *** SYNTAX-FEJL RETTET HER ***
+        { label: 'Summer', value: 'summer' }, 
         { label: 'Fall', value: 'fall' },
         { label: 'Winter', value: 'winter' }
     ];
@@ -388,10 +389,6 @@ function populateFilters() {
     // 4. Byg Accord Filtre (Dynamisk)
     const allAccords = new Set(allPerfumes.flatMap(p => (p.mainAccords || [])).map(a => a.toLowerCase()));
     const sortedAccords = [...allAccords].sort();
-    
-    // *** FEJLRETTELSE ***
-    // Loaderen er inde i accordContainer, så vi finder den FØRST.
-    const loader = document.getElementById('accord-loader');
 
     accordContainer.innerHTML = sortedAccords.map(accord => {
         const capitalized = accord.charAt(0).toUpperCase() + accord.slice(1);
@@ -403,11 +400,8 @@ function populateFilters() {
         `;
     }).join('');
     
-    // Og fjerner den bagefter (hvis den fandtes)
-    // SELVOM .innerHTML = ... allerede fjerner den, er den oprindelige fejl
-    // at kalde .remove() på 'loader' EFTER at 'loader' er blevet fjernet af .innerHTML.
-    // Vi fjerner simpelthen den fejlende linje.
-    // document.getElementById('accord-loader').remove(); <-- FEJLENDE LINJE FJERNET
+    // Fjerner den fejlende linje fra forrige version, som forsøgte at fjerne loaderen.
+    // document.getElementById('accord-loader').remove(); <-- Denne linje er fjernet.
 
     // 5. Tilføj Event Listeners til ALLE tjekbokse
     document.querySelectorAll('#filter-sidebar input[type="checkbox"]').forEach(checkbox => {
