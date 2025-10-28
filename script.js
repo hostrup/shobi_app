@@ -1,5 +1,5 @@
 // DEBUG: Script started.
-console.log("DEBUG: script.js (Tailwind v9.1 - Filter Fix) loaded.");
+console.log("DEBUG: script.js (Tailwind v10 - Theme Refactor & Filter Fix) loaded.");
 
 let allPerfumes = [];
 let allBrands = new Map(); 
@@ -42,7 +42,7 @@ function displayPerfumes(perfumes) {
     resultsCountEl.textContent = countText + ".";
 
     if (perfumes.length === 0) {
-        container.innerHTML = `<p class="text-gray-600 col-span-full">No perfumes matched your selection.</p>`;
+        container.innerHTML = `<p class="text-secondary col-span-full">No perfumes matched your selection.</p>`;
         return;
     }
 
@@ -121,7 +121,7 @@ function applyFiltersAndRender() {
         });
     }
 
-    // 3. RETTET: Anvend Season-filtre (søger i string)
+    // 3. RETTET: Anvend Season-filtre (søger nu i p.season string)
     if (state.activeFilters.season.length > 0) {
         filtered = filtered.filter(p => {
             // p.season er en string som "spring/summer"
@@ -129,7 +129,7 @@ function applyFiltersAndRender() {
         });
     }
 
-    // 4. RETTET: Anvend Occasion-filtre (søger i string)
+    // 4. RETTET: Anvend Occasion-filtre (søger nu i p.occasion string)
     if (state.activeFilters.occasion.length > 0) {
         filtered = filtered.filter(p => {
             // p.occasion er en string som "daytime"
@@ -141,7 +141,6 @@ function applyFiltersAndRender() {
     if (state.activeFilters.accords.length > 0) {
         filtered = filtered.filter(p => {
             const accords = (p.mainAccords || []).map(a => a.toLowerCase());
-            // "AND" logik: Matcher KUN hvis parfumen har ALLE de valgte accords
             return state.activeFilters.accords.every(filterAccord => accords.includes(filterAccord));
         });
     }
@@ -182,8 +181,8 @@ function displayBrandInfo() {
     }
 
     contentEl.innerHTML = `
-        <h2 class="text-2xl font-bold text-gray-900">${brandInfo.name}</h2>
-        <p class="mt-2 text-gray-700">${brandInfo.description || 'No information available for this brand.'}</p>
+        <h2 class="text-2xl font-bold text-primary">${brandInfo.name}</h2>
+        <p class="mt-2 text-secondary">${brandInfo.description || 'No information available for this brand.'}</p>
     `;
     container.classList.remove('hidden');
 }
@@ -203,28 +202,22 @@ function handleBrandFilterClick(brandName) {
  * Håndterer klik på et ikon-filter på et kort. (Uændret)
  */
 function handleIconFilterClick(filterType, filterValue) {
-    // Ret 'accord' til 'accords' for at matche state-nøglen
     const stateKey = filterType === 'accord' ? 'accords' : filterType;
 
-    // Åbn mobil-filtre, hvis de er lukkede
     const filtersContent = document.getElementById('filters-content');
     if (filtersContent.classList.contains('hidden')) {
         toggleMobileFilters();
     }
 
-    // Find den tilsvarende tjekboks i sidebaren
     const checkbox = document.querySelector(`#filter-sidebar input[name="${filterType}"][value="${filterValue}"]`);
     
     if (checkbox && !checkbox.checked) {
-        // Marker den
         checkbox.checked = true;
         
-        // Opdater state manuelt (som om brugeren klikkede på tjekboksen)
         if (!state.activeFilters[stateKey].includes(filterValue)) {
             state.activeFilters[stateKey].push(filterValue);
         }
         
-        // Gen-render
         applyFiltersAndRender();
     }
 }
@@ -234,7 +227,7 @@ function handleIconFilterClick(filterType, filterValue) {
 function getAudienceIcons(audience) {
     const a = String(audience || '').toLowerCase();
     if (!a) return ''; 
-    let icons = []; // Brug et array til at bygge
+    let icons = []; 
     
     const iconMap = {
         'masculine': { value: 'masculine', html: '<i class="fas fa-mars text-blue-600" title="Masculine"></i>' },
@@ -246,7 +239,6 @@ function getAudienceIcons(audience) {
     if (a.includes('female') || a.includes('feminine') || a.includes('women')) icons.push(iconMap.feminine);
     if (a.includes('unisex')) icons.push(iconMap.unisex);
 
-    // Pak hver ikon ind i en klikbar span
     return icons.map(icon => 
         `<span data-action="filter-icon" data-filter-type="gender" data-filter-value="${icon.value}">${icon.html}</span>`
     ).join(' ');
@@ -342,19 +334,19 @@ function getBoostGuideHtml(perfume) {
 
     return `
         <div class="w-full">
-            <p class="text-sm text-gray-600 mb-2">Recommendation for a <strong class="text-gray-900">${title}</strong>:</p>
+            <p class="text-sm text-secondary mb-2">Recommendation for a <strong class="text-primary">${title}</strong>:</p>
             <div class="flex justify-around">
                 <div>
-                    <span class="text-lg font-bold">30ml</span>
-                    <p class="text-sm text-blue-600 font-medium">+ ${rec['30ml']}</p>
+                    <span class="text-lg font-bold text-primary">30ml</span>
+                    <p class="text-sm text-accent font-medium">+ ${rec['30ml']}</p>
                 </div>
                 <div>
-                    <span class="text-lg font-bold">50ml</span>
-                    <p class="text-sm text-blue-600 font-medium">+ ${rec['50ml']}</p>
+                    <span class="text-lg font-bold text-primary">50ml</span>
+                    <p class="text-sm text-accent font-medium">+ ${rec['50ml']}</p>
                 </div>
                 <div>
-                    <span class="text-lg font-bold">100ml</span>
-                    <p class="text-sm text-blue-600 font-medium">+ ${rec['100ml']}</p>
+                    <span class="text-lg font-bold text-primary">100ml</span>
+                    <p class="text-sm text-accent font-medium">+ ${rec['100ml']}</p>
                 </div>
             </div>
         </div>
@@ -382,9 +374,9 @@ function showPerfumeModal(code) {
         : null;
 
     const notesHtml = `
-        ${topNotes ? `<p><strong class="text-gray-600">Top:</strong> ${topNotes}</p>` : ''}
-        ${heartNotes ? `<p><strong class="text-gray-600">Heart:</strong> ${heartNotes}</p>` : ''}
-        ${baseNotes ? `<p><strong class="text-gray-600">Base:</strong> ${baseNotes}</p>` : ''}
+        ${topNotes ? `<p><strong class="text-primary">Top:</strong> ${topNotes}</p>` : ''}
+        ${heartNotes ? `<p><strong class="text-primary">Heart:</strong> ${heartNotes}</p>` : ''}
+        ${baseNotes ? `<p><strong class="text-primary">Base:</strong> ${baseNotes}</p>` : ''}
     `;
     notesContainer.innerHTML = (topNotes || heartNotes || baseNotes) ? notesHtml : '<p>No note details available.</p>';
     
@@ -443,13 +435,16 @@ function resetAllFilters() {
     applyFiltersAndRender();
 }
 
+/**
+ * (RETTET) Bygger nu Season og Occasion dynamisk.
+ */
 function populateFilters() {
     const genderContainer = document.getElementById('gender-filters');
     const seasonContainer = document.getElementById('season-filters');
     const occasionContainer = document.getElementById('occasion-filters');
     const accordContainer = document.getElementById('accord-filters');
     
-    // 1. Byg Gender Filtre
+    // 1. Byg Gender Filtre (Stadig hardkodet, da værdierne er faste)
     const genders = [
         { label: 'Masculine', value: 'masculine' },
         { label: 'Feminine', value: 'feminine' },
@@ -462,34 +457,40 @@ function populateFilters() {
         </label>
     `).join('');
 
-    // 2. Byg Season Filtre
-    const seasons = [
-        { label: 'Spring', value: 'spring' },
-        { label: 'Summer', value: 'summer' }, 
-        { label: 'Fall', value: 'fall' },
-        { label: 'Winter', value: 'winter' }
-    ];
-    seasonContainer.innerHTML = seasons.map(s => `
-        <label>
-            <input type="checkbox" name="season" value="${s.value}">
-            ${s.label}
-        </label>
-    `).join('');
+    // 2. RETTET: Byg Season Filtre (Dynamisk)
+    const allSeasons = new Set(allPerfumes.flatMap(p => p.season.split('/')));
+    allSeasons.delete(''); // Fjern tomme strenge
+    const sortedSeasons = [...allSeasons].sort();
+    
+    seasonContainer.innerHTML = sortedSeasons.map(season => {
+        const capitalized = season.charAt(0).toUpperCase() + season.slice(1);
+        return `
+            <label>
+                <input type="checkbox" name="season" value="${season}">
+                ${capitalized}
+            </label>
+        `;
+    }).join('') || '<p class="text-sm text-tertiary">No season data found.</p>';
 
-    // 3. Byg Occasion Filtre
-    const occasions = [
-        { label: 'Daytime', value: 'daytime' },
-        { label: 'Nightlife', value: 'nightlife' }
-    ];
-    occasionContainer.innerHTML = occasions.map(o => `
-        <label>
-            <input type="checkbox" name="occasion" value="${o.value}">
-            ${o.label}
-        </label>
-    `).join('');
+
+    // 3. RETTET: Byg Occasion Filtre (Dynamisk)
+    const allOccasions = new Set(allPerfumes.flatMap(p => p.occasion.split('/')));
+    allOccasions.delete(''); // Fjern tomme strenge
+    const sortedOccasions = [...allOccasions].sort();
+    
+    occasionContainer.innerHTML = sortedOccasions.map(occasion => {
+        const capitalized = occasion.charAt(0).toUpperCase() + occasion.slice(1);
+        return `
+            <label>
+                <input type="checkbox" name="occasion" value="${occasion}">
+                ${capitalized}
+            </label>
+        `;
+    }).join('') || '<p class="text-sm text-tertiary">No occasion data found.</p>';
+
 
     // 4. Byg Accord Filtre (Dynamisk)
-    const allAccords = new Set(allPerfumes.flatMap(p => (p.mainAccords || [])).map(a => a.toLowerCase()));
+    const allAccords = new Set(allPerfumes.flatMap(p => (p.mainAccords || [])));
     const sortedAccords = [...allAccords].sort();
 
     accordContainer.innerHTML = sortedAccords.map(accord => {
@@ -503,7 +504,7 @@ function populateFilters() {
                 <span class="inline-block w-5 mr-1">${icon}</span> ${capitalized}
             </label>
         `;
-    }).join('');
+    }).join('') || '<p class="text-sm text-tertiary">No accord data found.</p>';
 
     // 5. Tilføj Event Listeners til ALLE tjekbokse
     document.querySelectorAll('#filter-sidebar input[type="checkbox"]').forEach(checkbox => {
@@ -606,12 +607,12 @@ async function init() {
             allPerfumes = rawData; 
         }
 
-        // OPDATERET/RETTET datarensning
+        // RETTET: Datarensning for season/occasion
         allPerfumes = allPerfumes.filter(p => p && p.code && p.inspiredBy).map(p => ({
             ...p,
             notes: p.notes || { top: [], heart: [], base: [] },
             mainAccords: (p.mainAccords || []).map(a => a.toLowerCase()),
-            // RETTET: Læser fra p.season og p.occasion, ikke p.bestSuitedFor
+            // RETTET: Læser fra p.season og p.occasion, fjerner p.bestSuitedFor
             season: String(p.season || '').toLowerCase(),
             occasion: String(p.occasion || '').toLowerCase()
         }));
